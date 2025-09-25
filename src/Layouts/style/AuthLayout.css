@@ -1,0 +1,32 @@
+.authLayout {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--secondaryColor);
+}
+
+.authCard {
+  max-width: 990px;
+  /* border: 1px solid var(--primaryColorLight); */
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0px 0px 60px 3px #00000010;
+  padding: 3rem 4rem;
+}
+
+/* .authCardImage {
+} */
+
+.authCardImage img {
+  width: 100%;
+  max-width: 280px;
+}
+
+.formCardWrapper {
+  width: 100%;
+}
+
+.formCardWrapper h1 {
+  font-size: 30px;
+}

@@ -1,0 +1,7 @@
+.pageTitle {
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--blackColor);
+  margin-bottom: 0;
+  text-transform: uppercase;
+}

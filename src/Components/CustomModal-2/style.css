@@ -1,0 +1,26 @@
+.modalpara{
+    color: #999999;
+    font-size: 20px;
+}
+.modal.show{
+    backdrop-filter: blur(17px);
+}
+.closeButton{
+    background: transparent;
+    border: none;
+    padding: 0;
+    border: 0;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.site-modal .modal-content{
+    background: white;
+    border: 1px solid rgb(0 0 0 / 60%);
+    border-radius: 10px;
+    padding: 30px 0 20px 0;
+}
+.modal-icon{
+    width: 100px;
+    margin: 0 auto;
+}

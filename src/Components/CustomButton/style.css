@@ -1,0 +1,99 @@
+.customButton {
+  display: inline-block;
+  font-size: 14px;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 10px 20px;
+  min-width: 130px;
+  width: 100%;
+  position: relative;
+  height: auto;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s linear;
+  box-sizing: border-box;
+  outline: none;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.customButton.primary {
+  background-color: var(--secondaryColor);
+  color: var(--whiteColor);
+  border: 1px solid var(--secondaryColor);
+}
+
+.customButton.primary:hover,
+.customButton.primary:active {
+  background-color: var(--whiteColor);
+  color: var(--secondaryColor);
+}
+
+.customButton.secondary {
+  background-color: var(--whiteColor);
+  color: var(--secondaryColor);
+  border: 1px solid var(--secondaryColor);
+}
+
+.customButton.secondary:hover,
+.customButton.secondary:active {
+  background-color: var(--secondaryColor);
+  color: var(--whiteColor);
+}
+
+.filter-button {
+  color: var(--whiteColor);
+  line-height: normal;
+  text-transform: capitalize;
+}
+
+.customButton.danger {
+  background: var(--redColor);
+  color: var(--whiteColor);
+  transition: 0.15s all ease-out;
+}
+.customButton.danger:active {
+  outline-color: var(--redColor) !important;
+}
+.customButton.danger:not(.chip):hover {
+  background-color: var(--redColor);
+  color: #fff;
+  transition: none;
+}
+.customButton.disabled {
+  cursor: not-allowed;
+  color: var(--grayColorDark);
+  background-color: var(--whiteColor) !important;
+  border-color: var(--grayColorDark);
+}
+.disabled.customButton:hover,
+.disabled.customButton:active {
+  color: var(--primaryColorLight);
+  outline: none !important;
+  transform: none !important;
+}
+.searchButton {
+  padding: 16px 16px;
+  min-width: fit-content;
+}
+.small {
+  padding-block: 11px;
+}
+.fitContent {
+  min-width: 200px;
+  max-width: fit-content;
+}
+@media screen and (max-width: 575px) {
+  .customButton {
+    font-size: 10px;
+    height: unset;
+  }
+}
+
+@media screen and (max-width: 499px) {
+  .customButton {
+    min-width: unset;
+  }
+}

@@ -1,0 +1,64 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import './reset.css';
+@import './fonts.css';
+@import './colors.css';
+
+.flexCentered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.notButton {
+  border: none !important;
+  background: none;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.notLink {
+  text-decoration: none;
+}
+
+.secondaryTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--blackColor);
+  margin-bottom: 0;
+}
+
+.roundImageWrapper {
+  position: relative;
+  width: 110px;
+}
+
+.roundImage img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  border-radius: 99px;
+}
+
+.squareImageWrapper {
+  height: 160px;
+}
+
+.squareImage {
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.textLabel {
+  font-size: 15px;
+  color: var(--secondaryColor);
+}
+
+.textValue {
+  font-size: 15px;
+  color: var(--secondaryColor);
+  font-weight: 400;
+}

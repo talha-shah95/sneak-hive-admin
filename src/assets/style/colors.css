@@ -1,0 +1,186 @@
+:root {
+  --primaryColor: #e03609;
+  --secondaryColor: #26292e;
+  --primaryColorLight: #ff704d;
+  --secondaryColorLight: #4c5055;
+  --grayColor: #d0d5dd;
+  --grayColorLight: #F6F6F6;
+  --grayColorDark: #667085;
+  --greenColor: #27a745;
+  --greenColorLight: #027a48;
+  --greenColorDark: #198754;
+  --redColor: #dc3544;
+  --redColorLight: #f15046;
+  --redColorDark: #c82333;
+  --yellowColor: #ffc107;
+  --yellowColorLight: #fff3cd;
+  --yellowColorDark: #d8a50c;
+  --blueColor: #003bfe;
+  --whiteColor: #fff;
+  --blackColor: #000;
+  --transparentColor: #00000000;
+}
+
+/*----- Colors Start -----*/
+
+.colorPrimary {
+  color: var(--primaryColor);
+}
+
+.colorSecondary {
+  color: var(--secondaryColor);
+}
+
+.colorPrimaryLight {
+  color: var(--primaryColorLight);
+}
+
+.colorSecondaryLight {
+  color: var(--secondaryColorLight);
+}
+
+.colorGray {
+  color: var(--grayColor);
+}
+
+.colorGrayLight {
+  color: var(--grayColorLight);
+}
+
+.colorGrayDark {
+  color: var(--grayColorDark);
+}
+
+.colorGreen {
+  color: var(--greenColor);
+}
+
+.colorRed {
+  color: var(--redColor);
+}
+
+.colorGreenDark {
+  color: var(--greenColorDark);
+}
+
+.colorGreenLight {
+  color: var(--greenColorLight);
+}
+
+.colorRedDark {
+  color: var(--redColorDark);
+}
+
+.colorRedLight {
+  color: var(--redColorLight);
+}
+
+.colorBlack {
+  color: var(--blackColor);
+}
+
+.colorWhite {
+  color: var(--whiteColor);
+}
+
+.colorYellow {
+  color: var(--yellowColor);
+}
+
+.colorYellowLight {
+  color: var(--yellowColorLight);
+}
+
+.colorYellowDark {
+  color: var(--yellowColorDark);
+}
+
+.colorBlue {
+  color: var(--blueColor);
+}
+
+.colorTransparent {
+  color: var(--transparentColor);
+}
+
+.bgPrimary {
+  background: var(--primaryColor);
+}
+
+.bgSecondary {
+  background: var(--secondaryColor);
+}
+
+.bgPrimaryLight {
+  background: var(--primaryColorLight);
+}
+
+.bgSecondaryLight {
+  background: var(--secondaryColorLight);
+}
+
+.bgGray {
+  background: var(--grayColor);
+}
+
+.bgGrayLight {
+  background: var(--grayColorLight);
+}
+
+.bgGrayDark {
+  background: var(--grayColorDark);
+}
+
+.bgGreen {
+  background: var(--greenColor);
+}
+
+.bgRed {
+  background: var(--redColor);
+}
+
+.bgRedDark {
+  background: var(--redColorDark);
+}
+
+.bgGreenDark {
+  background: var(--greenColorDark);
+}
+
+.bgGreenLight {
+  background: var(--greenColorLight);
+}
+
+.bgRedLight {
+  background: var(--redColorLight);
+}
+
+.bgBlack {
+  background: var(--blackColor);
+}
+
+.bgWhite {
+  background: var(--whiteColor);
+}
+
+.bgYellow {
+  background: var(--yellowColor);
+}
+
+.bgYellowLight {
+  background: var(--yellowColorLight);
+}
+
+.bgYellowDark {
+  background: var(--yellowColorDark);
+}
+
+.bgBlue {
+  background: var(--blueColor);
+}
+
+.bgTransparent {
+  background: var(--transparentColor);
+}
+
+/*----- Colors End -----*/

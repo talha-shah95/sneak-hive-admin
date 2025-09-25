@@ -1,0 +1,27 @@
+.planCard {
+  border: 1px solid var(--primaryColor);
+  padding: 22px 42px;
+  border-radius: 16px;
+  border-top-left-radius: 0px;
+  background: var(--secondaryColor);
+  cursor: pointer;
+  width: 100%;
+}
+
+.planCardTitleWrapper {
+  margin-left: -22px;
+}
+
+.planCardMark {
+  width: 6px;
+  height: 6px;
+  display: block;
+  background: var(--transparentColor);
+  outline: 1px solid var(--primaryColor);
+  outline-offset: 3px;
+  border-radius: 99px;
+}
+
+.planCardMark.checked {
+  background: var(--primaryColor);
+}

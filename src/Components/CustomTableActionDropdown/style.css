@@ -1,0 +1,29 @@
+.customTableActionDropdown button {
+  background: #ffffff00 !important;
+  border: none !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+  color: var(--blackColor) !important;
+}
+
+.customTableActionDropdownMenu {
+  width: auto;
+  padding: 0;
+  border: 1px solid var(--grayColor);
+  border-radius: 5px;
+  text-align: center;
+  width: auto;
+  min-width: auto;
+}
+.customTableActionDropdownItem {
+  padding: 6px 16px;
+  color: var(--blackColor);
+}
+
+.customTableActionDropdownItem:hover {
+  color: var(--primaryColor);
+}
+
+.customTableActionDropdownItem svg {
+    flex-shrink: 0;
+}

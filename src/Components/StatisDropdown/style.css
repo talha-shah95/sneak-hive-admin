@@ -1,0 +1,65 @@
+.statusDropdownToggle {
+  /* border: none; */
+  padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 8px;
+  font-size: 15px;
+  color: var(--blackColor);
+}
+.statusGreen.primary {
+  background: var(--greenColor) !important;
+  border: 1px solid var(--greenColorDark) !important;
+  color: var(--whiteColor) !important;
+}
+.statusRed.primary {
+  background: var(--redColor) !important;
+  border: 1px solid var(--redColorDark) !important;
+  color: var(--whiteColor) !important;
+}
+.statusYellow.primary {
+  background: var(--yellowColor) !important;
+  border: 1px solid var(--yellowColorDark) !important;
+  color: var(--whiteColor) !important;
+}
+.statusGreen.secondary {
+  background: var(--transparentColor) !important;
+  border: 1px solid var(--transparentColor) !important;
+  color: var(--greenColor) !important;
+}
+.statusRed.secondary {
+  background: var(--transparentColor) !important;
+  border: 1px solid var(--transparentColor) !important;
+  color: var(--redColor) !important;
+}
+.statusYellow.secondary {
+  background: var(--transparentColor) !important;
+  border: 1px solid var(--transparentColor) !important;
+  color: var(--yellowColor) !important;
+}
+
+.statusDropdownToggle::after {
+  display: inline-block !important;
+}
+.statusDropdownToggle svg {
+  flex-shrink: 0;
+}
+
+.statusDropdownCaret {
+  margin-left: 4px;
+  flex-shrink: 0;
+}
+
+.statusDropdownMenu {
+  width: auto;
+  padding: 0;
+  border: 1px solid var(--grayColor);
+  border-radius: 5px;
+  width: auto;
+  min-width: auto;
+}
+.statusDropdownItem {
+  padding: 10px 12px;
+  color: var(--blackColor) !important;
+}

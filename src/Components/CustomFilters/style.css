@@ -1,0 +1,60 @@
+.tableFilters {
+  background: var(--grayColorLight);
+  padding: 12px 8px;
+  border-radius: 6px;
+}
+
+.searchWrapper {
+  position: relative;
+}
+
+.searchWrapper .inputWrapper {
+  margin: 0;
+}
+
+.searchWrapper .inputWrapper .mainInput {
+  padding-right: 35px;
+}
+
+.searchButton {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  padding: 0;
+  transform: translateY(-50%);
+}
+
+.btn_filter {
+  width: 45px;
+  height: 45px;
+  border-radius: 5px;
+  border: 1px solid var(--secondaryColor) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  background: transparent !important;
+  color: var(--secondaryColor) !important;
+}
+.btn_filter:hover,
+.btn_filter:active,
+.btn_filter:focus {
+  background: var(--secondaryColor) !important;
+  color: var(--whiteColor) !important;
+}
+.filter-dropdown .dropdown-menu {
+  border: 0;
+  padding: 20px;
+  min-width: 280px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgb(0, 0, 0, 0.16);
+  z-index: 2;
+}
+.filter-dropdown .dropdown-menu .customButton {
+  min-width: 0px;
+  padding: 10px 30px;
+}
+.filter-dropdown .dropdown-menu .customSelect {
+  width: 100% !important;
+}

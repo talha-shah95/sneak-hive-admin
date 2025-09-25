@@ -1,0 +1,9 @@
+.changeImageButton {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: var(--primaryColor);
+  color: var(--whiteColor);
+  border-radius: 99px;
+  padding: 4px;
+}

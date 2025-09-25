@@ -1,0 +1,13 @@
+.customCard {
+  background: var(--whiteColor);
+  border-radius: 10px;
+  box-shadow: 0px 0px 120px #0000001a;
+  padding: 16px 32px;
+}
+
+.customCardTitle {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--blackColor);
+  margin-bottom: 0;
+} 
