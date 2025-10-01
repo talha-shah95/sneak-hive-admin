@@ -32,7 +32,7 @@
 }
 
 .customButton.secondary {
-  background-color: var(--whiteColor);
+  background-color: var(--transparentColor);
   color: var(--secondaryColor);
   border: 1px solid var(--secondaryColor);
 }
@@ -40,6 +40,30 @@
 .customButton.secondary:hover,
 .customButton.secondary:active {
   background-color: var(--secondaryColor);
+  color: var(--whiteColor);
+}
+
+.customButton.primaryOrange {
+  background-color: var(--primaryColorLight);
+  color: var(--whiteColor);
+  border: 1px solid var(--primaryColorLight);
+}
+
+.customButton.primaryOrange:hover,
+.customButton.primaryOrange:active {
+  background-color: var(--whiteColor);
+  color: var(--primaryColorLight);
+}
+
+.customButton.secondaryOrange {
+  background-color: var(--whiteColor);
+  color: var(--primaryColorLight);
+  border: 1px solid var(--primaryColorLight);
+}
+
+.customButton.secondaryOrange:hover,
+.customButton.secondaryOrange:active {
+  background-color: var(--primaryColorLight);
   color: var(--whiteColor);
 }
 

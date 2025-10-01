@@ -39,92 +39,23 @@ const UserManagement = ({ filters, setFilters, pagination }) => {
   const queryClient = useQueryClient();
 
   const {
-    data: usersData,
-    isLoading: isUsersLoading,
-    isError: isUsersError,
-    error: usersError,
+    data: blogsData,
+    isLoading: isBlogsLoading,
+    isError: isBlogsError,
+    error: blogsError,
   } = useQuery({
-    queryKey: ['users', pagination, filters],
-    queryFn: () => GetUsers(filters, pagination),
+    queryKey: ['blogs', pagination, filters],
+    queryFn: () => GetBlogs(filters, pagination),
     staleTime: 1000 * 60 * 5, // 5 minutes
     enabled: true,
     retry: 2,
   });
 
-  const { mutateAsync: changeStatusMutation } = useMutation({
-    mutationFn: (id) => ChangeUserStatus(id),
-    onSuccess: ({ message }) => {
-      showModal({
-        type: 'success',
-        modalProps: {
-          title: 'Successful',
-          hideClose: true,
-          message: message || 'User has been activated successfully!',
-          continueText: 'Okay',
-          onContinue: () => {
-            closeModal();
-          },
-        },
-      });
-      queryClient.invalidateQueries({ queryKey: ['users'] });
-    },
-    onError: (error) => {
-      showToast(error?.message || 'Status change failed', 'error');
-    },
-  });
-
-  const handleChangeStatus = (id, status) => {
-    const title = status == 1 ? 'Deactivate User?' : 'Activate User?';
-    const message =
-      status == 1
-        ? 'Are you sure you want to deactivate the User?'
-        : 'Are you sure you want to activate the User?';
-    showModal({
-      type: 'question',
-      modalProps: {
-        title: title,
-        message: message,
-        continueText: 'Yes',
-        cancelText: 'No',
-        onContinue: async () => {
-          await changeStatusMutation(id);
-        },
-      },
-    });
-  };
-
-  // const mockData = [
-  //   {
-  //     id: 1,
-  //     first_name: 'John',
-  //     last_name: 'Doe',
-  //     email: 'john.doe@example.com',
-  //     created_at: '2021-01-01',
-  //     status: 1,
-  //   },
-  //   {
-  //     id: 2,
-  //     first_name: 'Jane',
-  //     last_name: 'Doe',
-  //     email: 'jane.doe@example.com',
-  //     created_at: '2021-01-02',
-  //     status: 0,
-  //   },
-  //   {
-  //     id: 3,
-  //     first_name: 'Jim',
-  //     last_name: 'Beam',
-  //     email: 'jim.beam@example.com',
-  //     created_at: '2021-01-03',
-  //     status: 1,
-  //   },
-  // ];
-
   return (
-    <div className="userManagementScreen">
+    <div className="blogManagementScreen">
       <div className="row mb-4">
         <div className="col-12 col-xl-6">
-          <PageTitle title="User Management" />
+          <PageTitle title="Blog Management" />
         </div>
       </div>
       <div className="row mb-4">
@@ -160,61 +91,35 @@ const UserManagement = ({ filters, setFilters, pagination }) => {
                     //     ],
                     //   },
                     // ]}
-                    pagination={usersData?.meta}
+                    pagination={blogsData?.meta}
                   >
                     <CustomTable
                       headers={headers}
-                      loading={isUsersLoading}
+                      loading={isBlogsLoading}
                       rows={filters.per_page}
                       className="mt-4"
                     >
                       <tbody>
-                        {isUsersError ||
-                          (usersData?.data?.length == 0 && (
+                        {isBlogsError ||
+                          (blogsData?.data?.length == 0 && (
                             <tr>
                               <td
                                 colSpan={headers?.length}
                                 className="text-center"
                               >
-                                {usersError?.message || 'No data found'}
+                                {blogsError?.message || 'No data found'}
                               </td>
                             </tr>
                           ))}
-                        {usersData?.data?.map((users, index) => (
+                        {blogsData?.data?.map((blogs, index) => (
                           <tr key={index}>
                             <td>
                               {index + 1 < 10 ? `0${index + 1}` : index + 1}
                             </td>
-                            <td>{users?.first_name || '-'}</td>
-                            <td>{users?.last_name || '-'}</td>
-                            <td>{users?.email || '-'}</td>
-                            <td>{dateFormat(users?.created_at) || '-'}</td>
-                            <td>
-                              <StatusDropdown
-                                selected={
-                                  users?.is_active == 0
-                                    ? { value: 0, label: 'Inactive' }
-                                    : users?.is_active == 1
-                                    ? { value: 1, label: 'Active' }
-                                    : { value: 2, label: 'Pending' }
-                                }
-                                options={[
-                                  {
-                                    value: users?.is_active == 1 ? 0 : 1,
-                                    label:
-                                      users?.is_active == 1
-                                        ? 'Inactive'
-                                        : 'Active',
-                                    onClick: () => {
-                                      handleChangeStatus(
-                                        users?.id,
-                                        users?.is_active
-                                      );
-                                    },
-                                  },
-                                ]}
-                              />
-                            </td>
+                            <td>{blogs?.title || '-'}</td>
+                            <td>{blogs?.last_name || '-'}</td>
+                            <td>{blogs?.email || '-'}</td>
+                            <td>{dateFormat(blogs?.created_at) || '-'}</td>
                             <td>
                               <CustomTableActionDropdown
                                 actions={[
@@ -223,7 +128,7 @@ const UserManagement = ({ filters, setFilters, pagination }) => {
                                     label: 'View',
                                     onClick: () => {
                                       navigate(
-                                        `/user-management/details/${users?.id}`
+                                        `/user-management/details/${blogs?.id}`
                                       );
                                     },
                                   },

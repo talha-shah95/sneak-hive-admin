@@ -1,11 +1,12 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Navigate, Route, Router, Routes } from 'react-router-dom';
-
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
+// Styles
 import './App.css';
 import './assets/style/index.css';
 
+// Stores and Hooks
 import useUserStore from './Store/UserStore';
 import useAuthInit from './Hooks/useAuthInit.js';
 
@@ -21,8 +22,19 @@ import Registration from './Pages/Auth/Registration';
 
 //Common
 import Dashboard from './Pages/App/Common/Dashboard';
-import UserManagement from './Pages/App/UserManagement';
 import Profile from './Pages/App/Profile';
+import EditProfile from './Pages/App/Profile/EditProfile';
+import ChangePassword from './Pages/App/Profile/ChangePassword';
+
+import UserManagement from './Pages/App/UserManagement';
+import UserDetails from './Pages/App/UserManagement/UserDetails';
+
+import CategoryManagement from './Pages/App/CategoryManagement';
+
+import BrandManagement from './Pages/App/BrandManagement';
+import AddBrand from './Pages/App/BrandManagement/AddBrand';
+import BrandDetails from './Pages/App/BrandManagement/BrandDetails';
+import EditBrand from './Pages/App/BrandManagement/EditBrand';
 
 import CustomToast from './Components/CustomToast';
 import CustomModal from './Components/CustomModal';
@@ -60,8 +72,20 @@ function App() {
               <Route element={<AppLayout />}>
                 {/* Common Routes */}
                 <Route path="dashboard" element={<Dashboard />} />
-                <Route path="user-management" element={<UserManagement />} />
+
                 <Route path="profile" element={<Profile />} />
+                <Route path="profile/edit" element={<EditProfile />} />
+                <Route path="profile/change-password" element={<ChangePassword />} />
+
+                <Route path="user-management" element={<UserManagement />} />
+                <Route path="user-management/details/:id" element={<UserDetails />} />
+
+                <Route path="category-management" element={<CategoryManagement />} />
+
+                <Route path="brand-management" element={<BrandManagement />} />
+                <Route path="brand-management/add-brand" element={<AddBrand />} />
+                <Route path="brand-management/brand-details/:id" element={<BrandDetails />} />
+                <Route path="brand-management/edit-brand/:id" element={<EditBrand />} />
                 {/* <Route path="profile" element={<Profile />} />
                 <Route path="profile/edit" element={<EditProfile />} />
                 <Route path="profile/change-password" element={<ChangePassword />} />

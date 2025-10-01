@@ -26,6 +26,8 @@ const Profile = () => {
     retry: 2,
   });
 
+  console.log('profileData', profileData);
+
   return (
     <div className="profileScreen">
       <div className="row mb-4">
@@ -54,7 +56,7 @@ const Profile = () => {
                       ) : (
                         <img
                           src={
-                            profileData?.profile_image ||
+                            profileData?.avatar ||
                             images?.userPlaceholder
                           }
                           onError={(e) => {
@@ -68,7 +70,7 @@ const Profile = () => {
                   <div className="col-12 col-lg-8 col-xl-6">
                     <div className="row mb-3">
                       <div className="col-6">
-                        <p className="textLabel">Name:</p>
+                        <p className="textLabel">First Name:</p>
                       </div>
                       <div className="col-6">
                         {isProfileLoading ? (

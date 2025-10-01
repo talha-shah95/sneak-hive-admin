@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMutation } from '@tanstack/react-query';
 
-import GetUsers from './Services/GetUsers';
-import ChangeUserStatus from './Services/ChangeUserStatus';
+import GetBrands from './Services/GetBrands';
+import ChangeBrandStatus from './Services/ChangeBrandStatus';
 
 import useModalStore from '../../../Store/ModalStore';
 
@@ -19,54 +19,53 @@ import CustomTable from '../../../Components/CustomTable';
 import CustomFilters from '../../../Components/CustomFilters';
 import StatusDropdown from '../../../Components/StatisDropdown';
 import CustomTableActionDropdown from '../../../Components/CustomTableActionDropdown';
+import CustomButton from '../../../Components/CustomButton';
 
 import { LuEye } from 'react-icons/lu';
 
 const headers = [
   { id: 1, key: 'sNo', title: 'S.No' },
-  { id: 2, key: 'firstName', title: 'First Name' },
-  { id: 3, key: 'lastName', title: 'Last Name' },
-  { id: 4, key: 'emailAddress', title: 'Email Address' },
-  { id: 5, key: 'registrationDate', title: 'Registration Date' },
-  { id: 6, key: 'status', title: 'Status' },
-  { id: 7, key: 'action', title: 'Action' },
+  { id: 2, key: 'brand', title: 'Brand' },
+  { id: 3, key: 'uploadDate', title: 'Upload Date' },
+  { id: 4, key: 'status', title: 'Status' },
+  { id: 5, key: 'action', title: 'Action' },
 ];
 
 // eslint-disable-next-line react-refresh/only-export-components
-const UserManagement = ({ filters, setFilters, pagination }) => {
+const BrandManagement = ({ filters, setFilters, pagination }) => {
   const navigate = useNavigate();
   const { showModal, closeModal } = useModalStore();
   const queryClient = useQueryClient();
 
   const {
-    data: usersData,
-    isLoading: isUsersLoading,
-    isError: isUsersError,
-    error: usersError,
+    data: brandsData,
+    isLoading: isBrandsLoading,
+    isError: isBrandsError,
+    error: brandsError,
   } = useQuery({
-    queryKey: ['users', pagination, filters],
-    queryFn: () => GetUsers(filters, pagination),
+    queryKey: ['brands', pagination, filters],
+    queryFn: () => GetBrands(filters, pagination),
     staleTime: 1000 * 60 * 5, // 5 minutes
     enabled: true,
     retry: 2,
   });
 
   const { mutateAsync: changeStatusMutation } = useMutation({
-    mutationFn: (id) => ChangeUserStatus(id),
+    mutationFn: (id) => ChangeBrandStatus(id),
     onSuccess: ({ message }) => {
       showModal({
         type: 'success',
         modalProps: {
           title: 'Successful',
           hideClose: true,
-          message: message || 'User has been activated successfully!',
+          message: message || 'Brand has been activated successfully!',
           continueText: 'Okay',
           onContinue: () => {
             closeModal();
           },
         },
       });
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: ['brands', 'brandDetails'] });
     },
     onError: (error) => {
       showToast(error?.message || 'Status change failed', 'error');
@@ -74,11 +73,11 @@ const UserManagement = ({ filters, setFilters, pagination }) => {
   });
 
   const handleChangeStatus = (id, status) => {
-    const title = status == 1 ? 'Deactivate User?' : 'Activate User?';
+    const title = status == 1 ? 'Deactivate Brand?' : 'Activate Brand?';
     const message =
       status == 1
-        ? 'Are you sure you want to deactivate the User?'
-        : 'Are you sure you want to activate the User?';
+        ? 'Are you sure you want to deactivate the Brand?'
+        : 'Are you sure you want to activate the Brand?';
     showModal({
       type: 'question',
       modalProps: {
@@ -93,38 +92,19 @@ const UserManagement = ({ filters, setFilters, pagination }) => {
     });
   };
 
-  // const mockData = [
-  //   {
-  //     id: 1,
-  //     first_name: 'John',
-  //     last_name: 'Doe',
-  //     email: 'john.doe@example.com',
-  //     created_at: '2021-01-01',
-  //     status: 1,
-  //   },
-  //   {
-  //     id: 2,
-  //     first_name: 'Jane',
-  //     last_name: 'Doe',
-  //     email: 'jane.doe@example.com',
-  //     created_at: '2021-01-02',
-  //     status: 0,
-  //   },
-  //   {
-  //     id: 3,
-  //     first_name: 'Jim',
-  //     last_name: 'Beam',
-  //     email: 'jim.beam@example.com',
-  //     created_at: '2021-01-03',
-  //     status: 1,
-  //   },
-  // ];
-
   return (
-    <div className="userManagementScreen">
+    <div className="brandManagementScreen">
       <div className="row mb-4">
         <div className="col-12 col-xl-6">
-          <PageTitle title="User Management" />
+          <PageTitle title="Brand Management" />
+        </div>
+        <div className="col-12 col-xl-6 text-end">
+          <CustomButton
+            text="Add New Brand"
+            to={'/brand-management/add-brand'}
+            className="w-auto d-inline-block"
+            variant="secondary"
+          />
         </div>
       </div>
       <div className="row mb-4">
@@ -160,55 +140,53 @@ const UserManagement = ({ filters, setFilters, pagination }) => {
                     //     ],
                     //   },
                     // ]}
-                    pagination={usersData?.meta}
+                    pagination={brandsData?.meta}
                   >
                     <CustomTable
                       headers={headers}
-                      loading={isUsersLoading}
+                      loading={isBrandsLoading}
                       rows={filters.per_page}
                       className="mt-4"
                     >
                       <tbody>
-                        {isUsersError ||
-                          (usersData?.data?.length == 0 && (
+                        {isBrandsError ||
+                          (brandsData?.data?.length == 0 && (
                             <tr>
                               <td
                                 colSpan={headers?.length}
                                 className="text-center"
                               >
-                                {usersError?.message || 'No data found'}
+                                {brandsError?.message || 'No data found'}
                               </td>
                             </tr>
                           ))}
-                        {usersData?.data?.map((users, index) => (
+                        {brandsData?.data?.map((brand, index) => (
                           <tr key={index}>
                             <td>
                               {index + 1 < 10 ? `0${index + 1}` : index + 1}
                             </td>
-                            <td>{users?.first_name || '-'}</td>
-                            <td>{users?.last_name || '-'}</td>
-                            <td>{users?.email || '-'}</td>
-                            <td>{dateFormat(users?.created_at) || '-'}</td>
+                            <td>{brand?.name || '-'}</td>
+                            <td>{dateFormat(brand?.created_at) || '-'}</td>
                             <td>
                               <StatusDropdown
                                 selected={
-                                  users?.is_active == 0
+                                  brand?.is_active == 0
                                     ? { value: 0, label: 'Inactive' }
-                                    : users?.is_active == 1
+                                    : brand?.is_active == 1
                                     ? { value: 1, label: 'Active' }
                                     : { value: 2, label: 'Pending' }
                                 }
                                 options={[
                                   {
-                                    value: users?.is_active == 1 ? 0 : 1,
+                                    value: brand?.is_active == 1 ? 0 : 1,
                                     label:
-                                      users?.is_active == 1
+                                      brand?.is_active == 1
                                         ? 'Inactive'
                                         : 'Active',
                                     onClick: () => {
                                       handleChangeStatus(
-                                        users?.id,
-                                        users?.is_active
+                                        brand?.id,
+                                        brand?.is_active
                                       );
                                     },
                                   },
@@ -223,7 +201,7 @@ const UserManagement = ({ filters, setFilters, pagination }) => {
                                     label: 'View',
                                     onClick: () => {
                                       navigate(
-                                        `/user-management/details/${users?.id}`
+                                        `/brand-management/brand-details/${brand?.id}`
                                       );
                                     },
                                   },
@@ -246,4 +224,4 @@ const UserManagement = ({ filters, setFilters, pagination }) => {
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
-export default withFilters(UserManagement);
+export default withFilters(BrandManagement);

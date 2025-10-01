@@ -103,7 +103,7 @@ const CustomImageUploader = ({
               <>
                 <img
                   src={
-                    value ? URL.createObjectURL(value) : images.userPlaceholder
+                    typeof value === 'string' ? value : value ? URL.createObjectURL(value) : images.userPlaceholder
                   }
                   // src={images.userPlaceholder}
                   alt={id}

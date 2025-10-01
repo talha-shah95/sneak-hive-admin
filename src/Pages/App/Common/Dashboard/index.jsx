@@ -113,7 +113,7 @@ const Dashboard = () => {
     <div className="dashboardScreen">
       <div className="row mb-4">
         <div className="col-12 col-xl-6">
-          <PageTitle title="Vendor to Consumer (B2C) Dashboard" />
+          <PageTitle title="Dashboard" />
         </div>
         <div className="col-12 col-xl-6 text-end">
           <p className="colorGrayDark">

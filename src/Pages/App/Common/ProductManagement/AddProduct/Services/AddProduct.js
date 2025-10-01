@@ -1,8 +1,8 @@
 import axiosInstance from '../../../../../../Config/axiosConfig';
 
-const addProductService = async (data) => {
+const AddProductService = async (data) => {
   try {
-    const response = await axiosInstance.post('/vendor/product/create', data, {
+    const response = await axiosInstance.post('/admin/product/create', data, {
       requiresAuth: true,
     });
     return response?.data?.data;
@@ -13,4 +13,4 @@ const addProductService = async (data) => {
   }
 };
 
-export default addProductService;
+export default AddProductService;

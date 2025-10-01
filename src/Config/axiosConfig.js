@@ -1,5 +1,4 @@
 import axios from 'axios';
-import CustomToast from '../Components/CustomToast';
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
