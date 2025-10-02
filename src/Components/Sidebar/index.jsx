@@ -56,8 +56,8 @@ const menuItems = [
   },
   {
     id: 7,
-    label: 'Content Management',
-    link: '/content-management',
+    label: 'Banner Management',
+    link: '/banner-management',
     icon: svgIcons.DashboardIcon,
   },
   {

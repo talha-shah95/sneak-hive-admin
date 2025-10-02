@@ -1,18 +1,15 @@
 import axiosInstance from '../../../../Config/axiosConfig';
 
-const ChangeUserStatus = async (id) => {
+const ChangeBannerStatus = async (id) => {
   try {
     const response = await axiosInstance.post(
-      `/admin/users/${id}/status`,
+      `/admin/banners/${id}/status`,
       {},
       {
         requiresAuth: true,
       }
     );
-    const message =
-      response.data.data.is_active == 1
-        ? 'User has been activated successfully!'
-        : 'User has been inactivated successfully!';
+    const message = response?.data?.message;
     return {
       message,
     };
@@ -23,4 +20,4 @@ const ChangeUserStatus = async (id) => {
   }
 };
 
-export default ChangeUserStatus;
+export default ChangeBannerStatus;

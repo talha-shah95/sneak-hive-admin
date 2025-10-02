@@ -1,10 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useQueryClient } from '@tanstack/react-query';
 import { Formik, Form } from 'formik';
 import { toast } from 'react-toastify';
 
 import { useForm } from '../../../../Hooks/useForm';
+import useModalStore from '../../../../Store/ModalStore';
 
 import ChangePassword from './Services/ChangePassword';
 
@@ -19,10 +21,28 @@ import { FiLock } from 'react-icons/fi';
 import './style.css';
 
 const ChangePasswordPage = () => {
+  const { showModal, closeModal } = useModalStore();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { mutate, isLoading } = useForm({
+    showSuccessToast: false,
     onSuccess: (response) => {
-      toast.success(response.message);
+      showModal({
+        type: 'success',
+        modalProps: {
+          title: 'Successful',
+          hideClose: true,
+          message:
+            response.message || 'Your password has been Updated successfully.',
+          continueText: 'Ok',
+          onContinue: () => {
+            closeModal();
+          },
+        },
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['userProfile'],
+      });
       navigate('/profile');
     },
     onError: (error) => {

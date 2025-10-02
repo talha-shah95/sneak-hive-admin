@@ -10,9 +10,10 @@ import { statusList } from '../../../../Constants';
 
 import useModalStore from '../../../../Store/ModalStore';
 
-import EditBrandService from './Services/EditBrandService';
+import GetBanner from '../BannerDetails/Services/GetBanner';
+import EditBannerService from './Services/EditBannerService';
 
-import { editBrandValidationSchema } from './Validations';
+import { editBannerValidationSchema } from './Validations';
 
 import PageTitle from '../../../../Components/PageTitle';
 import CustomCard from '../../../../Components/CustomCard';
@@ -20,7 +21,6 @@ import CustomInput from '../../../../Components/CustomInput';
 import CustomButton from '../../../../Components/CustomButton';
 import CustomSelect from '../../../../Components/CustomSelect';
 import CustomImageUploader from '../../../../Components/CustomImageUploader';
-import GetBrand from '../BrandDetails/Services/GetBrand';
 import LineSkeleton from '../../../../Components/SkeletonLoaders/LineSkeleton';
 
 // import {
@@ -32,14 +32,14 @@ import LineSkeleton from '../../../../Components/SkeletonLoaders/LineSkeleton';
 
 // import { addProductValidationSchema } from './Validations';
 
-const EditBrand = () => {
+const EditBanner = () => {
   const queryClient = useQueryClient();
   const { id } = useParams();
   const { showModal, closeModal } = useModalStore();
   const navigate = useNavigate();
-  const [brandImage, setBrandImage] = useState(null);
+  const [bannerImage, setBannerImage] = useState(null);
 
-  const { mutate: editBrandMutation, isLoading } = useForm({
+  const { mutate: editBannerMutation, isLoading } = useForm({
     showSuccessToast: false,
 
     onSuccess: (response) => {
@@ -51,61 +51,59 @@ const EditBrand = () => {
           message: response.message,
           continueText: 'Okay',
           onContinue: async () => {
-            queryClient.invalidateQueries(['brands', 'brandDetails']);
+            queryClient.invalidateQueries(['banners', 'bannerDetails']);
             closeModal();
-            navigate('/brand-management');
+            navigate('/banner-management');
           },
         },
       });
     },
     onError: (error) => {
-      console.error('Brand edit failed:', error);
+      console.error('Banner edit failed:', error);
     },
   });
 
   const {
-    data: brandDetailsData,
-    isLoading: isBrandDetailsLoading,
-    isError: isBrandDetailsError,
-    error: brandDetailsError,
+    data: bannerDetailsData,
+    isLoading: isBannerDetailsLoading,
+    isError: isBannerDetailsError,
+    error: bannerDetailsError,
   } = useQuery({
-    queryKey: ['brandDetails', id],
-    queryFn: () => GetBrand(id),
+    queryKey: ['bannerDetails', id],
+    queryFn: () => GetBanner(id),
     staleTime: 1000 * 60 * 5,
     enabled: true,
     retry: 2,
   });
 
-  const handleBrandImageChange = (e) => {
+  const handleBannerImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setBrandImage(file);
+      setBannerImage(file);
     }
   };
+
   const handleSubmit = (values) => {
     const dataToSend = {
       ...values,
     };
     const formDataToSend = new FormData();
-    formDataToSend.append('name', dataToSend.name);
+    formDataToSend.append('heading', dataToSend.heading);
     formDataToSend.append('is_active', dataToSend.is_active);
-    if (brandImage) {
-      formDataToSend.append('file', brandImage);
-    }
-    if (!brandImage) {
-      delete dataToSend.file;
+    if (bannerImage) {
+      formDataToSend.append('file', bannerImage);
     }
 
     showModal({
       type: 'question',
       modalProps: {
-        title: 'Edit Brand?',
-        message: 'Are you sure you want to edit the Brand?',
+        title: 'Edit Banner?',
+        message: 'Are you sure you want to edit the Banner?',
         continueText: 'Yes',
         cancelText: 'No',
         onContinue: async () => {
-          editBrandMutation({
-            service: EditBrandService,
+          editBannerMutation({
+            service: EditBannerService,
             data: { id, formDataToSend },
           });
           closeModal();
@@ -120,9 +118,9 @@ const EditBrand = () => {
         <div className="row mb-4">
           <div className="col-12 col-xl-6">
             <PageTitle
-              title="Edit Brand"
+              title="Edit Banner"
               backButton={true}
-              backLink={'/brand-management'}
+              backLink={'/banner-management'}
             />
           </div>
         </div>
@@ -130,21 +128,21 @@ const EditBrand = () => {
           <div className="col-12">
             <CustomCard>
               <>
-                {isBrandDetailsLoading ? (
+                {isBannerDetailsLoading ? (
                   <LineSkeleton lines={6} />
-                ) : isBrandDetailsError ? (
+                ) : isBannerDetailsError ? (
                   <p className="text-center fs-4 my-4 text-danger">
-                    {brandDetailsError || 'Something went wrong'}
+                    {bannerDetailsError || 'Something went wrong'}
                   </p>
                 ) : (
                   <>
                     <Formik
                       initialValues={{
-                        name: brandDetailsData?.name,
-                        is_active: brandDetailsData?.is_active,
-                        file: brandDetailsData?.image || '',
+                        heading: bannerDetailsData?.heading,
+                        is_active: bannerDetailsData?.is_active,
+                        file: bannerDetailsData?.image || '',
                       }}
-                      validationSchema={editBrandValidationSchema}
+                      validationSchema={editBannerValidationSchema}
                       onSubmit={handleSubmit}
                       reinitialize={true}
                     >
@@ -163,15 +161,17 @@ const EditBrand = () => {
                                   <div className="col-12">
                                     <div className="mb-3">
                                       <CustomInput
-                                        label="Brand Name"
-                                        id="name"
-                                        name="name"
+                                        label="Introductory Heading"
+                                        id="heading"
+                                        name="heading"
                                         type="text"
-                                        placeholder="Enter Brand Name"
-                                        value={values.name}
+                                        placeholder="Enter Introductory Heading"
+                                        value={values.heading}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        error={touched.name && errors.name}
+                                        error={
+                                          touched.heading && errors.heading
+                                        }
                                         required
                                       />
                                     </div>
@@ -203,13 +203,13 @@ const EditBrand = () => {
                                   <div className="col-12">
                                     <div className="mb-3">
                                       <CustomImageUploader
-                                        label="Brand Image"
+                                        label="Introductory Banner"
                                         required
                                         id="file"
                                         name="file"
-                                        placeholder="Upload Brand Logo"
+                                        placeholder="Upload Introductory Banner"
                                         value={values.file}
-                                        onChange={handleBrandImageChange}
+                                        onChange={handleBannerImageChange}
                                         onBlur={handleBlur}
                                       />
                                     </div>
@@ -226,7 +226,7 @@ const EditBrand = () => {
                                     text="Update"
                                     type="submit"
                                     disabled={
-                                      isLoading || isBrandDetailsLoading
+                                      isLoading || isBannerDetailsLoading
                                     }
                                   />
                                 </div>
@@ -247,4 +247,4 @@ const EditBrand = () => {
   );
 };
 
-export default EditBrand;
+export default EditBanner;

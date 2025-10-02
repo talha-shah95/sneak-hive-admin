@@ -26,8 +26,6 @@ const Profile = () => {
     retry: 2,
   });
 
-  console.log('profileData', profileData);
-
   return (
     <div className="profileScreen">
       <div className="row mb-4">

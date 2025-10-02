@@ -38,11 +38,12 @@ const UserDetails = () => {
     onSuccess: ({ message }) => {
       showModal({
         type: 'success',
+        showSuccessToast: false,
         modalProps: {
           title: 'Successful',
           hideClose: true,
-          message: message || 'User has been activated successfully!',
-          continueText: 'Okay',
+          message: message || 'User status changed successfully!',
+          continueText: 'Ok',
           onContinue: () => {
             closeModal();
           },
@@ -56,10 +57,10 @@ const UserDetails = () => {
   });
 
   const handleChangeStatus = (id, status) => {
-    const title = status == 1 ? 'Deactivate User?' : 'Activate User?';
+    const title = status == 1 ? 'Inactivate User?' : 'Activate User?';
     const message =
       status == 1
-        ? 'Are you sure you want to deactivate the User?'
+        ? 'Are you sure you want to inactivate the User?'
         : 'Are you sure you want to activate the User?';
     showModal({
       type: 'question',
@@ -106,10 +107,10 @@ const UserDetails = () => {
                           <p
                             className={`text-capitalize ${
                               userDetailsData?.is_active == 0
-                                ? 'colorYellowDark'
+                                ? 'colorRed'
                                 : userDetailsData?.is_active == 1
                                 ? 'colorGreen'
-                                : 'colorRed'
+                                : 'colorYellowDark'
                             }`}
                           >
                             {userDetailsData?.is_active == 1

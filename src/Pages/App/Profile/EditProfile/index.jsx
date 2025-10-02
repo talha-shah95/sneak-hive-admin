@@ -83,16 +83,11 @@ const EditProfile = () => {
       formDataToSend.append('image', dataToSend.image);
     }
     // Profile image (if present)
-
-    console.log('dataToSend', dataToSend);
-    console.log('profileImage', profileImage);
     mutate({
       service: UpdateProfile,
       data: formDataToSend,
     });
   };
-
-  console.log(profileData);
 
   return (
     <div className="profileScreen">

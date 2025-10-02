@@ -36,6 +36,14 @@ import AddBrand from './Pages/App/BrandManagement/AddBrand';
 import BrandDetails from './Pages/App/BrandManagement/BrandDetails';
 import EditBrand from './Pages/App/BrandManagement/EditBrand';
 
+import BannerManagement from './Pages/App/BannerManagement';
+import BannerDetails from './Pages/App/BannerManagement/BannerDetails';
+import AddBanner from './Pages/App/BannerManagement/AddBanner';
+import EditBanner from './Pages/App/BannerManagement/EditBanner';
+
+import QueryManagement from './Pages/App/QueryManagement';
+import QueryDetails from './Pages/App/QueryManagement/QueryDetails';
+
 import CustomToast from './Components/CustomToast';
 import CustomModal from './Components/CustomModal';
 
@@ -86,6 +94,14 @@ function App() {
                 <Route path="brand-management/add-brand" element={<AddBrand />} />
                 <Route path="brand-management/brand-details/:id" element={<BrandDetails />} />
                 <Route path="brand-management/edit-brand/:id" element={<EditBrand />} />
+
+                <Route path="banner-management" element={<BannerManagement />} />
+                <Route path="banner-management/banner-details/:id" element={<BannerDetails />} />
+                <Route path="banner-management/add-banner" element={<AddBanner />} />
+                <Route path="banner-management/edit-banner/:id" element={<EditBanner />} />
+
+                <Route path="query-management" element={<QueryManagement />} />
+                <Route path="query-management/query-details/:id" element={<QueryDetails />} />
                 {/* <Route path="profile" element={<Profile />} />
                 <Route path="profile/edit" element={<EditProfile />} />
                 <Route path="profile/change-password" element={<ChangePassword />} />
