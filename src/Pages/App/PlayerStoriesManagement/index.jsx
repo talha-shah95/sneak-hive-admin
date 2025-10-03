@@ -60,7 +60,7 @@ const PlayerStoriesManagement = ({ filters, setFilters, pagination }) => {
           title: 'Successful',
           hideClose: true,
           message: message || 'Player Story status changed successfully!',
-          continueText: 'Okay',
+          continueText: 'Ok',
           onContinue: () => {
             closeModal();
           },

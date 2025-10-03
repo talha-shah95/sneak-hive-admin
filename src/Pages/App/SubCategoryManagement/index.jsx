@@ -59,7 +59,7 @@ const SubCategoryManagement = ({ filters, setFilters, pagination }) => {
           title: 'Successful',
           hideClose: true,
           message: message || 'Sub Category status changed successfully!',
-          continueText: 'Okay',
+          continueText: 'Ok',
           onContinue: () => {
             closeModal();
           },

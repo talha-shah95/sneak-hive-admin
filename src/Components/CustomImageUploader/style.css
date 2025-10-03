@@ -13,8 +13,8 @@
 }
 
 .uploadedImage {
-  width: 240px;
+  width: auto;
   height: 180px;
-  object-fit: cover;
+  object-fit: contain;
   margin: 0 auto;
 }

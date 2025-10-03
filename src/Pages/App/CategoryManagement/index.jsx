@@ -59,7 +59,7 @@ const CategoryManagement = ({ filters, setFilters, pagination }) => {
           title: 'Successful',
           hideClose: true,
           message: message || 'Category status changed successfully!',
-          continueText: 'Okay',
+          continueText: 'Ok',
           onContinue: () => {
             closeModal();
           },

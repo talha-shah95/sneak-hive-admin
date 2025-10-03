@@ -60,7 +60,7 @@ const UserManagement = ({ filters, setFilters, pagination }) => {
           title: 'Successful',
           hideClose: true,
           message: message || 'User has been activated successfully!',
-          continueText: 'Okay',
+          continueText: 'Ok',
           onContinue: () => {
             closeModal();
           },

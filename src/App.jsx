@@ -20,7 +20,7 @@ import Login from './Pages/Auth/Login';
 import ForgetPassword from './Pages/Auth/ForgetPassword';
 import Registration from './Pages/Auth/Registration';
 
-//Common
+//App
 import Dashboard from './Pages/App/Dashboard';
 import Profile from './Pages/App/Profile';
 import EditProfile from './Pages/App/Profile/EditProfile';
@@ -56,6 +56,11 @@ import BannerDetails from './Pages/App/BannerManagement/BannerDetails';
 import AddBanner from './Pages/App/BannerManagement/AddBanner';
 import EditBanner from './Pages/App/BannerManagement/EditBanner';
 
+import ReleaseCalendarManagement from './Pages/App/ReleaseCalendarManagement';
+import ReleaseCalendarDetails from './Pages/App/ReleaseCalendarManagement/ReleaseCalendarDetails';
+import AddReleaseCalendar from './Pages/App/ReleaseCalendarManagement/AddReleaseCalendar';
+import EditReleaseCalendar from './Pages/App/ReleaseCalendarManagement/EditReleaseCalendar';
+
 import QueryManagement from './Pages/App/QueryManagement';
 import QueryDetails from './Pages/App/QueryManagement/QueryDetails';
 
@@ -63,6 +68,16 @@ import ArticleManagement from './Pages/App/ArticleManagement';
 import ArticleDetails from './Pages/App/ArticleManagement/ArticleDetails';
 import AddArticle from './Pages/App/ArticleManagement/AddArticle';
 import EditArticle from './Pages/App/ArticleManagement/EditArticle';
+
+import UnboxingVideosManagement from './Pages/App/UnboxingVideosManagement';
+import UnboxingVideoDetails from './Pages/App/UnboxingVideosManagement/VideoDetails';
+import AddUnboxingVideo from './Pages/App/UnboxingVideosManagement/AddVideo';
+import EditUnboxingVideo from './Pages/App/UnboxingVideosManagement/EditVideo';
+
+import BlogsManagement from './Pages/App/BlogsManagement';
+import BlogDetails from './Pages/App/BlogsManagement/BlogDetails';
+import AddBlog from './Pages/App/BlogsManagement/AddBlog';
+import EditBlog from './Pages/App/BlogsManagement/EditBlog';
 
 import CustomToast from './Components/CustomToast';
 import CustomModal from './Components/CustomModal';
@@ -143,8 +158,23 @@ function App() {
                 <Route path="banner-management/add-banner" element={<AddBanner />} />
                 <Route path="banner-management/edit-banner/:id" element={<EditBanner />} />
 
+                <Route path="release-calendar-management" element={<ReleaseCalendarManagement />} />
+                <Route path="release-calendar-management/release-calendar-details/:id" element={<ReleaseCalendarDetails />} />
+                <Route path="release-calendar-management/add-release-calendar" element={<AddReleaseCalendar />} />
+                <Route path="release-calendar-management/edit-release-calendar/:id" element={<EditReleaseCalendar />} />
+
+                <Route path="blogs-management" element={<BlogsManagement />} />
+                <Route path="blogs-management/blog-details/:id" element={<BlogDetails />} />
+                <Route path="blogs-management/add-blog" element={<AddBlog />} />
+                <Route path="blogs-management/edit-blog/:id" element={<EditBlog />} />
+
                 <Route path="query-management" element={<QueryManagement />} />
                 <Route path="query-management/query-details/:id" element={<QueryDetails />} />
+
+                <Route path="unboxing-videos-management" element={<UnboxingVideosManagement />} />
+                <Route path="unboxing-videos-management/video-details/:id" element={<UnboxingVideoDetails />} />
+                <Route path="unboxing-videos-management/add-video" element={<AddUnboxingVideo />} />
+                <Route path="unboxing-videos-management/edit-video/:id" element={<EditUnboxingVideo />} />
               </Route>
             </Route>
 

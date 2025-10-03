@@ -59,7 +59,7 @@ const BannerManagement = ({ filters, setFilters, pagination }) => {
           title: 'Successful',
           hideClose: true,
           message: message || 'Banner has been activated successfully!',
-          continueText: 'Okay',
+          continueText: 'Ok',
           onContinue: () => {
             closeModal();
           },

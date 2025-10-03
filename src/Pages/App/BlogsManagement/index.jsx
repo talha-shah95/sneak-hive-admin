@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMutation } from '@tanstack/react-query';
 
-import GetUsers from './Services/GetUsers';
-import ChangeUserStatus from './Services/ChangeUserStatus';
+import GetBlogs from './Services/GetBlogs';
+import ChangeBlogStatus from './Services/ChangeBlogStatus';
 
 import useModalStore from '../../../Store/ModalStore';
 
@@ -19,21 +19,20 @@ import CustomTable from '../../../Components/CustomTable';
 import CustomFilters from '../../../Components/CustomFilters';
 import StatusDropdown from '../../../Components/StatisDropdown';
 import CustomTableActionDropdown from '../../../Components/CustomTableActionDropdown';
+import CustomButton from '../../../Components/CustomButton';
 
-import { LuEye } from 'react-icons/lu';
+import { LuEye, LuPencil } from 'react-icons/lu';
 
 const headers = [
   { id: 1, key: 'sNo', title: 'S.No' },
-  { id: 2, key: 'firstName', title: 'First Name' },
-  { id: 3, key: 'lastName', title: 'Last Name' },
-  { id: 4, key: 'emailAddress', title: 'Email Address' },
-  { id: 5, key: 'registrationDate', title: 'Registration Date' },
-  { id: 6, key: 'status', title: 'Status' },
-  { id: 7, key: 'action', title: 'Action' },
+  { id: 2, key: 'blogTitle', title: 'Blog Title' },
+  { id: 3, key: 'uploadDate', title: 'Upload Date' },
+  { id: 4, key: 'status', title: 'Status' },
+  { id: 5, key: 'action', title: 'Action' },
 ];
 
 // eslint-disable-next-line react-refresh/only-export-components
-const UserManagement = ({ filters, setFilters, pagination }) => {
+const BlogsManagement = ({ filters, setFilters, pagination }) => {
   const navigate = useNavigate();
   const { showModal, closeModal } = useModalStore();
   const queryClient = useQueryClient();
@@ -51,11 +50,63 @@ const UserManagement = ({ filters, setFilters, pagination }) => {
     retry: 2,
   });
 
+  const { mutateAsync: changeStatusMutation } = useMutation({
+    mutationFn: (id) => ChangeBlogStatus(id),
+    onSuccess: ({ message }) => {
+      showModal({
+        type: 'success',
+        modalProps: {
+          title: 'Successful',
+          hideClose: true,
+          message: message || 'Blog status changed successfully!',
+          continueText: 'Ok',
+          onContinue: () => {
+            closeModal();
+          },
+        },
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['blogs', 'blogDetails'],
+      });
+    },
+    onError: (error) => {
+      showToast(error?.message || 'Status change failed', 'error');
+    },
+  });
+
+  const handleChangeStatus = (id, status) => {
+    const title = status == 1 ? 'Deactivate Blog?' : 'Activate Blog?';
+    const message =
+      status == 1
+        ? 'Are you sure you want to deactivate the Blog?'
+        : 'Are you sure you want to activate the Blog?';
+    showModal({
+      type: 'question',
+      modalProps: {
+        title: title,
+        message: message,
+        continueText: 'Yes',
+        cancelText: 'No',
+        onContinue: async () => {
+          await changeStatusMutation(id);
+        },
+      },
+    });
+  };
+
   return (
-    <div className="blogManagementScreen">
+    <div className="blogsManagementScreen">
       <div className="row mb-4">
         <div className="col-12 col-xl-6">
-          <PageTitle title="Blog Management" />
+          <PageTitle title="Blogs Management" />
+        </div>
+        <div className="col-12 col-xl-6 text-end">
+          <CustomButton
+            text="Add New Blog"
+            to={'/blogs-management/add-blog'}
+            className="w-auto d-inline-block"
+            variant="secondary"
+          />
         </div>
       </div>
       <div className="row mb-4">
@@ -111,15 +162,39 @@ const UserManagement = ({ filters, setFilters, pagination }) => {
                               </td>
                             </tr>
                           ))}
-                        {blogsData?.data?.map((blogs, index) => (
+                        {blogsData?.data?.map((blog, index) => (
                           <tr key={index}>
                             <td>
                               {index + 1 < 10 ? `0${index + 1}` : index + 1}
                             </td>
-                            <td>{blogs?.title || '-'}</td>
-                            <td>{blogs?.last_name || '-'}</td>
-                            <td>{blogs?.email || '-'}</td>
-                            <td>{dateFormat(blogs?.created_at) || '-'}</td>
+                            <td>{blog?.title || '-'}</td>
+                            <td>{dateFormat(blog?.created_at) || '-'}</td>
+                            <td>
+                              <StatusDropdown
+                                selected={
+                                  blog?.is_active == 0
+                                    ? { value: 0, label: 'Inactive' }
+                                    : blog?.is_active == 1
+                                    ? { value: 1, label: 'Active' }
+                                    : { value: 2, label: 'Pending' }
+                                }
+                                options={[
+                                  {
+                                    value: blog?.is_active == 1 ? 0 : 1,
+                                    label:
+                                      blog?.is_active == 1
+                                        ? 'Inactive'
+                                        : 'Active',
+                                    onClick: () => {
+                                      handleChangeStatus(
+                                        blog?.id,
+                                        blog?.is_active
+                                      );
+                                    },
+                                  },
+                                ]}
+                              />
+                            </td>
                             <td>
                               <CustomTableActionDropdown
                                 actions={[
@@ -128,7 +203,16 @@ const UserManagement = ({ filters, setFilters, pagination }) => {
                                     label: 'View',
                                     onClick: () => {
                                       navigate(
-                                        `/user-management/details/${blogs?.id}`
+                                        `/blogs-management/blog-details/${blog?.id}`
+                                      );
+                                    },
+                                  },
+                                  {
+                                    icon: <LuPencil />,
+                                    label: 'Edit',
+                                    onClick: () => {
+                                      navigate(
+                                        `/blogs-management/edit-blog/${blog?.id}`
                                       );
                                     },
                                   },
@@ -151,4 +235,4 @@ const UserManagement = ({ filters, setFilters, pagination }) => {
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
-export default withFilters(UserManagement);
+export default withFilters(BlogsManagement);

@@ -42,7 +42,7 @@ const ForgetPassword = () => {
         modalProps: {
           title: 'Successful',
           message: 'Your password has been updated. Please login to continue!',
-          continueText: 'Okay',
+          continueText: 'Ok',
           onContinue: () => {
             navigate('/login');
             closeModal();

@@ -49,7 +49,7 @@ const EditBanner = () => {
           title: 'Successful',
           hideClose: true,
           message: response.message,
-          continueText: 'Okay',
+          continueText: 'Ok',
           onContinue: async () => {
             queryClient.invalidateQueries(['banners', 'bannerDetails']);
             closeModal();

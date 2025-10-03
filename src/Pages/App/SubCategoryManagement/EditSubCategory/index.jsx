@@ -76,7 +76,7 @@ const EditSubCategory = () => {
           title: 'Successful',
           hideClose: true,
           message: response.message,
-          continueText: 'Okay',
+          continueText: 'Ok',
           onContinue: async () => {
             queryClient.invalidateQueries(['subCategories']);
             closeModal();

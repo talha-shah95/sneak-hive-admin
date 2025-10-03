@@ -76,7 +76,7 @@ const EditArticle = () => {
           title: 'Successful',
           hideClose: true,
           message: response.message,
-          continueText: 'Okay',
+          continueText: 'Ok',
           onContinue: async () => {
             queryClient.invalidateQueries(['articles']);
             closeModal();
@@ -129,8 +129,6 @@ const EditArticle = () => {
       setArticleImage(file);
     }
   };
-
-  console.log(articleDetailsData, 'articleDetailsData');
 
   return (
     <>

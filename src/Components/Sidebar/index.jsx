@@ -75,13 +75,13 @@ const menuItems = [
   {
     id: 8,
     label: 'Release Management',
-    link: '/release-management',
+    link: '/release-calendar-management',
     icon: svgIcons.DashboardIcon,
   },
   {
     id: 8,
     label: 'Unboxing Videos',
-    link: '/unboxing-videos',
+    link: '/unboxing-videos-management',
     icon: svgIcons.DashboardIcon,
   },
   {
