@@ -18,6 +18,7 @@ import CustomCard from '../../../Components/CustomCard';
 import CustomTable from '../../../Components/CustomTable';
 import CustomFilters from '../../../Components/CustomFilters';
 import StatusDropdown from '../../../Components/StatisDropdown';
+import CustomButton from '../../../Components/CustomButton';
 import CustomTableActionDropdown from '../../../Components/CustomTableActionDropdown';
 
 import { LuEye, LuPencil } from 'react-icons/lu';
@@ -57,7 +58,7 @@ const CategoryManagement = ({ filters, setFilters, pagination }) => {
         modalProps: {
           title: 'Successful',
           hideClose: true,
-          message: message || 'Category has been activated successfully!',
+          message: message || 'Category status changed successfully!',
           continueText: 'Okay',
           onContinue: () => {
             closeModal();
@@ -91,13 +92,19 @@ const CategoryManagement = ({ filters, setFilters, pagination }) => {
     });
   };
 
-  console.log('categoriesData', categoriesData);
-
   return (
     <div className="categoryManagementScreen">
       <div className="row mb-4">
         <div className="col-12 col-xl-6">
           <PageTitle title="Category Management" />
+        </div>
+        <div className="col-12 col-xl-6 text-end">
+          <CustomButton
+            text="Add Category"
+            to={'/category-management/add-category'}
+            className="w-auto d-inline-block"
+            variant="secondary"
+          />
         </div>
       </div>
       <div className="row mb-4">

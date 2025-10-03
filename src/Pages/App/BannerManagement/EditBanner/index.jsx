@@ -144,7 +144,7 @@ const EditBanner = () => {
                       }}
                       validationSchema={editBannerValidationSchema}
                       onSubmit={handleSubmit}
-                      reinitialize={true}
+                      enableReinitialize={true}
                     >
                       {({
                         values,

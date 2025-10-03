@@ -13,8 +13,9 @@ import { saveAuthData } from '../../../Utils/Storage.js';
 import CustomInput from '../../../Components/CustomInput';
 import CustomButton from '../../../Components/CustomButton';
 import CustomCheckbox from '../../../Components/CustomCheckBox';
+import { showToast } from '../../../Components/CustomToast';
 
-import {  FaRegEnvelope } from 'react-icons/fa';
+import { FaRegEnvelope } from 'react-icons/fa';
 import { FiLock } from 'react-icons/fi';
 
 import './style.css';
@@ -37,6 +38,7 @@ const Login = () => {
       saveAuthData(response, isRememberMe);
     },
     onError: (error) => {
+      showToast(error?.data?.message?.failed, 'error');
       console.error('Login failed:', error);
     },
   });

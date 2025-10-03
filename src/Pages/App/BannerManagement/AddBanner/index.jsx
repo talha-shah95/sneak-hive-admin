@@ -54,7 +54,6 @@ const AddBanner = () => {
     const dataToSend = {
       ...values,
     };
-    console.log(dataToSend);
     const formDataToSend = new FormData();
     formDataToSend.append('heading', dataToSend.heading);
     formDataToSend.append('is_active', dataToSend.is_active);
@@ -102,7 +101,7 @@ const AddBanner = () => {
                   }}
                   validationSchema={addBannerValidationSchema}
                   onSubmit={handleSubmit}
-                  reinitialize={true}
+                  enableReinitialize={true}
                 >
                   {({ values, errors, touched, handleChange, handleBlur }) => {
                     return (

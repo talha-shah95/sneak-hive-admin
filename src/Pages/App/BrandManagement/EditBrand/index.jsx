@@ -146,7 +146,7 @@ const EditBrand = () => {
                       }}
                       validationSchema={editBrandValidationSchema}
                       onSubmit={handleSubmit}
-                      reinitialize={true}
+                      enableReinitialize={true}
                     >
                       {({
                         values,

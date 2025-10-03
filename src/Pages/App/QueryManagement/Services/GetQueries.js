@@ -5,9 +5,10 @@ const GetQueries = async (filters, pagination) => {
   const to = filters.to ? filters.to : '';
   const search = filters.search ? filters.search : '';
   const per_page = pagination.per_page ? pagination.per_page : 5;
-  console.log('filters', filters, pagination, from, to, search, per_page);
+  const status = filters.status ? filters.status : '';
+  const page = pagination.currentPage ? pagination.currentPage : 1;
   try {
-    const response = await axiosInstance.get(`/admin/queries`);
+    const response = await axiosInstance.get(`/admin/queries?search=${search}&from=${from}&to=${to}&records=${per_page}&status=${status}&page=${page}`);
     return response.data;
   } catch (error) {
     throw error.response

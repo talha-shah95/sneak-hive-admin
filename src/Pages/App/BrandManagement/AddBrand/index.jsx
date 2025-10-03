@@ -64,7 +64,6 @@ const AddBrand = () => {
     const dataToSend = {
       ...values,
     };
-    console.log(dataToSend);
     const formDataToSend = new FormData();
     formDataToSend.append('name', dataToSend.name);
     formDataToSend.append('is_active', dataToSend.is_active);
@@ -112,7 +111,7 @@ const AddBrand = () => {
                   }}
                   validationSchema={addBrandValidationSchema}
                   onSubmit={handleSubmit}
-                  reinitialize={true}
+                  enableReinitialize={true}
                 >
                   {({ values, errors, touched, handleChange, handleBlur }) => {
                     return (

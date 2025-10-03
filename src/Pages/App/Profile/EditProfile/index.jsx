@@ -65,7 +65,6 @@ const EditProfile = () => {
   };
 
   const handleSubmit = (values) => {
-    console.log('values', values);
     const dataToSend = {
       first_name: values.first_name,
       last_name: values.last_name,

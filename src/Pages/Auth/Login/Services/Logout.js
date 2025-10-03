@@ -2,8 +2,6 @@ import axiosInstance from '../../../../Config/axiosConfig';
 
 export const LogoutUser = async () => {
   try {
-    const token = localStorage.getItem('accessToken');
-    console.log('tokennnnnn', token);
     await axiosInstance.post('/admin/logout', {}, {
       requiresAuth: true,
     });

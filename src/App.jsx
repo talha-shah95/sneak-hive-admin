@@ -21,7 +21,7 @@ import ForgetPassword from './Pages/Auth/ForgetPassword';
 import Registration from './Pages/Auth/Registration';
 
 //Common
-import Dashboard from './Pages/App/Common/Dashboard';
+import Dashboard from './Pages/App/Dashboard';
 import Profile from './Pages/App/Profile';
 import EditProfile from './Pages/App/Profile/EditProfile';
 import ChangePassword from './Pages/App/Profile/ChangePassword';
@@ -30,6 +30,21 @@ import UserManagement from './Pages/App/UserManagement';
 import UserDetails from './Pages/App/UserManagement/UserDetails';
 
 import CategoryManagement from './Pages/App/CategoryManagement';
+import CategoryDetails from './Pages/App/CategoryManagement/CategoryDetails';
+import AddCategory from './Pages/App/CategoryManagement/AddCategory';
+import EditCategory from './Pages/App/CategoryManagement/EditCategory';
+
+import SubCategoryManagement from './Pages/App/SubCategoryManagement';
+import SubCategoryDetails from './Pages/App/SubCategoryManagement/SubCategoryDetails';
+import AddSubCategory from './Pages/App/SubCategoryManagement/AddSubCategory';
+import EditSubCategory from './Pages/App/SubCategoryManagement/EditSubCategory';
+
+import ProductManagement from './Pages/App/ProductManagement';
+
+import PlayerStoriesManagement from './Pages/App/PlayerStoriesManagement';
+import PlayerStoryDetails from './Pages/App/PlayerStoriesManagement/PlayerStoryDetails';
+import AddPlayerStory from './Pages/App/PlayerStoriesManagement/AddPlayerStory';
+import EditPlayerStory from './Pages/App/PlayerStoriesManagement/EditPlayerStory';
 
 import BrandManagement from './Pages/App/BrandManagement';
 import AddBrand from './Pages/App/BrandManagement/AddBrand';
@@ -43,6 +58,11 @@ import EditBanner from './Pages/App/BannerManagement/EditBanner';
 
 import QueryManagement from './Pages/App/QueryManagement';
 import QueryDetails from './Pages/App/QueryManagement/QueryDetails';
+
+import ArticleManagement from './Pages/App/ArticleManagement';
+import ArticleDetails from './Pages/App/ArticleManagement/ArticleDetails';
+import AddArticle from './Pages/App/ArticleManagement/AddArticle';
+import EditArticle from './Pages/App/ArticleManagement/EditArticle';
 
 import CustomToast from './Components/CustomToast';
 import CustomModal from './Components/CustomModal';
@@ -89,6 +109,29 @@ function App() {
                 <Route path="user-management/details/:id" element={<UserDetails />} />
 
                 <Route path="category-management" element={<CategoryManagement />} />
+                <Route path="category-management/category-details/:id" element={<CategoryDetails />} />
+                <Route path="category-management/add-category" element={<AddCategory />} />
+                <Route path="category-management/edit-category/:id" element={<EditCategory />} />
+
+                <Route path="sub-category-management" element={<SubCategoryManagement />} />
+                <Route path="sub-category-management/sub-category-details/:id" element={<SubCategoryDetails />} />
+                <Route path="sub-category-management/add-sub-category" element={<AddSubCategory />} />
+                <Route path="sub-category-management/edit-sub-category/:id" element={<EditSubCategory />} />
+
+                <Route path="product-management" element={<ProductManagement />} />
+                {/* <Route path="product-management/product-details/:id" element={<ProductDetails />} /> */}
+                {/* <Route path="product-management/add-product" element={<AddProduct />} /> */}
+                {/* <Route path="product-management/edit-product/:id" element={<EditProduct />} /> */}
+
+                <Route path="player-stories-management" element={<PlayerStoriesManagement />} />
+                <Route path="player-stories-management/player-story-details/:id" element={<PlayerStoryDetails />} />
+                <Route path="player-stories-management/add-player-story" element={<AddPlayerStory />} />
+                <Route path="player-stories-management/edit-player-story/:id" element={<EditPlayerStory />} />
+
+                <Route path="article-management" element={<ArticleManagement />} />
+                <Route path="article-management/article-details/:id" element={<ArticleDetails />} />
+                <Route path="article-management/add-article" element={<AddArticle />} />
+                <Route path="article-management/edit-article/:id" element={<EditArticle />} />
 
                 <Route path="brand-management" element={<BrandManagement />} />
                 <Route path="brand-management/add-brand" element={<AddBrand />} />
@@ -102,37 +145,6 @@ function App() {
 
                 <Route path="query-management" element={<QueryManagement />} />
                 <Route path="query-management/query-details/:id" element={<QueryDetails />} />
-                {/* <Route path="profile" element={<Profile />} />
-                <Route path="profile/edit" element={<EditProfile />} />
-                <Route path="profile/change-password" element={<ChangePassword />} />
-                <Route path="product-management" element={<ProductManagement />} />
-                <Route path="product-management/product-details/:id" element={<ProductDetails />} />
-                <Route path="product-management/add-product" element={<AddProduct />} />
-                <Route path="product-management/edit-product/:id" element={<EditProduct />} />
-                <Route path="payment-logs" element={<PaymentLogs />} />
-                <Route path="order-management" element={<OrderManagement />} />
-                <Route path="order-management/order-details/:id" element={<OrderDetails />} />
-                <Route path="keg-rental-management" element={<KegRentalManagement />} />
-                <Route path="keg-rental-management/keg-rental-details/:id" element={<KegRentalDetails />} />
-                <Route path="feature-plan-management" element={<FeaturePlanManagement />} />
-                <Route path="feature-plan-management/buy-feature-plan" element={<BuyFeaturePlan />} />
-                <Route path="feature-plan-management/new-feature-plan-details/:id" element={<NewFeaturePlanDetails />} />
-                <Route path="event-management" element={<EventManagement />} />
-                <Route path="event-management/add-event" element={<AddEvent />} />
-                <Route path="event-management/event-details/:id" element={<EventDetails />} /> */}
-                {/* <Route path="event-management/edit-event/:id" element={<EditEvent />} /> */}
-
-                {/* Vendor Routes */}
-                {/* <Route path="promo-code-management" element={<PromoCodeManagement />} />
-                <Route path="promo-code-management/promo-code-details/:id" element={<PromoCodeDetails />} />
-                <Route path="promo-code-management/add-promo-code" element={<AddPromoCode />} />
-                <Route path="promo-code-management/edit-promo-code/:id" element={<EditPromoCode />} />
-                <Route path="documents-history" element={<DocumentsHistory />} />
-                <Route path="documents-history/document-details/:id" element={<DocumentDetails />} />
-                <Route path="ad-logs" element={<AdLogs />} />
-                <Route path="ad-logs/ad-details/:id" element={<AdDetails />} />
-                <Route path="ad-logs/ad-request" element={<AdRequest />} /> */}
-                {/* Add other private routes here */}
               </Route>
             </Route>
 
