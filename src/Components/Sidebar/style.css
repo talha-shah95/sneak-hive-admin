@@ -47,6 +47,10 @@
   overflow: hidden;
 } */
 
+.sidebar.collapsed .sidebar-title-wrapper {
+  padding: 0px 4px;
+}
+
 .sidebar.collapsed .sidebar-title-wrapper img {
   height: auto;
 }
@@ -118,6 +122,11 @@
 
 .menu-item img {
   width: 16px;
+}
+
+.menu-item svg {
+  width: auto;
+  height: auto;
 }
 .sidebar.collapsed .menu-item {
   justify-content: center;

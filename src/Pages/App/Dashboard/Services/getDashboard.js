@@ -1,11 +1,10 @@
 import axiosInstance from '../../../../Config/axiosConfig';
 
-// GET ORDERS
-const getOrders = async ({ type }) => {
+// GET DASHBOARD
+const getDashboard = async () => {
   try {
-    const response = await axiosInstance.get(
-      `/vendor/dashboard/get-order-chart-data?type=${type}`
-    );
+    const response = await axiosInstance.get(`/admin/dashboard`);
+
     return response.data.data;
   } catch (error) {
     throw error.response
@@ -14,4 +13,4 @@ const getOrders = async ({ type }) => {
   }
 };
 
-export default getOrders;
+export default getDashboard;

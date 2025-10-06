@@ -53,10 +53,7 @@ const Profile = () => {
                         />
                       ) : (
                         <img
-                          src={
-                            profileData?.avatar ||
-                            images?.userPlaceholder
-                          }
+                          src={profileData?.avatar || images?.userPlaceholder}
                           onError={(e) => {
                             e.target.src = images?.userPlaceholder;
                           }}

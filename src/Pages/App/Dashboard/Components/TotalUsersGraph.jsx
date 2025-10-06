@@ -20,22 +20,22 @@ ChartJS.register(
   Legend
 );
 
-const TotalEarningGraph = ({ earningData, xAxisLabel = 'Time Period' }) => {
+const TotalUsersGraph = ({ usersData, xAxisLabel = 'Time Period' }) => {
   const [datatoShow, setDatatoShow] = useState(null);
   const [options, setOptions] = useState(null);
 
   useEffect(() => {
-    if (earningData) {
-      const labels = earningData.labels;
-      const dataLocal = earningData.data;
+    if (usersData) {
+      const labels = usersData.labels;
+      const dataLocal = usersData.data;
       const data = {
         labels,
         datasets: [
           {
             // Dataset label (hidden since we disabled legend)
-            label: 'Total Earnings',
+            label: 'Total Users',
             data: dataLocal,
-            backgroundColor: '#420080',
+            backgroundColor: '#96C0FF',
             borderRadius: 99,
             borderSkipped: false,
             categoryPercentage: 0.8,
@@ -58,11 +58,11 @@ const TotalEarningGraph = ({ earningData, xAxisLabel = 'Time Period' }) => {
             beginAtZero: true,
             title: {
               display: true,
-              text: 'Total Earnings ($)',
+              text: 'Users',
               color: 'var(--blackColor, #000000)',
             },
             ticks: {
-              callback: (value) => `$${value}`,
+              callback: (value) => `${value}`,
               color: 'var(--blackColor, #000000)',
             },
           },
@@ -79,13 +79,13 @@ const TotalEarningGraph = ({ earningData, xAxisLabel = 'Time Period' }) => {
         },
       });
     }
-  }, [earningData]);
+  }, [usersData]);
 
   return (
-    <div className="total-earning-graph">
+    <div className="total-users-graph">
       {datatoShow && <Bar data={datatoShow} options={options} />}
     </div>
   );
 };
 
-export default TotalEarningGraph;
+export default TotalUsersGraph;

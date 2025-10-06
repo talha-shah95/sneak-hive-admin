@@ -1,25 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { images } from '../../../assets/images';
 
 import PageTitle from '../../../Components/PageTitle';
 import CustomCard from '../../../Components/CustomCard';
-import CustomSelect from '../../../Components/CustomSelect';
+// import CustomSelect from '../../../Components/CustomSelect';
 import LineSkeleton from '../../../Components/SkeletonLoaders/LineSkeleton';
 
-import useUserStore from '../../../Store/UserStore';
-
 import StatCard from './Components/StatCard';
-import PendingNoticeCard from './Components/PendingNoticeCard';
-import RejectionNoticeCard from './Components/RejectionNoticeCard';
-import ReminderNoticeCard from './Components/ReminderNoticeCard';
-import TotalEarningGraph from './Components/TotalEarningGraph';
-import TotalOrdersGraph from './Components/TotalOrdersGraph';
 
-import getStats from './Services/GetStats';
-import getEarnings from './Services/GetEarnings';
-import getOrders from './Services/GetOrders';
+import TotalUsersGraph from './Components/TotalUsersGraph';
+// import TotalOrdersGraph from './Components/TotalOrdersGraph';
+
+import getDashboard from './Services/getDashboard';
 
 import './style.css';
 
@@ -30,84 +24,29 @@ const timePeriods = [
 ];
 
 const Dashboard = () => {
-  const { user } = useUserStore();
-
-  const [selectedEarningPeriod, setSelectedEarningPeriod] = useState(
-    timePeriods[0].value
-  );
-
-  const [selectedOrderPeriod, setSelectedOrderPeriod] = useState(
+  const [selectedTimePeriod, setSelectedTimePeriod] = useState(
     timePeriods[0].value
   );
 
   const {
-    data: statsData,
-    isLoading: isStatsLoading,
-    isError: isStatsError,
-    error: statsError,
+    data: dashboardData,
+    isLoading: isDashboardLoading,
+    isError: isDashboardError,
+    error: dashboardError,
   } = useQuery({
-    queryKey: ['stats'],
-    queryFn: () => getStats(),
+    queryKey: ['dashboard'],
+    queryFn: () => getDashboard(),
     staleTime: 1000 * 60 * 5,
     enabled: true,
     retry: 2,
   });
 
-  const {
-    data: earningsData,
-    isLoading: isEarningLoading,
-    isError: isEarningError,
-    error: earningsError,
-    refetch: refetchEarnings,
-  } = useQuery({
-    queryKey: ['earnings', selectedEarningPeriod],
-    queryFn: () =>
-      getEarnings({
-        type: selectedEarningPeriod,
-      }),
-    staleTime: 1000 * 60 * 5, // 5 minutes
-    enabled: true,
-    retry: 2,
-  });
-
-  const {
-    data: ordersData,
-    isLoading: isOrdersLoading,
-    isError: isOrdersError,
-    error: ordersError,
-    refetch: refetchOrders,
-  } = useQuery({
-    queryKey: ['orders', selectedOrderPeriod],
-    queryFn: () =>
-      getOrders({
-        type: selectedOrderPeriod,
-      }),
-    staleTime: 1000 * 60 * 5, // 5 minutes
-    enabled: true,
-    retry: 2,
-  });
-
-  const handleEarningPeriodChange = (e) => {
+  const handleTimePeriodChange = (e) => {
     const newPeriod = e.target.value;
-    setSelectedEarningPeriod(newPeriod);
+    setSelectedTimePeriod(newPeriod);
   };
 
-  const handleOrdersPeriodChange = (e) => {
-    const newPeriod = e.target.value;
-    setSelectedOrderPeriod(newPeriod);
-  };
-
-  useEffect(() => {
-    refetchEarnings({
-      type: selectedEarningPeriod,
-    });
-  }, [refetchEarnings, selectedEarningPeriod]);
-
-  useEffect(() => {
-    refetchOrders({
-      type: selectedOrderPeriod,
-    });
-  }, [refetchOrders, selectedOrderPeriod]);
+  console.log('dashboardData', dashboardData);
 
   return (
     <div className="dashboardScreen">
@@ -115,121 +54,73 @@ const Dashboard = () => {
         <div className="col-12 col-xl-6">
           <PageTitle title="Dashboard" />
         </div>
-        <div className="col-12 col-xl-6 text-end">
-          <p className="colorGrayDark">
-            Status:{' '}
-            <span
-              className={`colorPrimary fw-semibold text-decoration-underline text-capitalize ${
-                user?.business_profile?.status == 0
-                  ? 'colorYellowDark'
-                  : user?.business_profile?.status == 1
-                  ? 'colorBlue'
-                  : 'colorRed'
-              }`}
-            >
-              {user?.business_profile?.status_detail}
-            </span>
-          </p>
-          {user?.business_profile?.status == 1 ||
-            (user?.business_profile?.status == 2 && (
-              <p className="colorGrayDark">
-                Expiration Date:{' '}
-                <span className="colorBlack fw-semibold">
-                  {user?.business_profile?.license?.expiration_date}
-                </span>
-              </p>
-            ))}
-        </div>
       </div>
 
-      {user?.business_profile?.status == 0 && (
-        <div className="noticeCard row mb-4">
-          <div className="col-12">
-            <PendingNoticeCard />
-          </div>
-        </div>
-      )}
-      {user?.business_profile?.status == 2 && (
-        <div className="noticeCard row mb-4">
-          <div className="col-12">
-            <RejectionNoticeCard
-              reason={user?.business_profile?.rejection_reason}
-            />
-          </div>
-        </div>
-      )}
-      {user?.business_profile?.status == 1 && (
-        <div className="noticeCard row mb-4">
-          <div className="col-12">
-            <ReminderNoticeCard reminder={user?.business_profile?.reminder} />
-          </div>
-        </div>
-      )}
-
       <div className="statCards row mb-4">
-        <div className="col-12 col-xl-6 mb-3 mb-xl-0">
-          {isStatsError ? (
-            <p className="text-danger">{statsError}</p>
+        <div className="col-12 col-md-6 col-xl-4 mb-3 mb-xl-0">
+          {isDashboardError ? (
+            <p className="text-danger">{dashboardError}</p>
           ) : (
             <StatCard
-              title="Total Earning"
-              value={statsData?.total_earnings || '0'}
-              icon={images.statsEarning}
-              loading={isStatsLoading}
+              title="Total Users"
+              value={dashboardData?.total_users || '0'}
+              icon={images.statsUsers}
+              loading={isDashboardLoading}
             />
           )}
         </div>
-        <div className="col-12 col-xl-6 mb-3 mb-xl-0">
-          {isStatsError ? (
-            <p className="text-danger">{statsError}</p>
+        {/* <div className="col-12 col-md-6 col-xl-4 mb-3 mb-xl-0">
+          {isDashboardError ? (
+            <p className="text-danger">{dashboardError}</p>
           ) : (
             <StatCard
               title="Total Orders"
-              value={statsData?.total_orders || '0'}
+              value={dashboardData?.total_orders || '0'}
               icon={images.statsOrders}
-              loading={isStatsLoading}
+              loading={isDashboardLoading}
             />
           )}
-        </div>
+        </div> */}
       </div>
 
       <div className="graphCards row mb-4">
         <div className="col-12">
-          <CustomCard title="Total Earning">
-            <div className="d-flex justify-content-end gap-3 mb-3">
+          <CustomCard title="Total Users">
+            {/* <div className="d-flex justify-content-end gap-3 mb-3">
               <CustomSelect
-                name="earningPeriod"
+                name="timePeriod"
                 options={timePeriods}
-                onChange={handleEarningPeriodChange}
-                value={selectedEarningPeriod}
+                onChange={handleTimePeriodChange}
+                value={selectedTimePeriod}
                 className="me-2"
               />
-            </div>
-            {isEarningLoading ? (
+            </div> */}
+            {isDashboardLoading ? (
               <div className="text-center py-4">
                 <LineSkeleton lines={6} />
               </div>
-            ) : isEarningError ? (
+            ) : isDashboardError ? (
               <div className="text-center py-4 text-danger">
-                {earningsError || 'Error loading data. Please try again.'}
+                {dashboardError || 'Error loading data. Please try again.'}
               </div>
             ) : (
-              <TotalEarningGraph
-                earningData={earningsData}
-                xAxisLabel={
-                  selectedEarningPeriod === 'yearly'
-                    ? 'Years'
-                    : selectedEarningPeriod === 'six_months'
-                    ? '6 Months'
-                    : `Months`
-                }
+              <TotalUsersGraph
+                usersData={dashboardData.monthly_users}
+                // xAxisLabel={
+                //   selectedTimePeriod === 'yearly'
+                //     ? 'Years'
+                //     : selectedTimePeriod === 'six_months'
+                //     ? '6 Months'
+                //     : `Months`
+                // }
+                xAxisLabel="Months"
               />
             )}
           </CustomCard>
         </div>
       </div>
 
-      <div className="graphCards row mb-4">
+      {/* <div className="graphCards row mb-4">
         <div className="col-12">
           <CustomCard title="Total Orders">
             <div className="d-flex justify-content-end gap-3 mb-3">
@@ -263,7 +154,7 @@ const Dashboard = () => {
             )}
           </CustomCard>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
