@@ -18,7 +18,6 @@ import GlobalSkeleton from './Components/SkeletonLoaders/GlobalSkeleton.jsx';
 //Auth
 import Login from './Pages/Auth/Login';
 import ForgetPassword from './Pages/Auth/ForgetPassword';
-import Registration from './Pages/Auth/Registration';
 
 //App
 import Dashboard from './Pages/App/Dashboard';
@@ -43,6 +42,7 @@ import ProductManagement from './Pages/App/ProductManagement';
 import AddProduct from './Pages/App/ProductManagement/AddProduct';
 import ProductDetails from './Pages/App/ProductManagement/ProductDetails';
 import EditProduct from './Pages/App/ProductManagement/EditProduct';
+import ProductStats from './Pages/App/ProductManagement/ProductStats';
 
 import PlayerStoriesManagement from './Pages/App/PlayerStoriesManagement';
 import PlayerStoryDetails from './Pages/App/PlayerStoriesManagement/PlayerStoryDetails';
@@ -108,7 +108,6 @@ function App() {
               <Route element={<AuthLayout />}>
                 <Route path="login" element={<Login />} />
                 <Route path="forget-password" element={<ForgetPassword />} />
-                <Route path="registration" element={<Registration />} />
                 {/* Add other public routes here */}
               </Route>
             </Route>
@@ -140,6 +139,7 @@ function App() {
                 <Route path="product-management/product-details/:id" element={<ProductDetails />} />
                 <Route path="product-management/add-product" element={<AddProduct />} />
                 <Route path="product-management/edit-product/:id" element={<EditProduct />} />
+                <Route path="product-management/product-stats/:id" element={<ProductStats />} />
 
                 <Route path="player-stories-management" element={<PlayerStoriesManagement />} />
                 <Route path="player-stories-management/player-story-details/:id" element={<PlayerStoryDetails />} />

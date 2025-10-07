@@ -22,6 +22,7 @@ import CustomButton from '../../../Components/CustomButton';
 import CustomTableActionDropdown from '../../../Components/CustomTableActionDropdown';
 
 import { LuEye, LuPencil } from 'react-icons/lu';
+import { IoIosStats } from 'react-icons/io';
 import { availabilityTextFormatter } from './Helpers';
 
 const headers = [
@@ -236,6 +237,15 @@ const ProductManagement = ({ filters, setFilters, pagination }) => {
                                     onClick: () => {
                                       navigate(
                                         `/product-management/edit-product/${products?.id}`
+                                      );
+                                    },
+                                  },
+                                  {
+                                    icon: <IoIosStats />,
+                                    label: 'Stats',
+                                    onClick: () => {
+                                      navigate(
+                                        `/product-management/product-stats/${products?.id}`
                                       );
                                     },
                                   },

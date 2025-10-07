@@ -1,83 +1,85 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 
-import { images } from '../../../assets/images';
+// import { images } from '../../../../assets/images';
 
-import PageTitle from '../../../Components/PageTitle';
-import CustomCard from '../../../Components/CustomCard';
-// import CustomSelect from '../../../Components/CustomSelect';
-import LineSkeleton from '../../../Components/SkeletonLoaders/LineSkeleton';
-
+import PageTitle from '../../../../Components/PageTitle';
+import CustomCard from '../../../../Components/CustomCard';
 import StatCard from './Components/StatCard';
+// import CustomSelect from '../../../Components/CustomSelect';
+import LineSkeleton from '../../../../Components/SkeletonLoaders/LineSkeleton';
 
-import TotalUsersGraph from './Components/TotalUsersGraph';
+import TotalClicksGraph from './Components/TotalClicksGraph';
 // import TotalOrdersGraph from './Components/TotalOrdersGraph';
 
-import getDashboard from './Services/getDashboard';
+import getProductStats from './Services/GetProductStats';
 
 import './style.css';
 
-const timePeriods = [
-  { value: 'yearly', label: 'Yearly' },
-  { value: 'six_months', label: '6 Months' },
-  { value: 'monthly', label: 'Monthly' },
-];
+// const timePeriods = [
+//   { value: 'yearly', label: 'Yearly' },
+//   { value: 'six_months', label: '6 Months' },
+//   { value: 'monthly', label: 'Monthly' },
+// ];
 
-const Dashboard = () => {
-  const [selectedTimePeriod, setSelectedTimePeriod] = useState(
-    timePeriods[0].value
-  );
+const ProductStats = () => {
+  const { id } = useParams();
+  //   const [selectedTimePeriod, setSelectedTimePeriod] = useState(
+  //     timePeriods[0].value
+  //   );
 
   const {
-    data: dashboardData,
-    isLoading: isDashboardLoading,
-    isError: isDashboardError,
-    error: dashboardError,
+    data: productStatsData,
+    isLoading: isProductStatsLoading,
+    isError: isProductStatsError,
+    error: productStatsError,
   } = useQuery({
-    queryKey: ['dashboard'],
-    queryFn: () => getDashboard(),
+    queryKey: ['productStats', id],
+    queryFn: () => getProductStats(id),
     staleTime: 1000 * 60 * 5,
     enabled: true,
     retry: 2,
   });
 
-  const handleTimePeriodChange = (e) => {
-    const newPeriod = e.target.value;
-    setSelectedTimePeriod(newPeriod);
-  };
-
-  console.log('dashboardData', dashboardData);
+  //   const handleTimePeriodChange = (e) => {
+  //     const newPeriod = e.target.value;
+  //     setSelectedTimePeriod(newPeriod);
+  //   };
 
   return (
     <div className="dashboardScreen">
       <div className="row mb-4">
         <div className="col-12 col-xl-6">
-          <PageTitle title="Dashboard" />
+          <PageTitle
+            title="View Product Stats"
+            backButton={true}
+            backLink={'/product-management'}
+          />
         </div>
       </div>
 
       <div className="statCards row mb-4">
         <div className="col-12 col-md-6 col-xl-4 mb-3 mb-xl-0">
-          {isDashboardError ? (
-            <p className="text-danger">{dashboardError}</p>
+          {isProductStatsError ? (
+            <p className="text-danger">{productStatsError}</p>
           ) : (
             <StatCard
-              title="Total Users"
-              value={dashboardData?.total_users || '0'}
-              icon={images.statsUsers}
-              loading={isDashboardLoading}
+              title="Total Clicks On Product"
+              value={productStatsData?.total_clicks || '0'}
+              loading={isProductStatsLoading}
             />
           )}
         </div>
         {/* <div className="col-12 col-md-6 col-xl-4 mb-3 mb-xl-0">
-          {isDashboardError ? (
-            <p className="text-danger">{dashboardError}</p>
+            {isProductStatsError ? (
+            <p className="text-danger">{productStatsError}</p>
           ) : (
             <StatCard
               title="Total Orders"
-              value={dashboardData?.total_orders || '0'}
+              value={productStatsData?.total_orders || '0'}
               icon={images.statsOrders}
-              loading={isDashboardLoading}
+              loading={isProductStatsLoading}
             />
           )}
         </div> */}
@@ -87,7 +89,7 @@ const Dashboard = () => {
         <div className="col-12">
           <CustomCard>
             <div className="graphTitle">
-              <h3 className="graphCardTitle mb-4">Total Users</h3>
+              <h3 className="graphCardTitle mb-4">Total Clicks On Product</h3>
             </div>
             {/* <div className="d-flex justify-content-end gap-3 mb-3">
               <CustomSelect
@@ -98,17 +100,17 @@ const Dashboard = () => {
                 className="me-2"
               />
             </div> */}
-            {isDashboardLoading ? (
+            {isProductStatsLoading ? (
               <div className="text-center py-4">
                 <LineSkeleton lines={6} />
               </div>
-            ) : isDashboardError ? (
+            ) : isProductStatsError ? (
               <div className="text-center py-4 text-danger">
-                {dashboardError || 'Error loading data. Please try again.'}
+                {productStatsError || 'Error loading data. Please try again.'}
               </div>
             ) : (
-              <TotalUsersGraph
-                usersData={dashboardData.monthly_users}
+              <TotalClicksGraph
+                clicksData={productStatsData.monthly_clicks || []}
                 // xAxisLabel={
                 //   selectedTimePeriod === 'yearly'
                 //     ? 'Years'
@@ -162,4 +164,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default ProductStats;
