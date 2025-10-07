@@ -85,8 +85,6 @@ const AddReleaseCalendar = () => {
       ...values,
     };
 
-    console.log(dataToSend, 'dataToSend');
-
     const formDataToSend = new FormData();
     formDataToSend.append('brand_id', dataToSend.brand_id);
     formDataToSend.append('calender_title', dataToSend.calender_title);

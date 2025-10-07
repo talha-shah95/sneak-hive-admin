@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Formik, Form } from 'formik';
@@ -76,12 +76,19 @@ const EditBrand = () => {
     retry: 2,
   });
 
+  useEffect(() => {
+    if (brandDetailsData) {
+      setBrandImage(brandDetailsData.image);
+    }
+  }, [brandDetailsData]);
+
   const handleBrandImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setBrandImage(file);
     }
   };
+
   const handleSubmit = (values) => {
     const dataToSend = {
       ...values,
@@ -208,7 +215,7 @@ const EditBrand = () => {
                                         id="file"
                                         name="file"
                                         placeholder="Upload Brand Logo"
-                                        value={values.file}
+                                        value={brandImage}
                                         onChange={handleBrandImageChange}
                                         onBlur={handleBlur}
                                       />

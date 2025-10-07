@@ -179,3 +179,29 @@
     width: 100%;
   }
 }
+
+.mainInput__value-container {
+  padding: 6px 12px 6px 12px !important;
+  margin-top: 2px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(100, 100, 100, 0.22);
+  border-radius: 5px;
+  color: var(--blackColor);
+  background-color: var(--whiteColor);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.2s;
+}
+
+.mainInput__control.mainInput__control--is-focused {
+  border-color: var(--primaryColor) !important;
+  box-shadow: none !important;
+}
+
+.mainInput__option.mainInput__option--is-focused {
+  background-color: var(--grayColorLight) !important;
+}

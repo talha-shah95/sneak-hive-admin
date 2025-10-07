@@ -3,3 +3,8 @@ export const statusList = [
   { value: 1, label: 'Active' },
   // { value: 2, label: 'Pending' },
 ];
+
+export const stockAvailabilityList = [
+  { value: 'out_of_stock', label: 'Out of Stock' },
+  { value: 'in_stock', label: 'In Stock' },
+];

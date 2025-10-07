@@ -129,26 +129,26 @@ const Navbar = ({ sideBarToggle, sideBarClass }) => {
             </CustomButton>
           )} */}
 
-          <Dropdown className="notiDropdown d-flex ">
+          {/* <Dropdown className="notiDropdown d-flex ">
             <Dropdown.Toggle
               variant="transparent"
               className="position-relative notButton  p-0"
             >
               <GoBell className="notification-bell-icon" size={28} />
-              {/* <span className="badge">
+              <span className="badge">
                 {notificationState.length > 9 ? "9+" : notificationState.length}
-              </span> */}
+              </span>
             </Dropdown.Toggle>
             <Dropdown.Menu className={`notiMenu`} align="end">
               <div className="notificationsBody">
                 <div className="notificationsBodyHeader py-2">
                   <p className="mb-0 fw-medium">Notifications</p>
                   <div className="newNotificationCount">
-                    {/* <p>{notificationState.length} new</p> */}
+                    <p>{notificationState.length} new</p>
                   </div>
                 </div>
                 <hr className="my-0" />
-                {/* {notificationState?.map((notification, index) => (
+                {notificationState?.map((notification, index) => (
                   <div
                     className={`singleNoti gap-2 ${
                       notification.read_at ? "read" : "unread"
@@ -159,7 +159,7 @@ const Navbar = ({ sideBarToggle, sideBarClass }) => {
                       <GoBell size={18} />
                     </div>
                   </div>
-                ))} */}
+                ))}
               </div>
               <div className="notiFooter">
                 <Dropdown.Toggle
@@ -170,7 +170,7 @@ const Navbar = ({ sideBarToggle, sideBarClass }) => {
                 </Dropdown.Toggle>
               </div>
             </Dropdown.Menu>
-          </Dropdown>
+          </Dropdown> */}
 
           {/* <CustomButton onClick={() => toggleTheme()}>
             Toggle Theme

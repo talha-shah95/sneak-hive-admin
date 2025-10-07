@@ -30,6 +30,37 @@ const CustomMultiImageUploader = ({
     }
   }, [value]);
 
+  const resolveImageSource = (image) => {
+    if (!image) {
+      return images.userPlaceholder;
+    }
+
+    if (image instanceof File) {
+      return URL.createObjectURL(image);
+    }
+
+    const candidateSources = [
+      image?.media_path,
+      image?.image,
+      image?.file,
+      image,
+    ];
+
+    for (const source of candidateSources) {
+      if (!source) continue;
+
+      if (source instanceof File) {
+        return URL.createObjectURL(source);
+      }
+
+      if (typeof source === 'string') {
+        return source;
+      }
+    }
+
+    return images.userPlaceholder;
+  };
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -62,32 +93,32 @@ const CustomMultiImageUploader = ({
       <div className="row mt-2">
         {uploadedImages &&
           uploadedImages.length > 0 &&
-          uploadedImages?.map((image, index) => (
-            <div className="col-4" key={index}>
-              <div className="position-relative rounded mb-2" key={index}>
-                <div className="squareImageWrapper">
-                  <img
-                    src={
-                      image
-                        ? image?.media_path || URL.createObjectURL(image)
-                        : images.userPlaceholder
-                    }
-                    alt={id}
-                    className={`uploadedImage squareImage ${imageClassName}`}
-                  />
-                </div>
-                <div
-                  className="removeImage position-absolute top-0 end-0"
-                  onClick={(e) => handleRemoveImage(e, index)}
-                >
-                  <RiCloseLine
-                    size={20}
-                    className="cursor-pointer bgRed colorWhite rounded-circle p-1"
-                  />
+          uploadedImages?.map((image, index) => {
+            const imageSrc = resolveImageSource(image);
+
+            return (
+              <div className="col-4" key={index}>
+                <div className="position-relative rounded mb-2" key={index}>
+                  <div className="squareImageWrapper">
+                    <img
+                      src={imageSrc}
+                      alt={id}
+                      className={`uploadedImage squareImage ${imageClassName}`}
+                    />
+                  </div>
+                  <div
+                    className="removeImage position-absolute top-0 end-0"
+                    onClick={(e) => handleRemoveImage(e, index)}
+                  >
+                    <RiCloseLine
+                      size={20}
+                      className="cursor-pointer bgRed colorWhite rounded-circle p-1"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         <div className="col-12">
           <label htmlFor={id} className="imageUploader">
             <div className="text-center">

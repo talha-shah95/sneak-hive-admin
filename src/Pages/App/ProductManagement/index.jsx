@@ -170,7 +170,13 @@ const ProductManagement = ({ filters, setFilters, pagination }) => {
                               {index + 1 < 10 ? `0${index + 1}` : index + 1}
                             </td>
                             <td>{products?.name || '-'}</td>
-                            <td>{products?.category?.name || '-'}</td>
+                            <td>
+                              {products?.categories?.length > 0
+                                ? products?.categories
+                                    .map((category) => category.name)
+                                    .join(', ')
+                                : '-'}
+                            </td>
                             <td>${products?.price || '-'}</td>
                             <td>{dateFormat(products?.created_at) || '-'}</td>
                             <td

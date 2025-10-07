@@ -40,6 +40,9 @@ import AddSubCategory from './Pages/App/SubCategoryManagement/AddSubCategory';
 import EditSubCategory from './Pages/App/SubCategoryManagement/EditSubCategory';
 
 import ProductManagement from './Pages/App/ProductManagement';
+import AddProduct from './Pages/App/ProductManagement/AddProduct';
+import ProductDetails from './Pages/App/ProductManagement/ProductDetails';
+import EditProduct from './Pages/App/ProductManagement/EditProduct';
 
 import PlayerStoriesManagement from './Pages/App/PlayerStoriesManagement';
 import PlayerStoryDetails from './Pages/App/PlayerStoriesManagement/PlayerStoryDetails';
@@ -134,9 +137,9 @@ function App() {
                 <Route path="sub-category-management/edit-sub-category/:id" element={<EditSubCategory />} />
 
                 <Route path="product-management" element={<ProductManagement />} />
-                {/* <Route path="product-management/product-details/:id" element={<ProductDetails />} /> */}
-                {/* <Route path="product-management/add-product" element={<AddProduct />} /> */}
-                {/* <Route path="product-management/edit-product/:id" element={<EditProduct />} /> */}
+                <Route path="product-management/product-details/:id" element={<ProductDetails />} />
+                <Route path="product-management/add-product" element={<AddProduct />} />
+                <Route path="product-management/edit-product/:id" element={<EditProduct />} />
 
                 <Route path="player-stories-management" element={<PlayerStoriesManagement />} />
                 <Route path="player-stories-management/player-story-details/:id" element={<PlayerStoryDetails />} />
