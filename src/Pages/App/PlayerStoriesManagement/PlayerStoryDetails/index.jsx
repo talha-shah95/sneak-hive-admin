@@ -20,7 +20,7 @@ const PlayerStoryDetails = () => {
     isError: isPlayerStoryDetailsError,
     error: playerStoryDetailsError,
   } = useQuery({
-    queryKey: ['playerStoryDetails', id],
+    queryKey: ['playerStories', 'playerStoryDetails', id],
     queryFn: () => GetPlayerStory(id),
     staleTime: 1000 * 60 * 5,
     enabled: true,
@@ -61,14 +61,14 @@ const PlayerStoryDetails = () => {
                             className={`text-capitalize ${
                               playerStoryDetailsData?.is_active == 1
                                 ? 'colorGreen'
-                                : playerStoryDetailsData?.is_active == 2
+                                : playerStoryDetailsData?.is_active == 0
                                 ? 'colorRed'
                                 : 'colorYellowDark'
                             }`}
                           >
                             {playerStoryDetailsData?.is_active == 1
                               ? 'Active'
-                              : playerStoryDetailsData?.is_active == 2
+                              : playerStoryDetailsData?.is_active == 0
                               ? 'Inactive'
                               : 'Pending'}
                           </p>

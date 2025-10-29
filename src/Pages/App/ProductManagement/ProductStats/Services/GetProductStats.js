@@ -1,6 +1,6 @@
 import axiosInstance from '../../../../../Config/axiosConfig';
 
-const GetProductStats = async (id) => {
+const GetProductStats = async ({ id }) => {
   try {
     const response = await axiosInstance.get(`/admin/products/${id}/stats`);
     return response.data.data;

@@ -66,7 +66,7 @@ const AddVideo = () => {
           message: response.message,
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries(['videos']);
+            queryClient.invalidateQueries({ queryKey: ['videos'] });
             closeModal();
             navigate('/unboxing-videos-management');
           },

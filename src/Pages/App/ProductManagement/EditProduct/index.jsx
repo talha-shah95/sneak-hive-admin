@@ -83,7 +83,7 @@ const AddProduct = () => {
     isError: isProductDetailsError,
     error: productDetailsError,
   } = useQuery({
-    queryKey: ['productDetails', id],
+    queryKey: ['products', 'productDetails', id],
     queryFn: () => GetProduct(id),
     staleTime: 1000 * 60 * 5,
     enabled: true,
@@ -137,7 +137,7 @@ const AddProduct = () => {
     //       message: response.message,
     //       continueText: 'Ok',
     //       onContinue: async () => {
-    //         queryClient.invalidateQueries(['productDetails']);
+    //         queryClient.invalidateQueries({ queryKey: ['productDetails'] });
     //         closeModal();
     //       },
     //     },
@@ -152,15 +152,30 @@ const AddProduct = () => {
     showSuccessToast: false,
 
     onSuccess: (response) => {
+      console.log(response);
       showModal({
         type: 'success',
         modalProps: {
           title: 'Successful',
           hideClose: true,
-          message: response.message,
+          message: response.message || 'Product updated successfully!',
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries(['productDetails', 'products']);
+            // This is the correct way to invalidate and refetch queries with react-query v4
+            // Invalidate the list of products
+            queryClient.invalidateQueries({
+              queryKey: [
+                'products',
+                {
+                  pagination: { page: 1, per_page: 10 },
+                  filters: { status: '', stock_status: '' },
+                },
+              ],
+            });
+            // Invalidate the details of the specific product
+            queryClient.invalidateQueries({
+              queryKey: ['products', 'productDetails', id],
+            });
             closeModal();
             navigate('/product-management');
           },
@@ -328,7 +343,7 @@ const AddProduct = () => {
                           productDetailsData?.affiliate_link || '',
                         availibility:
                           productDetailsData?.availibility || 'in_stock',
-                        is_active: productDetailsData?.is_active || 1,
+                        is_active: productDetailsData?.is_active == 1 ? 1 : 0,
                         images: productImages || [],
                       }}
                       validationSchema={editProductValidationSchema}

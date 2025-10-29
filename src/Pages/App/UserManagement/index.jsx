@@ -44,7 +44,7 @@ const UserManagement = ({ filters, setFilters, pagination }) => {
     isError: isUsersError,
     error: usersError,
   } = useQuery({
-    queryKey: ['users', pagination, filters],
+    queryKey: ['users', { pagination, filters }],
     queryFn: () => GetUsers(filters, pagination),
     staleTime: 1000 * 60 * 5, // 5 minutes
     enabled: true,
@@ -66,7 +66,9 @@ const UserManagement = ({ filters, setFilters, pagination }) => {
           },
         },
       });
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({
+        queryKey: ['users', { pagination, filters }],
+      });
     },
     onError: (error) => {
       showToast(error?.message || 'Status change failed', 'error');
@@ -74,11 +76,11 @@ const UserManagement = ({ filters, setFilters, pagination }) => {
   });
 
   const handleChangeStatus = (id, status) => {
-    const title = status == 1 ? 'Deactivate User?' : 'Activate User?';
+    const title = status == 1 ? 'Inactivate User?' : 'Activate User?';
     const message =
       status == 1
-        ? 'Are you sure you want to deactivate the User?'
-        : 'Are you sure you want to activate the User?';
+        ? 'Are you sure you want to inactive this User?'
+        : 'Are you sure you want to active this User?';
     showModal({
       type: 'question',
       modalProps: {
@@ -92,33 +94,6 @@ const UserManagement = ({ filters, setFilters, pagination }) => {
       },
     });
   };
-
-  // const mockData = [
-  //   {
-  //     id: 1,
-  //     first_name: 'John',
-  //     last_name: 'Doe',
-  //     email: 'john.doe@example.com',
-  //     created_at: '2021-01-01',
-  //     status: 1,
-  //   },
-  //   {
-  //     id: 2,
-  //     first_name: 'Jane',
-  //     last_name: 'Doe',
-  //     email: 'jane.doe@example.com',
-  //     created_at: '2021-01-02',
-  //     status: 0,
-  //   },
-  //   {
-  //     id: 3,
-  //     first_name: 'Jim',
-  //     last_name: 'Beam',
-  //     email: 'jim.beam@example.com',
-  //     created_at: '2021-01-03',
-  //     status: 1,
-  //   },
-  // ];
 
   return (
     <div className="userManagementScreen">
@@ -150,16 +125,17 @@ const UserManagement = ({ filters, setFilters, pagination }) => {
                         to: 'to',
                       },
                     ]}
-                    // selectOptions={[
-                    //   {
-                    //     title: 'status',
-                    //     options: [
-                    //       { value: '', label: 'All' },
-                    //       { value: '1', label: 'Active' },
-                    //       { value: '0', label: 'Inactive' },
-                    //     ],
-                    //   },
-                    // ]}
+                    selectOptions={[
+                      {
+                        heading: 'Status',
+                        title: 'status',
+                        options: [
+                          { value: '', label: 'All' },
+                          { value: '1', label: 'Active' },
+                          { value: '0', label: 'Inactive' },
+                        ],
+                      },
+                    ]}
                     pagination={usersData?.meta}
                   >
                     <CustomTable

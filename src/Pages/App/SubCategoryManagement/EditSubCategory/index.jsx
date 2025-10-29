@@ -61,7 +61,7 @@ const EditSubCategory = () => {
     isError: isSubCategoryDetailsError,
     error: subCategoryDetailsError,
   } = useQuery({
-    queryKey: ['subCategoryDetails', id],
+    queryKey: ['subCategories', 'subCategoryDetails', id],
     queryFn: () => GetSubCategory(id),
     retry: 2,
   });
@@ -78,7 +78,8 @@ const EditSubCategory = () => {
           message: response.message,
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries(['subCategories']);
+            queryClient.invalidateQueries({ queryKey: ['subCategories', 'subCategoryDetails', id] });
+            queryClient.invalidateQueries({ queryKey: ['subCategories'] });
             closeModal();
             navigate('/sub-category-management');
           },
@@ -183,7 +184,7 @@ const EditSubCategory = () => {
                                   <div className="col-12">
                                     <div className="mb-3">
                                       <CustomSelect
-                                        label="Show Sub Category in*"
+                                        label="Show Sub Category in"
                                         id="show"
                                         name="show"
                                         placeholder="Show Sub Category In"
@@ -205,7 +206,7 @@ const EditSubCategory = () => {
                                   <div className="col-12">
                                     <div className="mb-3">
                                       <CustomSelect
-                                        label="Parent Category*"
+                                        label="Parent Category"
                                         id="category_id "
                                         name="category_id"
                                         placeholder="Select Parent Category"

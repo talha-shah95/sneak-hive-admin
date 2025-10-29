@@ -41,7 +41,7 @@ const EditReleaseCalendar = () => {
     isError: isReleaseCalendarDetailsError,
     error: releaseCalendarDetailsError,
   } = useQuery({
-    queryKey: ['releaseCalendarDetails', id],
+    queryKey: ['releaseCalendar', 'releaseCalendarDetails', id],
     queryFn: () => GetReleaseCalendar(id),
     staleTime: 1000 * 60 * 5,
     enabled: true,
@@ -82,7 +82,12 @@ const EditReleaseCalendar = () => {
           message: response.message,
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries(['releaseCalendar']);
+            queryClient.invalidateQueries({
+              queryKey: ['releaseCalendar', 'releaseCalendarDetails', id],
+            });
+            queryClient.invalidateQueries({
+              queryKey: ['releaseCalendar'],
+            });
             closeModal();
             navigate('/release-calendar-management');
           },

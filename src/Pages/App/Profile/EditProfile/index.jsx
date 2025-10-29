@@ -36,7 +36,7 @@ const EditProfile = () => {
 
     onSuccess: (response) => {
       // Invalidate and refetch userProfile query
-      queryClient.invalidateQueries(['userProfile']);
+      queryClient.invalidateQueries({ queryKey: ['userProfile'] });
       setUser(response);
     },
     onError: (error) => {
@@ -215,7 +215,7 @@ const EditProfile = () => {
                             <div className="col-12">
                               <div className="d-flex align-items-center gap-3">
                                 <CustomButton
-                                  isLoading={isLoading}
+                                  loading={isLoading}
                                   text="Update"
                                   type="submit"
                                   disabled={isLoading}

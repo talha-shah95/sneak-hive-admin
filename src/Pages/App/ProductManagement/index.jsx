@@ -48,7 +48,7 @@ const ProductManagement = ({ filters, setFilters, pagination }) => {
     isError: isProductsError,
     error: productsError,
   } = useQuery({
-    queryKey: ['products', pagination, filters],
+    queryKey: ['products', { pagination, filters }],
     queryFn: () => GetProducts(filters, pagination),
     staleTime: 1000 * 60 * 5, // 5 minutes
     enabled: true,
@@ -56,7 +56,7 @@ const ProductManagement = ({ filters, setFilters, pagination }) => {
   });
 
   const { mutateAsync: changeStatusMutation } = useMutation({
-    mutationFn: (id) => ChangeProductStatus(id),
+    mutationFn: ({ id }) => ChangeProductStatus(id),
     onSuccess: ({ message }) => {
       showModal({
         type: 'success',
@@ -70,7 +70,7 @@ const ProductManagement = ({ filters, setFilters, pagination }) => {
           },
         },
       });
-      queryClient.invalidateQueries({ queryKey: ['products'] });
+      queryClient.invalidateQueries({ queryKey: ['products', { pagination, filters }] });
     },
     onError: (error) => {
       showToast(error?.message || 'Status change failed', 'error');
@@ -78,10 +78,10 @@ const ProductManagement = ({ filters, setFilters, pagination }) => {
   });
 
   const handleChangeStatus = (id, status) => {
-    const title = status == 1 ? 'Deactivate Product?' : 'Activate Product?';
+    const title = status == 1 ? 'Inactivate Product?' : 'Activate Product?';
     const message =
       status == 1
-        ? 'Are you sure you want to deactivate the Product?'
+        ? 'Are you sure you want to inactivate the Product?'
         : 'Are you sure you want to activate the Product?';
     showModal({
       type: 'question',
@@ -91,7 +91,7 @@ const ProductManagement = ({ filters, setFilters, pagination }) => {
         continueText: 'Yes',
         cancelText: 'No',
         onContinue: async () => {
-          await changeStatusMutation(id);
+          await changeStatusMutation({ id });
         },
       },
     });
@@ -135,16 +135,26 @@ const ProductManagement = ({ filters, setFilters, pagination }) => {
                         to: 'to',
                       },
                     ]}
-                    // selectOptions={[
-                    //   {
-                    //     title: 'status',
-                    //     options: [
-                    //       { value: '', label: 'All' },
-                    //       { value: '1', label: 'Active' },
-                    //       { value: '0', label: 'Inactive' },
-                    //     ],
-                    //   },
-                    // ]}
+                    selectOptions={[
+                      {
+                        heading: 'Status',
+                        title: 'status',
+                        options: [
+                          { value: '', label: 'All' },
+                          { value: '1', label: 'Active' },
+                          { value: '0', label: 'Inactive' },
+                        ],
+                      },
+                      {
+                        heading: 'Stock Status',
+                        title: 'stock_status',
+                        options: [
+                          { value: '', label: 'All' },
+                          { value: '1', label: 'In Stock' },
+                          { value: '0', label: 'Out of Stock' },
+                        ],
+                      },
+                    ]}
                     pagination={productsData?.meta}
                   >
                     <CustomTable

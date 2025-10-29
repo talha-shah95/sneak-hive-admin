@@ -14,7 +14,7 @@
 
 .uploadedImage {
   width: auto;
-  height: 180px;
+  height: 150px;
   object-fit: contain;
   margin: 0 auto;
 }

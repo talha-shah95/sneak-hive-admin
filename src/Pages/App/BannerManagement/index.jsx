@@ -43,7 +43,7 @@ const BannerManagement = ({ filters, setFilters, pagination }) => {
     isError: isBannersError,
     error: bannersError,
   } = useQuery({
-    queryKey: ['banners', pagination, filters],
+    queryKey: ['banners', { pagination, filters }],
     queryFn: () => GetBanners(filters, pagination),
     staleTime: 1000 * 60 * 5, // 5 minutes
     enabled: true,
@@ -65,7 +65,9 @@ const BannerManagement = ({ filters, setFilters, pagination }) => {
           },
         },
       });
-      queryClient.invalidateQueries({ queryKey: ['banners', 'bannerDetails'] });
+      queryClient.invalidateQueries({
+        queryKey: ['banners', { pagination, filters }],
+      });
     },
     onError: (error) => {
       showToast(error?.message || 'Status change failed', 'error');
@@ -73,10 +75,10 @@ const BannerManagement = ({ filters, setFilters, pagination }) => {
   });
 
   const handleChangeStatus = (id, status) => {
-    const title = status == 1 ? 'Deactivate Banner?' : 'Activate Banner?';
+    const title = status == 1 ? 'Inactivate Banner?' : 'Activate Banner?';
     const message =
       status == 1
-        ? 'Are you sure you want to deactivate the Banner?'
+        ? 'Are you sure you want to inactivate the Banner?'
         : 'Are you sure you want to activate the Banner?';
     showModal({
       type: 'question',

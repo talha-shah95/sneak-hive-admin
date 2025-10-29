@@ -65,9 +65,7 @@ const ReleaseCalendarManagement = ({ filters, setFilters, pagination }) => {
           },
         },
       });
-      queryClient.invalidateQueries({
-        queryKey: ['releaseCalendar', 'releaseCalendarDetails'],
-      });
+      queryClient.invalidateQueries({ queryKey: ['releaseCalendar', 'releaseCalendarDetails'] });
     },
     onError: (error) => {
       showToast(error?.message || 'Status change failed', 'error');
@@ -77,11 +75,11 @@ const ReleaseCalendarManagement = ({ filters, setFilters, pagination }) => {
   const handleChangeStatus = (id, status) => {
     const title =
       status == 1
-        ? 'Deactivate Release Calendar?'
+        ? 'Inactivate Release Calendar?'
         : 'Activate Release Calendar?';
     const message =
       status == 1
-        ? 'Are you sure you want to deactivate the Release Calendar?'
+        ? 'Are you sure you want to inactivate the Release Calendar?'
         : 'Are you sure you want to activate the Release Calendar?';
     showModal({
       type: 'question',

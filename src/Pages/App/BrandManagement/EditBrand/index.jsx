@@ -51,7 +51,13 @@ const EditBrand = () => {
           message: response.message,
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries(['brands', 'brandDetails']);
+            queryClient.invalidateQueries({
+              queryKey: ['brands', 'brandDetails', id],
+            });
+            queryClient.invalidateQueries({
+              queryKey: ['brands'],
+            });
+
             closeModal();
             navigate('/brand-management');
           },
@@ -69,7 +75,7 @@ const EditBrand = () => {
     isError: isBrandDetailsError,
     error: brandDetailsError,
   } = useQuery({
-    queryKey: ['brandDetails', id],
+    queryKey: ['brands', 'brandDetails', id],
     queryFn: () => GetBrand(id),
     staleTime: 1000 * 60 * 5,
     enabled: true,

@@ -44,7 +44,7 @@ const EditVideo = () => {
     isError: isVideoDetailsError,
     error: videoDetailsError,
   } = useQuery({
-    queryKey: ['videoDetails', id],
+    queryKey: ['videos', 'videoDetails', id],
     queryFn: () => GetVideo(id),
     staleTime: 1000 * 60 * 5,
     enabled: true,
@@ -85,7 +85,8 @@ const EditVideo = () => {
           message: response.message,
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries(['videos', 'videoDetails']);
+            queryClient.invalidateQueries({ queryKey: ['videos', 'videoDetails', id] });
+            queryClient.invalidateQueries({ queryKey: ['unboxingVideos'] });
             closeModal();
             navigate('/unboxing-videos-management');
           },

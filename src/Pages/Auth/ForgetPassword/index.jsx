@@ -17,11 +17,12 @@ const ForgetPassword = () => {
   const { showModal, closeModal } = useModalStore();
 
   const navigate = useNavigate();
-  const [step, setStep] = useState('step3');
+  const [step, setStep] = useState('step1');
   const [email, setEmail] = useState('');
 
   const { mutate: sendEmailMutation, isLoading: isEmailLoading } = useForm({
     successMessage: 'Verification code sent to email successfully!',
+    
     onSuccess: () => {
       setStep('step2');
     },
@@ -72,7 +73,7 @@ const ForgetPassword = () => {
       service: VerifyCode,
       data: {
         email,
-        token: values.code,
+        code: values.code,
       },
     });
   };
@@ -83,7 +84,7 @@ const ForgetPassword = () => {
       data: {
         email,
         password: values.password,
-        password_confirmation: values.password,
+        confirm_password: values.password,
       },
     });
   };

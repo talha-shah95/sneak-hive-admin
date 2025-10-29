@@ -2,7 +2,7 @@ import axiosInstance from '../../../../Config/axiosConfig';
 
 export const VerifyCode = async (data) => {
   try {
-    const response = await axiosInstance.post('/verify/token', data, {
+    const response = await axiosInstance.post('/verify-code', data, {
       requiresAuth: false,
     });
     return response.data;

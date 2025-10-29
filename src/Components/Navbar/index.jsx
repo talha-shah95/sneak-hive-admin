@@ -205,7 +205,7 @@ const Navbar = ({ sideBarToggle, sideBarClass }) => {
                 {/* <h6>{getInitials(user?.full_name)}</h6> */}
               </div>
               <p className="colorSecondary text14 m-0 text-capitalize">
-                {user?.full_name}
+                {user?.first_name} {user?.last_name}
               </p>
               <RxCaretDown />
             </div>

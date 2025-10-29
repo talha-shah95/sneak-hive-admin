@@ -66,7 +66,9 @@ const AddBlog = () => {
           message: response.message,
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries(['blogs']);
+            queryClient.invalidateQueries({
+              queryKey: ['blogs', 'blogDetails'],
+            });
             closeModal();
             navigate('/blogs-management');
           },

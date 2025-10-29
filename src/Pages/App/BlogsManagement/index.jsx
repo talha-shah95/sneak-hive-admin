@@ -65,9 +65,7 @@ const BlogsManagement = ({ filters, setFilters, pagination }) => {
           },
         },
       });
-      queryClient.invalidateQueries({
-        queryKey: ['blogs', 'blogDetails'],
-      });
+      queryClient.invalidateQueries({ queryKey: ['blogs', 'blogDetails'] });
     },
     onError: (error) => {
       showToast(error?.message || 'Status change failed', 'error');
@@ -75,10 +73,10 @@ const BlogsManagement = ({ filters, setFilters, pagination }) => {
   });
 
   const handleChangeStatus = (id, status) => {
-    const title = status == 1 ? 'Deactivate Blog?' : 'Activate Blog?';
+    const title = status == 1 ? 'Inactivate Blog?' : 'Activate Blog?';
     const message =
       status == 1
-        ? 'Are you sure you want to deactivate the Blog?'
+        ? 'Are you sure you want to inactivate the Blog?'
         : 'Are you sure you want to activate the Blog?';
     showModal({
       type: 'question',

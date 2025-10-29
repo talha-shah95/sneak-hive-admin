@@ -66,9 +66,8 @@ const UnboxingVideosManagement = ({ filters, setFilters, pagination }) => {
           },
         },
       });
-      queryClient.invalidateQueries({
-        queryKey: ['videos', 'videoDetails'],
-      });
+      queryClient.invalidateQueries({ queryKey: ['videos', 'videoDetails'] });
+      queryClient.invalidateQueries({ queryKey: ['unboxingVideos'] });
     },
     onError: (error) => {
       showToast(error?.message || 'Status change failed', 'error');
@@ -76,10 +75,10 @@ const UnboxingVideosManagement = ({ filters, setFilters, pagination }) => {
   });
 
   const handleChangeStatus = (id, status) => {
-    const title = status == 1 ? 'Deactivate Video?' : 'Activate Video?';
+    const title = status == 1 ? 'Inactivate Video?' : 'Activate Video?';
     const message =
       status == 1
-        ? 'Are you sure you want to deactivate the Video?'
+        ? 'Are you sure you want to inactivate the Video?'
         : 'Are you sure you want to activate the Video?';
     showModal({
       type: 'question',

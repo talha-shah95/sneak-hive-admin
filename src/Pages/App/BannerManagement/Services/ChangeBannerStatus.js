@@ -9,7 +9,10 @@ const ChangeBannerStatus = async (id) => {
         requiresAuth: true,
       }
     );
-    const message = response?.data?.message;
+    const message =
+      response.data.data.is_active == false
+        ? 'Banner has been inactivated successfully!'
+        : 'Banner has been activated successfully!';
     return {
       message,
     };

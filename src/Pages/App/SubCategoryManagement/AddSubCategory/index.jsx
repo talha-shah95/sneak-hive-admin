@@ -60,10 +60,19 @@ const AddSubCategory = () => {
         modalProps: {
           title: 'Successful',
           hideClose: true,
-          message: response.message,
+          message:
+            response.message || 'Sub Category has been added successfully',
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries(['subCategories']);
+            queryClient.invalidateQueries({
+              queryKey: [
+                'subCategories',
+                {
+                  pagination: { page: 1, per_page: 10 },
+                  filters: { status: '' },
+                },
+              ],
+            });
             closeModal();
             navigate('/sub-category-management');
           },
@@ -121,7 +130,7 @@ const AddSubCategory = () => {
                   initialValues={{
                     name: '',
                     show: categoryShowIn[0]?.value,
-                    category_id: '',
+                    category_id: categoryList[0]?.value,
                     is_active: 1,
                   }}
                   validationSchema={addSubCategoryValidationSchema}
@@ -160,7 +169,7 @@ const AddSubCategory = () => {
                               <div className="col-12">
                                 <div className="mb-3">
                                   <CustomSelect
-                                    label="Show Sub Category in*"
+                                    label="Show Sub Category in"
                                     id="type "
                                     name="type"
                                     placeholder="Show Sub Category In"
@@ -182,7 +191,7 @@ const AddSubCategory = () => {
                               <div className="col-12">
                                 <div className="mb-3">
                                   <CustomSelect
-                                    label="Parent Category*"
+                                    label="Parent Category"
                                     id="category_id "
                                     name="category_id"
                                     placeholder="Select Parent Category"

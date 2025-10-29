@@ -43,7 +43,7 @@ const SubCategoryManagement = ({ filters, setFilters, pagination }) => {
     isError: isSubCategoriesError,
     error: subCategoriesError,
   } = useQuery({
-    queryKey: ['subCategories', pagination, filters],
+    queryKey: ['subCategories', { pagination, filters }],
     queryFn: () => GetSubCategories(filters, pagination),
     staleTime: 1000 * 60 * 5, // 5 minutes
     enabled: true,
@@ -51,7 +51,7 @@ const SubCategoryManagement = ({ filters, setFilters, pagination }) => {
   });
 
   const { mutateAsync: changeStatusMutation } = useMutation({
-    mutationFn: (id) => ChangeSubCategoryStatus(id),
+    mutationFn: ({ id }) => ChangeSubCategoryStatus(id),
     onSuccess: ({ message }) => {
       showModal({
         type: 'success',
@@ -65,7 +65,9 @@ const SubCategoryManagement = ({ filters, setFilters, pagination }) => {
           },
         },
       });
-      queryClient.invalidateQueries({ queryKey: ['subCategories'] });
+      queryClient.invalidateQueries({
+        queryKey: ['subCategories', { pagination, filters }],
+      });
     },
     onError: (error) => {
       showToast(error?.message || 'Status change failed', 'error');
@@ -74,10 +76,10 @@ const SubCategoryManagement = ({ filters, setFilters, pagination }) => {
 
   const handleChangeStatus = (id, status) => {
     const title =
-      status == 1 ? 'Deactivate Sub Category?' : 'Activate Sub Category?';
+      status == 1 ? 'Inactivate Sub Category?' : 'Activate Sub Category?';
     const message =
       status == 1
-        ? 'Are you sure you want to deactivate the Sub Category?'
+        ? 'Are you sure you want to inactivate the Sub Category?'
         : 'Are you sure you want to activate the Sub Category?';
     showModal({
       type: 'question',
@@ -87,7 +89,7 @@ const SubCategoryManagement = ({ filters, setFilters, pagination }) => {
         continueText: 'Yes',
         cancelText: 'No',
         onContinue: async () => {
-          await changeStatusMutation(id);
+          await changeStatusMutation({ id });
         },
       },
     });
@@ -131,16 +133,17 @@ const SubCategoryManagement = ({ filters, setFilters, pagination }) => {
                         to: 'to',
                       },
                     ]}
-                    // selectOptions={[
-                    //   {
-                    //     title: 'status',
-                    //     options: [
-                    //       { value: '', label: 'All' },
-                    //       { value: '1', label: 'Active' },
-                    //       { value: '0', label: 'Inactive' },
-                    //     ],
-                    //   },
-                    // ]}
+                    selectOptions={[
+                      {
+                        heading: 'Status',
+                        title: 'status',
+                        options: [
+                          { value: '', label: 'All' },
+                          { value: '1', label: 'Active' },
+                          { value: '0', label: 'Inactive' },
+                        ],
+                      },
+                    ]}
                     pagination={subCategoriesData?.meta}
                   >
                     <CustomTable

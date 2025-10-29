@@ -21,7 +21,7 @@ const CategoryDetails = () => {
     isError: isCategoryDetailsError,
     error: categoryDetailsError,
   } = useQuery({
-    queryKey: ['categoryDetails', id],
+    queryKey: ['categories', 'categoryDetails', id],
     queryFn: () => GetCategory(id),
     staleTime: 1000 * 60 * 5,
     enabled: true,
@@ -64,14 +64,14 @@ const CategoryDetails = () => {
                             className={`text-capitalize ${
                               categoryDetailsData?.is_active == 1
                                 ? 'colorGreen'
-                                : categoryDetailsData?.is_active == 2
+                                : categoryDetailsData?.is_active == 0
                                 ? 'colorRed'
                                 : 'colorYellowDark'
                             }`}
                           >
                             {categoryDetailsData?.is_active == 1
                               ? 'Active'
-                              : categoryDetailsData?.is_active == 2
+                              : categoryDetailsData?.is_active == 0
                               ? 'Inactive'
                               : 'Pending'}
                           </p>

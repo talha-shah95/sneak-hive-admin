@@ -11,8 +11,8 @@ const ChangeUserStatus = async (id) => {
     );
     const message =
       response.data.data.is_active == 1
-        ? 'User has been activated successfully!'
-        : 'User has been inactivated successfully!';
+        ? 'User has been Activated successfully!'
+        : 'User has been Inactivated successfully!';
     return {
       message,
     };

@@ -22,7 +22,7 @@ const ProductDetails = () => {
   const queryClient = useQueryClient();
 
   const { mutateAsync: changeStatusMutation } = useMutation({
-    mutationFn: (id) => ChangeProductStatus(id),
+    mutationFn: ({ id }) => ChangeProductStatus(id),
     onSuccess: ({ message }) => {
       showModal({
         type: 'success',
@@ -37,9 +37,8 @@ const ProductDetails = () => {
           },
         },
       });
-      queryClient.invalidateQueries({
-        queryKey: ['productDetails', 'products'],
-      });
+      queryClient.invalidateQueries({ queryKey: ['products', 'productDetails', id] });
+      queryClient.invalidateQueries({ queryKey: ['products'] });
     },
     onError: (error) => {
       showToast(error?.message || 'Status change failed', 'error');
@@ -52,7 +51,7 @@ const ProductDetails = () => {
     isError: isProductDetailsError,
     error: productDetailsError,
   } = useQuery({
-    queryKey: ['productDetails', id],
+    queryKey: ['products', 'productDetails', id],
     queryFn: () => GetProduct(id),
     staleTime: 1000 * 60 * 5,
     enabled: true,
@@ -73,7 +72,7 @@ const ProductDetails = () => {
         continueText: 'Yes',
         cancelText: 'No',
         onContinue: async () => {
-          await changeStatusMutation(id);
+          await changeStatusMutation({ id });
         },
       },
     });

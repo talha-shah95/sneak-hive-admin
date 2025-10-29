@@ -36,10 +36,10 @@ const AddCategory = () => {
         modalProps: {
           title: 'Successful',
           hideClose: true,
-          message: response.message,
+          message: response.message || 'Category has been added successfully',
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries(['categories']);
+            queryClient.invalidateQueries({ queryKey: ['categories'] });
             closeModal();
             navigate('/category-management');
           },
@@ -132,7 +132,7 @@ const AddCategory = () => {
                               <div className="col-12">
                                 <div className="mb-3">
                                   <CustomSelect
-                                    label="Show Category in*"
+                                    label="Show Category in"
                                     id="type "
                                     name="type"
                                     placeholder="Show Category In"

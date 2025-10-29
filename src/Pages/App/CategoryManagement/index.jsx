@@ -73,10 +73,10 @@ const CategoryManagement = ({ filters, setFilters, pagination }) => {
   });
 
   const handleChangeStatus = (id, status) => {
-    const title = status == 1 ? 'Deactivate Category?' : 'Activate Category?';
+    const title = status == 1 ? 'Inactivate Category?' : 'Activate Category?';
     const message =
       status == 1
-        ? 'Are you sure you want to deactivate the Category?'
+        ? 'Are you sure you want to inactivate the Category?'
         : 'Are you sure you want to activate the Category?';
     showModal({
       type: 'question',
@@ -130,16 +130,17 @@ const CategoryManagement = ({ filters, setFilters, pagination }) => {
                         to: 'to',
                       },
                     ]}
-                    // selectOptions={[
-                    //   {
-                    //     title: 'status',
-                    //     options: [
-                    //       { value: '', label: 'All' },
-                    //       { value: '1', label: 'Active' },
-                    //       { value: '0', label: 'Inactive' },
-                    //     ],
-                    //   },
-                    // ]}
+                    selectOptions={[
+                      {
+                        heading: 'Status',
+                        title: 'status',
+                        options: [
+                          { value: '', label: 'All' },
+                          { value: '1', label: 'Active' },
+                          { value: '0', label: 'Inactive' },
+                        ],
+                      },
+                    ]}
                     pagination={categoriesData?.meta}
                   >
                     <CustomTable

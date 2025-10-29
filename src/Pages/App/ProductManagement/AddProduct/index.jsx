@@ -84,7 +84,7 @@ const AddProduct = () => {
           message: response.message,
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries(['categories']);
+            queryClient.invalidateQueries({ queryKey: ['categories'] });
             closeModal();
             navigate('/product-management');
           },
@@ -132,6 +132,7 @@ const AddProduct = () => {
   }, [brandData]);
 
   const handleSubmit = (values) => {
+    console.log(values, 'values');
     const dataToSend = {
       ...values,
       category_ids: selectedCategories,
@@ -212,11 +213,11 @@ const AddProduct = () => {
                     affiliate_link: '',
                     availibility: 'in_stock',
                     is_active: 1,
-                    image: '',
+                    images: '',
                   }}
                   validationSchema={addProductValidationSchema}
                   onSubmit={handleSubmit}
-                  enableReinitialize={true}
+                  // enableReinitialize={true}
                 >
                   {({
                     values,

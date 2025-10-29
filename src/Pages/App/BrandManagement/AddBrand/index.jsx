@@ -48,7 +48,7 @@ const AddBrand = () => {
           message: response.message,
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries(['brands', 'brandDetails']);
+            queryClient.invalidateQueries({ queryKey: ['brands', 'brandDetails'] });
             closeModal();
             navigate('/brand-management');
           },

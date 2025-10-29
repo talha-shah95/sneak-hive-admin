@@ -20,7 +20,7 @@ const VideoDetails = () => {
     isError: isVideoDetailsError,
     error: videoDetailsError,
   } = useQuery({
-    queryKey: ['videoDetails', id],
+    queryKey: ['videos', 'videoDetails', id],
     queryFn: () => GetVideo(id),
     staleTime: 1000 * 60 * 5,
     enabled: true,

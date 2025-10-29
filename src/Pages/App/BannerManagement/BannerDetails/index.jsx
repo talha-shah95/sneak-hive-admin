@@ -21,7 +21,7 @@ const BannerDetails = () => {
     isError: isBannerDetailsError,
     error: bannerDetailsError,
   } = useQuery({
-    queryKey: ['bannerDetails', id],
+    queryKey: ['banners', 'bannerDetails', id],
     queryFn: () => GetBanner(id),
     staleTime: 1000 * 60 * 5,
     enabled: true,

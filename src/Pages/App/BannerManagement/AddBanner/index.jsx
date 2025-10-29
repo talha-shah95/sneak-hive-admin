@@ -34,11 +34,19 @@ const AddBanner = () => {
         type: 'success',
         modalProps: {
           title: 'Successful',
+          message: response.message || 'Banner has been added successfully',
           hideClose: true,
-          message: response.message,
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries(['banners', 'bannerDetails']);
+            queryClient.invalidateQueries({
+              queryKey: [
+                'banners',
+                {
+                  pagination: { page: 1, per_page: 10 },
+                  filters: { status: '' },
+                },
+              ],
+            });
             closeModal();
             navigate('/banner-management');
           },

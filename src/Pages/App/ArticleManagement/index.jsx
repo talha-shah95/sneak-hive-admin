@@ -66,9 +66,7 @@ const ArticleManagement = ({ filters, setFilters, pagination }) => {
           },
         },
       });
-      queryClient.invalidateQueries({
-        queryKey: ['articles', 'articleDetails'],
-      });
+      queryClient.invalidateQueries({ queryKey: ['articles'] });
     },
     onError: (error) => {
       showToast(error?.message || 'Status change failed', 'error');
@@ -76,10 +74,10 @@ const ArticleManagement = ({ filters, setFilters, pagination }) => {
   });
 
   const handleChangeStatus = (id, status) => {
-    const title = status == 1 ? 'Deactivate Article?' : 'Activate Article?';
+    const title = status == 1 ? 'Inactivate Article?' : 'Activate Article?';
     const message =
       status == 1
-        ? 'Are you sure you want to deactivate the Article?'
+        ? 'Are you sure you want to inactive the Article?'
         : 'Are you sure you want to activate the Article?';
     showModal({
       type: 'question',

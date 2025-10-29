@@ -24,7 +24,7 @@ const BlogDetails = () => {
     isError: isBlogDetailsError,
     error: blogDetailsError,
   } = useQuery({
-    queryKey: ['blogDetails', id],
+    queryKey: ['blogs', 'blogDetails', id],
     queryFn: () => GetBlog(id),
     staleTime: 1000 * 60 * 5,
     enabled: true,

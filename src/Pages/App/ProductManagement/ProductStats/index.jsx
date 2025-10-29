@@ -35,8 +35,8 @@ const ProductStats = () => {
     isError: isProductStatsError,
     error: productStatsError,
   } = useQuery({
-    queryKey: ['productStats', id],
-    queryFn: () => getProductStats(id),
+    queryKey: ['productStats', { id }],
+    queryFn: () => getProductStats({ id }),
     staleTime: 1000 * 60 * 5,
     enabled: true,
     retry: 2,

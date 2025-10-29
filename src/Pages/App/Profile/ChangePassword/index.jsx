@@ -26,24 +26,21 @@ const ChangePasswordPage = () => {
   const navigate = useNavigate();
   const { mutate, isLoading } = useForm({
     showSuccessToast: false,
-    onSuccess: (response) => {
+    onSuccess: () => {
       showModal({
         type: 'success',
         modalProps: {
           title: 'Successful',
           hideClose: true,
-          message:
-            response.message || 'Your password has been Updated successfully.',
+          message: 'Your password has been updated successfully.',
           continueText: 'Ok',
           onContinue: () => {
             closeModal();
+            navigate('/profile');
           },
         },
       });
-      queryClient.invalidateQueries({
-        queryKey: ['userProfile'],
-      });
-      navigate('/profile');
+      queryClient.invalidateQueries({ queryKey: ['userProfile'] });
     },
     onError: (error) => {
       toast.error(error.message);
@@ -63,7 +60,7 @@ const ChangePasswordPage = () => {
       <div className="row mb-4">
         <div className="col-12 col-xl-6">
           <PageTitle
-            title="Change Password"
+            title="Update Password"
             backButton={true}
             backButtonLink={'/profile'}
           />
@@ -155,8 +152,8 @@ const ChangePasswordPage = () => {
                     <div className="col-12">
                       <div className="d-flex align-items-center gap-3">
                         <CustomButton
-                          isLoading={isLoading}
-                          text="Change Password"
+                          loading={isLoading}
+                          text="Update Password"
                           type="submit"
                           disabled={isLoading}
                         />

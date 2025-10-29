@@ -43,7 +43,7 @@ const BrandManagement = ({ filters, setFilters, pagination }) => {
     isError: isBrandsError,
     error: brandsError,
   } = useQuery({
-    queryKey: ['brands', pagination, filters],
+    queryKey: ['brands', { pagination, filters }],
     queryFn: () => GetBrands(filters, pagination),
     staleTime: 1000 * 60 * 5, // 5 minutes
     enabled: true,
@@ -51,7 +51,7 @@ const BrandManagement = ({ filters, setFilters, pagination }) => {
   });
 
   const { mutateAsync: changeStatusMutation } = useMutation({
-    mutationFn: (id) => ChangeBrandStatus(id),
+    mutationFn: ({ id }) => ChangeBrandStatus(id),
     onSuccess: ({ message }) => {
       showModal({
         type: 'success',
@@ -65,7 +65,7 @@ const BrandManagement = ({ filters, setFilters, pagination }) => {
           },
         },
       });
-      queryClient.invalidateQueries({ queryKey: ['brands', 'brandDetails'] });
+      queryClient.invalidateQueries({ queryKey: ['brands'] });
     },
     onError: (error) => {
       showToast(error?.message || 'Status change failed', 'error');
@@ -73,10 +73,10 @@ const BrandManagement = ({ filters, setFilters, pagination }) => {
   });
 
   const handleChangeStatus = (id, status) => {
-    const title = status == 1 ? 'Deactivate Brand?' : 'Activate Brand?';
+    const title = status == 1 ? 'Inactivate Brand?' : 'Activate Brand?';
     const message =
       status == 1
-        ? 'Are you sure you want to deactivate the Brand?'
+        ? 'Are you sure you want to inactivate the Brand?'
         : 'Are you sure you want to activate the Brand?';
     showModal({
       type: 'question',
@@ -86,7 +86,7 @@ const BrandManagement = ({ filters, setFilters, pagination }) => {
         continueText: 'Yes',
         cancelText: 'No',
         onContinue: async () => {
-          await changeStatusMutation(id);
+          await changeStatusMutation({ id });
         },
       },
     });

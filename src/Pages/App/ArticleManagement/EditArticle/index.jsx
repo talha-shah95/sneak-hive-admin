@@ -61,7 +61,7 @@ const EditArticle = () => {
     isError: isArticleDetailsError,
     error: articleDetailsError,
   } = useQuery({
-    queryKey: ['articleDetails', id],
+    queryKey: ['articles', 'articleDetails', id],
     queryFn: () => GetArticle(id),
     retry: 2,
   });
@@ -78,7 +78,8 @@ const EditArticle = () => {
           message: response.message,
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries(['articles']);
+            queryClient.invalidateQueries({ queryKey: ['articles', 'articleDetails', id] });
+            queryClient.invalidateQueries({ queryKey: ['articles'] });
             closeModal();
             navigate('/article-management');
           },

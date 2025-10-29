@@ -65,7 +65,9 @@ const AddArticle = () => {
           message: response.message,
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries(['articles']);
+            queryClient.invalidateQueries({
+              queryKey: ['articles', 'articleDetails'],
+            });
             closeModal();
             navigate('/article-management');
           },

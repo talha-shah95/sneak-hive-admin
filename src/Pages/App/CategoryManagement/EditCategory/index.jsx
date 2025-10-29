@@ -37,7 +37,7 @@ const EditCategory = () => {
     isError: isCategoryDetailsError,
     error: categoryDetailsError,
   } = useQuery({
-    queryKey: ['categoryDetails', id],
+    queryKey: ['categories', 'categoryDetails', id],
     queryFn: () => GetCategory(id),
     staleTime: 1000 * 60 * 5,
     enabled: true,
@@ -52,11 +52,14 @@ const EditCategory = () => {
         type: 'success',
         modalProps: {
           title: 'Successful',
+          message: response.message || 'Category has been updated successfully',
           hideClose: true,
-          message: response.message,
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries(['categories']);
+            queryClient.invalidateQueries({
+              queryKey: ['categories', 'categoryDetails', id],
+            });
+            queryClient.invalidateQueries({ queryKey: ['categories'] });
             closeModal();
             navigate('/category-management');
           },
@@ -77,7 +80,7 @@ const EditCategory = () => {
       type: 'question',
       modalProps: {
         title: 'Edit Category?',
-        message: 'Are you sure you want to edit the Category?',
+        message: 'Are you sure you want to update the Category?',
         continueText: 'Yes',
         cancelText: 'No',
         onContinue: async () => {
@@ -156,7 +159,7 @@ const EditCategory = () => {
                                 <div className="col-12">
                                   <div className="mb-3">
                                     <CustomSelect
-                                      label="Show Category in*"
+                                      label="Show Category in"
                                       id="show"
                                       name="show"
                                       placeholder="Show Category In"

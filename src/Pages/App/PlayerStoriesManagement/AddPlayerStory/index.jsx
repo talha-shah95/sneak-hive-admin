@@ -62,10 +62,19 @@ const AddPlayerStory = () => {
         modalProps: {
           title: 'Successful',
           hideClose: true,
-          message: response.message,
+          message:
+            response.message || 'Player Story has been added successfully',
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries(['playerStories']);
+            queryClient.invalidateQueries({
+              queryKey: [
+                'playerStories',
+                {
+                  pagination: { page: 1, per_page: 10 },
+                  filters: { status: '' },
+                },
+              ],
+            });
             closeModal();
             navigate('/player-stories-management');
           },
@@ -132,7 +141,8 @@ const AddPlayerStory = () => {
                 <Formik
                   initialValues={{
                     story_title: '',
-                    category_id: selectedCategory || categoryList[0]?.value || '',
+                    category_id:
+                      selectedCategory || categoryList[0]?.value || '',
                     player_name: '',
                     published_by: '',
                     story_details: '',
@@ -178,7 +188,7 @@ const AddPlayerStory = () => {
                               <div className="col-12">
                                 <div className="mb-3">
                                   <CustomSelect
-                                    label="Category"
+                                    label="Select Category"
                                     id="category_id "
                                     name="category_id"
                                     placeholder="Select Category"
@@ -191,7 +201,11 @@ const AddPlayerStory = () => {
                                       isCategoryDataLoading ||
                                       isCategoryDataError
                                     }
-                                    value={values.category_id || selectedCategory || categoryList[0]?.value}
+                                    value={
+                                      values.category_id ||
+                                      selectedCategory ||
+                                      categoryList[0]?.value
+                                    }
                                     onChange={(e) => {
                                       setSelectedCategory(e.target.value);
                                       handleChange(e);

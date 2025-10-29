@@ -1,6 +1,6 @@
 import axiosInstance from '../../../../Config/axiosConfig';
 
-const ChangeBrandStatus = async (id) => {
+const ChangeBrandStatus = async ({ id }) => {
   try {
     const response = await axiosInstance.post(
       `/admin/brands/${id}/status`,

@@ -44,7 +44,7 @@ const PlayerStoriesManagement = ({ filters, setFilters, pagination }) => {
     isError: isPlayerStoriesError,
     error: playerStoriesError,
   } = useQuery({
-    queryKey: ['playerStories', pagination, filters],
+    queryKey: ['playerStories', { pagination, filters }],
     queryFn: () => GetPlayerStories(filters, pagination),
     staleTime: 1000 * 60 * 5, // 5 minutes
     enabled: true,
@@ -67,7 +67,7 @@ const PlayerStoriesManagement = ({ filters, setFilters, pagination }) => {
         },
       });
       queryClient.invalidateQueries({
-        queryKey: ['playerStories', 'playerStoryDetails'],
+        queryKey: ['playerStories', { pagination, filters }],
       });
     },
     onError: (error) => {
@@ -77,10 +77,10 @@ const PlayerStoriesManagement = ({ filters, setFilters, pagination }) => {
 
   const handleChangeStatus = (id, status) => {
     const title =
-      status == 1 ? 'Deactivate Player Story?' : 'Activate Player Story?';
+      status == 1 ? 'Inactivate Player Story?' : 'Activate Player Story?';
     const message =
       status == 1
-        ? 'Are you sure you want to deactivate the Player Story?'
+        ? 'Are you sure you want to inactivate the Player Story?'
         : 'Are you sure you want to activate the Player Story?';
     showModal({
       type: 'question',
@@ -134,16 +134,17 @@ const PlayerStoriesManagement = ({ filters, setFilters, pagination }) => {
                         to: 'to',
                       },
                     ]}
-                    // selectOptions={[
-                    //   {
-                    //     title: 'status',
-                    //     options: [
-                    //       { value: '', label: 'All' },
-                    //       { value: '1', label: 'Active' },
-                    //       { value: '0', label: 'Inactive' },
-                    //     ],
-                    //   },
-                    // ]}
+                    selectOptions={[
+                      {
+                        heading: 'Status',
+                        title: 'status',
+                        options: [
+                          { value: '', label: 'All' },
+                          { value: '1', label: 'Active' },
+                          { value: '0', label: 'Inactive' },
+                        ],
+                      },
+                    ]}
                     pagination={playerStoriesData?.meta}
                   >
                     <CustomTable

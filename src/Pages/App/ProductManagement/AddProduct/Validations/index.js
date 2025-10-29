@@ -10,5 +10,5 @@ export const addProductValidationSchema = Yup.object().shape({
   affiliate_link: Yup.string().required('Product affiliate link is required'),
   availibility: Yup.string().required('Product availability is required'),
   is_active: Yup.number().required('Product status is required'),
-  image: Yup.mixed().required('Product image is required'),
+  // images: Yup.mixed().required('Product image is required'),
 });

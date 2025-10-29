@@ -48,10 +48,21 @@ const EditBanner = () => {
         modalProps: {
           title: 'Successful',
           hideClose: true,
-          message: response.message,
+          message: response.message || 'Banner has been updated successfully',
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries(['banners', 'bannerDetails']);
+            queryClient.invalidateQueries({
+              queryKey: [
+                'banners',
+                {
+                  pagination: { page: 1, per_page: 10 },
+                  filters: { status: '' },
+                },
+              ],
+            });
+            queryClient.invalidateQueries({
+              queryKey: ['banners', 'bannerDetails', id],
+            });
             closeModal();
             navigate('/banner-management');
           },
@@ -69,7 +80,7 @@ const EditBanner = () => {
     isError: isBannerDetailsError,
     error: bannerDetailsError,
   } = useQuery({
-    queryKey: ['bannerDetails', id],
+    queryKey: ['banners', 'bannerDetails', id],
     queryFn: () => GetBanner(id),
     staleTime: 1000 * 60 * 5,
     enabled: true,
@@ -98,7 +109,7 @@ const EditBanner = () => {
       type: 'question',
       modalProps: {
         title: 'Edit Banner?',
-        message: 'Are you sure you want to edit the Banner?',
+        message: 'Are you sure you want to update this Banner?',
         continueText: 'Yes',
         cancelText: 'No',
         onContinue: async () => {

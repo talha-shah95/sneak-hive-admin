@@ -75,6 +75,7 @@ const CustomModal = () => {
       onHide={closeModal}
       aria-modal="true"
       role="dialog"
+      backdrop="static"
     >
       {!hideClose && (
         <div>

@@ -42,7 +42,7 @@ const EditBlog = () => {
     isError: isBlogDetailsError,
     error: blogDetailsError,
   } = useQuery({
-    queryKey: ['blogDetails', id],
+    queryKey: ['blogs', 'blogDetails', id],
     queryFn: () => GetBlog(id),
     enabled: true,
     retry: 2,
@@ -86,7 +86,8 @@ const EditBlog = () => {
           message: response.message,
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries(['blogs', 'blogDetails']);
+            queryClient.invalidateQueries({ queryKey: ['blogs', 'blogDetails', id] });
+            queryClient.invalidateQueries({ queryKey: ['blogs'] });
             closeModal();
             navigate('/blogs-management');
           },

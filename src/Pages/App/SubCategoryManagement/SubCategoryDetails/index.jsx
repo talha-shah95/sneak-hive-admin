@@ -21,7 +21,7 @@ const SubCategoryDetails = () => {
     isError: isSubCategoryDetailsError,
     error: subCategoryDetailsError,
   } = useQuery({
-    queryKey: ['subCategoryDetails', id],
+    queryKey: ['subCategories', 'subCategoryDetails', id],
     queryFn: () => GetSubCategory(id),
     staleTime: 1000 * 60 * 5,
     enabled: true,

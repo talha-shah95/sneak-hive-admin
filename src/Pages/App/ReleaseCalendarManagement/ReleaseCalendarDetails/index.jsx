@@ -22,7 +22,7 @@ const ReleaseCalendarDetails = () => {
     isError: isReleaseCalendarDetailsError,
     error: releaseCalendarDetailsError,
   } = useQuery({
-    queryKey: ['releaseCalendarDetails', id],
+    queryKey: ['releaseCalendar', 'releaseCalendarDetails', id],
     queryFn: () => GetReleaseCalendar(id),
     staleTime: 1000 * 60 * 5,
     enabled: true,

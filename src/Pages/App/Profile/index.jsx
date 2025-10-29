@@ -118,9 +118,9 @@ const Profile = () => {
                         disabled={isProfileLoading}
                       />
                       <CustomButton
-                        text="change password"
+                        text="Update password"
                         tabIndex={3}
-                        to={'/profile/change-password'}
+                        to={'/profile/update-password'}
                         variant="secondary"
                         disabled={isProfileLoading}
                       />

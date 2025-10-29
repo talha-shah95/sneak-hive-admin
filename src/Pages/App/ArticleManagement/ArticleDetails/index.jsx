@@ -21,14 +21,12 @@ const ArticleDetails = () => {
     isError: isArticleDetailsError,
     error: articleDetailsError,
   } = useQuery({
-    queryKey: ['articleDetails', id],
+    queryKey: ['articles', 'articleDetails', id],
     queryFn: () => GetArticle(id),
     staleTime: 1000 * 60 * 5,
     enabled: true,
     retry: 2,
   });
-
-  console.log(articleDetailsData);
 
   return (
     <div className="articleDetailsScreen">

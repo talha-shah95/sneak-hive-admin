@@ -65,7 +65,7 @@ const AddReleaseCalendar = () => {
           message: response.message,
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries(['releaseCalendar']);
+            queryClient.invalidateQueries({ queryKey: ['releaseCalendar'] });
             closeModal();
             navigate('/release-calendar-management');
           },

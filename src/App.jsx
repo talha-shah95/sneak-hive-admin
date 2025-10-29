@@ -120,7 +120,7 @@ function App() {
 
                 <Route path="profile" element={<Profile />} />
                 <Route path="profile/edit" element={<EditProfile />} />
-                <Route path="profile/change-password" element={<ChangePassword />} />
+                <Route path="profile/update-password" element={<ChangePassword />} />
 
                 <Route path="user-management" element={<UserManagement />} />
                 <Route path="user-management/details/:id" element={<UserDetails />} />

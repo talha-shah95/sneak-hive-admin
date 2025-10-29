@@ -26,7 +26,7 @@ const UserDetails = () => {
     isError: isUserDetailsError,
     error: userDetailsError,
   } = useQuery({
-    queryKey: ['userDetails', id],
+    queryKey: ['users', 'userDetails', id],
     queryFn: () => GetUserDetails(id),
     staleTime: 1000 * 60 * 5,
     enabled: true,
@@ -49,7 +49,18 @@ const UserDetails = () => {
           },
         },
       });
-      queryClient.invalidateQueries({ queryKey: ['users', 'userDetails'] });
+      queryClient.invalidateQueries({
+        queryKey: ['users', 'userDetails', id],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [
+          'users',
+          {
+            pagination: { page: 1, per_page: 10 },
+            filters: { status: '' },
+          },
+        ],
+      });
     },
     onError: (error) => {
       showToast(error?.message || 'Status change failed', 'error');
@@ -81,7 +92,7 @@ const UserDetails = () => {
       <div className="row mb-4">
         <div className="col-12 col-xl-6">
           <PageTitle
-            title="User Details"
+            title="View User Details"
             backButton={true}
             backLink={'/user-management'}
           />
@@ -147,7 +158,7 @@ const UserDetails = () => {
                         <div className="col-12 col-lg-8 col-xl-6">
                           <div className="row mb-3">
                             <div className="col-6">
-                              <p className="textLabel">FirstName:</p>
+                              <p className="textLabel">First Name:</p>
                             </div>
                             <div className="col-6">
                               {isUserDetailsLoading ? (
