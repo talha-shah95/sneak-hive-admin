@@ -26,7 +26,7 @@ import { LuEye, LuPencil } from 'react-icons/lu';
 const headers = [
   { id: 1, key: 'sNo', title: 'S.No' },
   { id: 2, key: 'videoTtile', title: 'Video Title' },
-  { id: 3, key: 'category', title: 'Category' },
+  { id: 3, key: 'brand', title: 'Brand' },
   { id: 4, key: 'uploadDate', title: 'Upload Date' },
   { id: 5, key: 'status', title: 'Status' },
   { id: 6, key: 'action', title: 'Action' },
@@ -44,7 +44,7 @@ const UnboxingVideosManagement = ({ filters, setFilters, pagination }) => {
     isError: isUnboxingVideosError,
     error: unboxingVideosError,
   } = useQuery({
-    queryKey: ['unboxingVideos', pagination, filters],
+    queryKey: ['unboxingVideos', { pagination, filters }],
     queryFn: () => GetVideos(filters, pagination),
     staleTime: 1000 * 60 * 5, // 5 minutes
     enabled: true,
@@ -67,7 +67,9 @@ const UnboxingVideosManagement = ({ filters, setFilters, pagination }) => {
         },
       });
       queryClient.invalidateQueries({ queryKey: ['videos', 'videoDetails'] });
-      queryClient.invalidateQueries({ queryKey: ['unboxingVideos'] });
+      queryClient.invalidateQueries({
+        queryKey: ['unboxingVideos', { pagination, filters }],
+      });
     },
     onError: (error) => {
       showToast(error?.message || 'Status change failed', 'error');
@@ -132,16 +134,17 @@ const UnboxingVideosManagement = ({ filters, setFilters, pagination }) => {
                         to: 'to',
                       },
                     ]}
-                    // selectOptions={[
-                    //   {
-                    //     title: 'status',
-                    //     options: [
-                    //       { value: '', label: 'All' },
-                    //       { value: '1', label: 'Active' },
-                    //       { value: '0', label: 'Inactive' },
-                    //     ],
-                    //   },
-                    // ]}
+                    selectOptions={[
+                      {
+                        heading: 'Status',
+                        title: 'status',
+                        options: [
+                          { value: '', label: 'All' },
+                          { value: '1', label: 'Active' },
+                          { value: '0', label: 'Inactive' },
+                        ],
+                      },
+                    ]}
                     pagination={unboxingVideosData?.meta}
                   >
                     <CustomTable
@@ -170,7 +173,7 @@ const UnboxingVideosManagement = ({ filters, setFilters, pagination }) => {
                                 {index + 1 < 10 ? `0${index + 1}` : index + 1}
                               </td>
                               <td>{unboxingVideo?.title || '-'}</td>
-                              <td>{unboxingVideo?.category?.name || '-'}</td>
+                              <td>{unboxingVideo?.brand?.name || '-'}</td>
                               <td>
                                 {dateFormat(unboxingVideo?.created_at) || '-'}
                               </td>

@@ -75,11 +75,21 @@ const EditArticle = () => {
         modalProps: {
           title: 'Successful',
           hideClose: true,
-          message: response.message,
+          message: response.message || 'Article has been updated successfully',
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries({ queryKey: ['articles', 'articleDetails', id] });
-            queryClient.invalidateQueries({ queryKey: ['articles'] });
+            queryClient.invalidateQueries({
+              queryKey: ['articles', 'articleDetails', id],
+            });
+            queryClient.invalidateQueries({
+              queryKey: [
+                'articles',
+                {
+                  pagination: { page: 1, per_page: 10 },
+                  filters: { status: '' },
+                },
+              ],
+            });
             closeModal();
             navigate('/article-management');
           },
@@ -206,7 +216,7 @@ const EditArticle = () => {
                                       <div className="col-12">
                                         <div className="mb-3">
                                           <CustomSelect
-                                            label="Category"
+                                            label="Select Category"
                                             id="category_id "
                                             name="category_id"
                                             placeholder="Select Category"

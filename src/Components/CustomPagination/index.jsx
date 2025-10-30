@@ -17,7 +17,7 @@ const CustomPagination = ({ pagination, setFilters }) => {
   // const startItem = (current_page - 1) * itemsPerPage + 1;
   // const endItem = Math.min(current_page * itemsPerPage, total);
 
-  const totalPages = total / per_page;
+  const totalPages = Math.ceil(total / per_page);
 
   return (
     <div className="customPagination">

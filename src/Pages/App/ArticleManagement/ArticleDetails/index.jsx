@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { useQuery } from '@tanstack/react-query';
 
@@ -60,14 +60,14 @@ const ArticleDetails = () => {
                             className={`text-capitalize ${
                               articleDetailsData?.is_active == 1
                                 ? 'colorGreen'
-                                : articleDetailsData?.is_active == 2
+                                : articleDetailsData?.is_active == 0
                                 ? 'colorRed'
                                 : 'colorYellowDark'
                             }`}
                           >
                             {articleDetailsData?.is_active == 1
                               ? 'Active'
-                              : articleDetailsData?.is_active == 2
+                              : articleDetailsData?.is_active == 0
                               ? 'Inactive'
                               : 'Pending'}
                           </p>
@@ -119,9 +119,13 @@ const ArticleDetails = () => {
                           {isArticleDetailsLoading ? (
                             <LineSkeleton width="120px" />
                           ) : (
-                            <p className="textValue">
+                            <Link
+                              to={articleDetailsData?.link}
+                              target="_blank"
+                              className="textValue text-decoration-none"
+                            >
                               {articleDetailsData?.link || 'N/A'}
-                            </p>
+                            </Link>
                           )}
                         </div>
                       </div>

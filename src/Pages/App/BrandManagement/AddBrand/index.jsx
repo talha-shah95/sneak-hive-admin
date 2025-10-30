@@ -30,6 +30,7 @@ import CustomCheckbox from '../../../../Components/CustomCheckBox';
 // } from '../Constants';
 
 import { addBrandValidationSchema } from './Validations';
+import { showToast } from '../../../../Components/CustomToast';
 
 const AddBrand = () => {
   const queryClient = useQueryClient();
@@ -45,10 +46,21 @@ const AddBrand = () => {
         modalProps: {
           title: 'Successful',
           hideClose: true,
-          message: response.message,
+          message: response.message || 'Brand has been added successfully!',
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries({ queryKey: ['brands', 'brandDetails'] });
+            queryClient.invalidateQueries({
+              queryKey: ['brands', 'brandDetails'],
+            });
+            queryClient.invalidateQueries({
+              queryKey: [
+                'brands',
+                {
+                  pagination: { page: 1, per_page: 10 },
+                  filters: { status: '' },
+                },
+              ],
+            });
             closeModal();
             navigate('/brand-management');
           },
@@ -56,7 +68,10 @@ const AddBrand = () => {
       });
     },
     onError: (error) => {
-      console.error('Brand add failed:', error);
+      showToast(
+        error?.data?.message.failed || 'Brand addition failed',
+        'error'
+      );
     },
   });
 

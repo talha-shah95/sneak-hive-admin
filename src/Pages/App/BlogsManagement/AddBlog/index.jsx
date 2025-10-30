@@ -63,9 +63,12 @@ const AddBlog = () => {
         modalProps: {
           title: 'Successful',
           hideClose: true,
-          message: response.message,
+          message: response.message || 'Blog has been posted successfully!',
           continueText: 'Ok',
           onContinue: async () => {
+            queryClient.invalidateQueries({
+              queryKey: ['blogs', { pagination: { page: 1, per_page: 10 }, filters: { status: '' } }],
+            });
             queryClient.invalidateQueries({
               queryKey: ['blogs', 'blogDetails'],
             });
@@ -76,7 +79,7 @@ const AddBlog = () => {
       });
     },
     onError: (error) => {
-      showToast(error?.data?.message.failed || 'Blog add failed', 'error');
+      showToast(error?.data?.message.failed || 'Blog posting failed', 'error');
     },
   });
 
@@ -95,7 +98,7 @@ const AddBlog = () => {
     showModal({
       type: 'question',
       modalProps: {
-        title: 'Add Blog?',
+        title: 'Post Blog?',
         message: 'Are you sure you want to add the Blog?',
         continueText: 'Yes',
         cancelText: 'No',
@@ -116,9 +119,9 @@ const AddBlog = () => {
         <div className="row mb-4">
           <div className="col-12 col-xl-6">
             <PageTitle
-              title="Add Blog"
+              title="Add New Blog"
               backButton={true}
-              backLink={'/blog-management'}
+              backLink={'/blogs-management'}
             />
           </div>
         </div>
@@ -274,7 +277,7 @@ const AddBlog = () => {
                             <div className="d-flex align-items-center gap-3">
                               <CustomButton
                                 loading={isLoading}
-                                text="Add Blog"
+                                text="Post"
                                 type="submit"
                                 disabled={isLoading}
                               />

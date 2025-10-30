@@ -43,7 +43,7 @@ const ReleaseCalendarManagement = ({ filters, setFilters, pagination }) => {
     isError: isReleaseCalendarError,
     error: releaseCalendarError,
   } = useQuery({
-    queryKey: ['releaseCalendar', pagination, filters],
+    queryKey: ['releaseCalendar', { pagination, filters }],
     queryFn: () => GetReleaseCalendars(filters, pagination),
     staleTime: 1000 * 60 * 5, // 5 minutes
     enabled: true,
@@ -65,7 +65,9 @@ const ReleaseCalendarManagement = ({ filters, setFilters, pagination }) => {
           },
         },
       });
-      queryClient.invalidateQueries({ queryKey: ['releaseCalendar', 'releaseCalendarDetails'] });
+      queryClient.invalidateQueries({
+        queryKey: ['releaseCalendar', { pagination, filters }],
+      });
     },
     onError: (error) => {
       showToast(error?.message || 'Status change failed', 'error');
@@ -99,7 +101,7 @@ const ReleaseCalendarManagement = ({ filters, setFilters, pagination }) => {
     <div className="articleManagementScreen">
       <div className="row mb-4">
         <div className="col-12 col-xl-6">
-          <PageTitle title="Release Calendar Management" />
+          <PageTitle title="Release Management" />
         </div>
         <div className="col-12 col-xl-6 text-end">
           <CustomButton
@@ -133,16 +135,17 @@ const ReleaseCalendarManagement = ({ filters, setFilters, pagination }) => {
                         to: 'to',
                       },
                     ]}
-                    // selectOptions={[
-                    //   {
-                    //     title: 'status',
-                    //     options: [
-                    //       { value: '', label: 'All' },
-                    //       { value: '1', label: 'Active' },
-                    //       { value: '0', label: 'Inactive' },
-                    //     ],
-                    //   },
-                    // ]}
+                    selectOptions={[
+                      {
+                        heading: 'Status',
+                        title: 'status',
+                        options: [
+                          { value: '', label: 'All' },
+                          { value: '1', label: 'Active' },
+                          { value: '0', label: 'Inactive' },
+                        ],
+                      },
+                    ]}
                     pagination={releaseCalendarData?.meta}
                   >
                     <CustomTable

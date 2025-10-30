@@ -79,14 +79,14 @@ const EditReleaseCalendar = () => {
         modalProps: {
           title: 'Successful',
           hideClose: true,
-          message: response.message,
+          message: response.message || 'Release Calendar updated successfully!',
           continueText: 'Ok',
           onContinue: async () => {
             queryClient.invalidateQueries({
               queryKey: ['releaseCalendar', 'releaseCalendarDetails', id],
             });
             queryClient.invalidateQueries({
-              queryKey: ['releaseCalendar'],
+              queryKey: ['releaseCalendar', { pagination: { page: 1, per_page: 10 }, filters: { status: '' } }],
             });
             closeModal();
             navigate('/release-calendar-management');

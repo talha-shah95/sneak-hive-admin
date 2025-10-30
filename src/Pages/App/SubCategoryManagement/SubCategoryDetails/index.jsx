@@ -64,14 +64,14 @@ const SubCategoryDetails = () => {
                             className={`text-capitalize ${
                               subCategoryDetailsData?.is_active == 1
                                 ? 'colorGreen'
-                                : subCategoryDetailsData?.is_active == 2
+                                : subCategoryDetailsData?.is_active == 0
                                 ? 'colorRed'
                                 : 'colorYellowDark'
                             }`}
                           >
                             {subCategoryDetailsData?.is_active == 1
                               ? 'Active'
-                              : subCategoryDetailsData?.is_active == 2
+                              : subCategoryDetailsData?.is_active == 0
                               ? 'Inactive'
                               : 'Pending'}
                           </p>

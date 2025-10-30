@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { useQuery } from '@tanstack/react-query';
 
@@ -26,8 +26,6 @@ const VideoDetails = () => {
     enabled: true,
     retry: 2,
   });
-
-  console.log(videoDetailsData);
 
   return (
     <div className="videoDetailsScreen">
@@ -61,14 +59,14 @@ const VideoDetails = () => {
                             className={`text-capitalize ${
                               videoDetailsData?.is_active == 1
                                 ? 'colorGreen'
-                                : videoDetailsData?.is_active == 2
+                                : videoDetailsData?.is_active == 0
                                 ? 'colorRed'
                                 : 'colorYellowDark'
                             }`}
                           >
                             {videoDetailsData?.is_active == 1
                               ? 'Active'
-                              : videoDetailsData?.is_active == 2
+                              : videoDetailsData?.is_active == 0
                               ? 'Inactive'
                               : 'Pending'}
                           </p>
@@ -121,9 +119,13 @@ const VideoDetails = () => {
                           {isVideoDetailsLoading ? (
                             <LineSkeleton width="120px" />
                           ) : (
-                            <p className="textValue">
+                            <Link
+                              to={videoDetailsData?.affiliate_link}
+                              target="_blank"
+                              className="textValue text-decoration-none"
+                            >
                               {videoDetailsData?.affiliate_link || 'N/A'}
-                            </p>
+                            </Link>
                           )}
                         </div>
                       </div>

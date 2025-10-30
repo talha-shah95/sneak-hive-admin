@@ -61,14 +61,14 @@ const ReleaseCalendarDetails = () => {
                             className={`text-capitalize ${
                               releaseCalendarDetailsData?.is_active == 1
                                 ? 'colorGreen'
-                                : releaseCalendarDetailsData?.is_active == 2
+                                : releaseCalendarDetailsData?.is_active == 0
                                 ? 'colorRed'
                                 : 'colorYellowDark'
                             }`}
                           >
                             {releaseCalendarDetailsData?.is_active == 1
                               ? 'Active'
-                              : releaseCalendarDetailsData?.is_active == 2
+                              : releaseCalendarDetailsData?.is_active == 0
                               ? 'Inactive'
                               : 'Pending'}
                           </p>

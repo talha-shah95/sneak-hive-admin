@@ -62,11 +62,17 @@ const AddArticle = () => {
         modalProps: {
           title: 'Successful',
           hideClose: true,
-          message: response.message,
+          message: response.message || 'Article has been added successfully',
           continueText: 'Ok',
           onContinue: async () => {
             queryClient.invalidateQueries({
-              queryKey: ['articles', 'articleDetails'],
+              queryKey: [
+                'articles',
+                {
+                  pagination: { page: 1, per_page: 10 },
+                  filters: { status: '' },
+                },
+              ],
             });
             closeModal();
             navigate('/article-management');
@@ -142,7 +148,7 @@ const AddArticle = () => {
                   }}
                   validationSchema={addArticleValidationSchema}
                   onSubmit={handleSubmit}
-                  enableReinitialize={true}
+                  // enableReinitialize={true}
                 >
                   {({
                     values,
@@ -176,7 +182,7 @@ const AddArticle = () => {
                               <div className="col-12">
                                 <div className="mb-3">
                                   <CustomSelect
-                                    label="Category"
+                                    label="Select Category"
                                     id="category_id "
                                     name="category_id"
                                     placeholder="Select Category"

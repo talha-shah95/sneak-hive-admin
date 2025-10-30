@@ -36,7 +36,7 @@ const QueryManagement = ({ filters, setFilters, pagination }) => {
     isError: isQueriesError,
     error: queriesError,
   } = useQuery({
-    queryKey: ['queries', pagination, filters],
+    queryKey: ['queries', { pagination, filters }],
     queryFn: () => GetQueries(filters, pagination),
     staleTime: 1000 * 60 * 5, // 5 minutes
     enabled: true,
@@ -75,6 +75,7 @@ const QueryManagement = ({ filters, setFilters, pagination }) => {
                     ]}
                     // selectOptions={[
                     //   {
+                    //     heading: 'Status',
                     //     title: 'status',
                     //     options: [
                     //       { value: '', label: 'All' },

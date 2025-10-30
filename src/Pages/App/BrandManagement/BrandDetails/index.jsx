@@ -60,14 +60,14 @@ const BrandDetails = () => {
                             className={`text-capitalize ${
                               brandDetailsData?.is_active == 1
                                 ? 'colorGreen'
-                                : brandDetailsData?.is_active == 2
+                                : brandDetailsData?.is_active == 0
                                 ? 'colorRed'
                                 : 'colorYellowDark'
                             }`}
                           >
                             {brandDetailsData?.is_active == 1
                               ? 'Active'
-                              : brandDetailsData?.is_active == 2
+                              : brandDetailsData?.is_active == 0
                               ? 'Inactive'
                               : 'Pending'}
                           </p>

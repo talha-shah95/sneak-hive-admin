@@ -82,11 +82,11 @@ const EditVideo = () => {
         modalProps: {
           title: 'Successful',
           hideClose: true,
-          message: response.message,
+          message: response.message || 'Video updated successfully!',
           continueText: 'Ok',
           onContinue: async () => {
             queryClient.invalidateQueries({ queryKey: ['videos', 'videoDetails', id] });
-            queryClient.invalidateQueries({ queryKey: ['unboxingVideos'] });
+            queryClient.invalidateQueries({ queryKey: ['unboxingVideos', {pagination: { page: 1, per_page: 10 }, filters: { status: '' } }] });
             closeModal();
             navigate('/unboxing-videos-management');
           },
@@ -102,8 +102,6 @@ const EditVideo = () => {
     const dataToSend = {
       ...values,
     };
-
-    console.log(dataToSend, 'dataToSend');
 
     const formDataToSend = new FormData();
     formDataToSend.append('title', dataToSend.title);
@@ -156,7 +154,7 @@ const EditVideo = () => {
         <div className="row mb-4">
           <div className="col-12 col-xl-6">
             <PageTitle
-              title="Edit Video"
+              title="Edit Unboxing Video"
               backButton={true}
               backLink={'/unboxing-videos-management'}
             />

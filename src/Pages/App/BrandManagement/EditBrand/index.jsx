@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Formik, Form } from 'formik';
@@ -22,6 +22,7 @@ import CustomSelect from '../../../../Components/CustomSelect';
 import CustomImageUploader from '../../../../Components/CustomImageUploader';
 import GetBrand from '../BrandDetails/Services/GetBrand';
 import LineSkeleton from '../../../../Components/SkeletonLoaders/LineSkeleton';
+import { showToast } from '../../../../Components/CustomToast';
 
 // import {
 //   beverageTastes,
@@ -48,14 +49,23 @@ const EditBrand = () => {
         modalProps: {
           title: 'Successful',
           hideClose: true,
-          message: response.message,
+          message: response.message || 'Brand has been updated successfully!',
           continueText: 'Ok',
           onContinue: async () => {
             queryClient.invalidateQueries({
               queryKey: ['brands', 'brandDetails', id],
             });
             queryClient.invalidateQueries({
-              queryKey: ['brands'],
+              queryKey: [
+                'brands',
+                {
+                  pagination: { page: 1, per_page: 10 },
+                  filters: { status: '' },
+                },
+              ],
+            });
+            queryClient.invalidateQueries({
+              queryKey: ['brands', 'brandDetails'],
             });
 
             closeModal();
@@ -65,7 +75,10 @@ const EditBrand = () => {
       });
     },
     onError: (error) => {
-      console.error('Brand edit failed:', error);
+      showToast(
+        error?.data?.message.failed || 'Brand updation failed',
+        'error'
+      );
     },
   });
 
@@ -81,12 +94,6 @@ const EditBrand = () => {
     enabled: true,
     retry: 2,
   });
-
-  useEffect(() => {
-    if (brandDetailsData) {
-      setBrandImage(brandDetailsData.image);
-    }
-  }, [brandDetailsData]);
 
   const handleBrandImageChange = (e) => {
     const file = e.target.files[0];
@@ -105,15 +112,12 @@ const EditBrand = () => {
     if (brandImage) {
       formDataToSend.append('file', brandImage);
     }
-    if (!brandImage) {
-      delete dataToSend.file;
-    }
 
     showModal({
       type: 'question',
       modalProps: {
-        title: 'Edit Brand?',
-        message: 'Are you sure you want to edit the Brand?',
+        title: 'Update Brand?',
+        message: 'Are you sure you want to update the Brand?',
         continueText: 'Yes',
         cancelText: 'No',
         onContinue: async () => {
@@ -221,7 +225,7 @@ const EditBrand = () => {
                                         id="file"
                                         name="file"
                                         placeholder="Upload Brand Logo"
-                                        value={brandImage}
+                                        value={brandImage || values.file}
                                         onChange={handleBrandImageChange}
                                         onBlur={handleBlur}
                                       />

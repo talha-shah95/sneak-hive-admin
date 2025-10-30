@@ -83,11 +83,24 @@ const EditBlog = () => {
         modalProps: {
           title: 'Successful',
           hideClose: true,
-          message: response.message,
+          message: response.message || 'Blog updated successfully!',
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries({ queryKey: ['blogs', 'blogDetails', id] });
-            queryClient.invalidateQueries({ queryKey: ['blogs'] });
+            queryClient.invalidateQueries({
+              queryKey: ['blogs', 'blogDetails', id],
+            });
+            queryClient.invalidateQueries({
+              queryKey: [
+                'blogs',
+                {
+                  pagination: { page: 1, per_page: 10 },
+                  filters: { status: '' },
+                },
+              ],
+            });
+            queryClient.invalidateQueries({
+              queryKey: ['blogs', 'blogDetails'],
+            });
             closeModal();
             navigate('/blogs-management');
           },
@@ -95,7 +108,7 @@ const EditBlog = () => {
       });
     },
     onError: (error) => {
-      showToast(error?.data?.message.failed || 'Blog edit failed', 'error');
+      showToast(error?.data?.message.failed || 'Blog updation failed', 'error');
     },
   });
 

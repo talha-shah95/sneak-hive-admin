@@ -111,19 +111,6 @@ const QueryDetails = () => {
                           )}
                         </div>
                       </div>
-                      <div className="col-md-6 col-xl-4">
-                        <div className="mb-3">
-                          <p className="textLabel">Release Date:</p>
-                          {isQueryDetailsLoading ? (
-                            <LineSkeleton width="120px" />
-                          ) : (
-                            <p className="textValue">
-                              {dateFormat(queryDetailsData?.release_date) ||
-                                'N/A'}
-                            </p>
-                          )}
-                        </div>
-                      </div>
                       <div className="col-12">
                         <div className="mb-3">
                           <p className="textLabel">Message:</p>

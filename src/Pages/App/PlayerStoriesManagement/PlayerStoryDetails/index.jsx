@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { useQuery } from '@tanstack/react-query';
 
@@ -132,9 +132,13 @@ const PlayerStoryDetails = () => {
                           {isPlayerStoryDetailsLoading ? (
                             <LineSkeleton width="120px" />
                           ) : (
-                            <p className="textValue">
+                            <Link
+                              to={playerStoryDetailsData?.story_link}
+                              target="_blank"
+                              className="textValue text-decoration-none"
+                            >
                               {playerStoryDetailsData?.story_link || 'N/A'}
-                            </p>
+                            </Link>
                           )}
                         </div>
                       </div>

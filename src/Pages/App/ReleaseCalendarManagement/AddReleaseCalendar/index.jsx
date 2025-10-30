@@ -11,7 +11,7 @@ import useModalStore from '../../../../Store/ModalStore';
 import { statusList } from '../../../../Constants';
 
 import AddReleaseCalendarService from './Services/AddReleaseCalendarService';
-import GetBrands from '../../BrandManagement/Services/GetBrands';
+import GetActiveBrands from '../../BrandManagement/Services/GetActiveBrands';
 
 import { addReleaseCalendarValidationSchema } from './Validations';
 
@@ -37,7 +37,7 @@ const AddReleaseCalendar = () => {
     isError: isBrandDataError,
   } = useQuery({
     queryKey: ['brandData'],
-    queryFn: () => GetBrands({}, {}),
+    queryFn: () => GetActiveBrands(),
   });
 
   useEffect(() => {
@@ -62,10 +62,10 @@ const AddReleaseCalendar = () => {
         modalProps: {
           title: 'Successful',
           hideClose: true,
-          message: response.message,
+          message: response.message || 'Release Calendar added successfully!',
           continueText: 'Ok',
           onContinue: async () => {
-            queryClient.invalidateQueries({ queryKey: ['releaseCalendar'] });
+            queryClient.invalidateQueries({ queryKey: ['releaseCalendar', { pagination: { page: 1, per_page: 10 }, filters: { status: '' } }] });
             closeModal();
             navigate('/release-calendar-management');
           },

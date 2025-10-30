@@ -43,7 +43,7 @@ const BlogsManagement = ({ filters, setFilters, pagination }) => {
     isError: isBlogsError,
     error: blogsError,
   } = useQuery({
-    queryKey: ['blogs', pagination, filters],
+    queryKey: ['blogs', { pagination, filters }],
     queryFn: () => GetBlogs(filters, pagination),
     staleTime: 1000 * 60 * 5, // 5 minutes
     enabled: true,
@@ -65,7 +65,12 @@ const BlogsManagement = ({ filters, setFilters, pagination }) => {
           },
         },
       });
-      queryClient.invalidateQueries({ queryKey: ['blogs', 'blogDetails'] });
+      queryClient.invalidateQueries({
+        queryKey: ['blogs', { pagination, filters }],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['blogs', 'blogDetails'],
+      });
     },
     onError: (error) => {
       showToast(error?.message || 'Status change failed', 'error');
@@ -130,16 +135,17 @@ const BlogsManagement = ({ filters, setFilters, pagination }) => {
                         to: 'to',
                       },
                     ]}
-                    // selectOptions={[
-                    //   {
-                    //     title: 'status',
-                    //     options: [
-                    //       { value: '', label: 'All' },
-                    //       { value: '1', label: 'Active' },
-                    //       { value: '0', label: 'Inactive' },
-                    //     ],
-                    //   },
-                    // ]}
+                    selectOptions={[
+                      {
+                        heading: 'Status',
+                        title: 'status',
+                        options: [
+                          { value: '', label: 'All' },
+                          { value: '1', label: 'Active' },
+                          { value: '0', label: 'Inactive' },
+                        ],
+                      },
+                    ]}
                     pagination={blogsData?.meta}
                   >
                     <CustomTable

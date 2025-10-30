@@ -60,14 +60,14 @@ const BannerDetails = () => {
                             className={`text-capitalize ${
                               bannerDetailsData?.is_active == 1
                                 ? 'colorGreen'
-                                : bannerDetailsData?.is_active == 2
+                                : bannerDetailsData?.is_active == 0
                                 ? 'colorRed'
                                 : 'colorYellowDark'
                             }`}
                           >
                             {bannerDetailsData?.is_active == 1
                               ? 'Active'
-                              : bannerDetailsData?.is_active == 2
+                              : bannerDetailsData?.is_active == 0
                               ? 'Inactive'
                               : 'Pending'}
                           </p>
