@@ -18,7 +18,7 @@ import DashboardIcon from './navBarIcons/dahsboard.svg?url';
 import UserIcon from './navBarIcons/user.svg?url';
 import ProductIcon from './navBarIcons/product.svg?url';
 import CategoryIcon from './navBarIcons/category.svg?url';
-// import SubCategoryIcon from "./navBarIcons/subCategory.svg?url";
+  // import SubCategoryIcon from "./navBarIcons/subCategory.svg?url";
 import BrandIcon from './navBarIcons/brand.svg?url';
 import BannerIcon from './navBarIcons/content.svg?url';
 import PlayerStoriesIcon from './navBarIcons/stories.svg?url';

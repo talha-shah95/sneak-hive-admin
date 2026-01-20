@@ -12,7 +12,7 @@ import { saveAuthData } from '../../../Utils/Storage.js';
 
 import CustomInput from '../../../Components/CustomInput';
 import CustomButton from '../../../Components/CustomButton';
-import CustomCheckbox from '../../../Components/CustomCheckBox';
+import CustomCheckbox from '../../../Components/CustomCheckbox';
 import { showToast } from '../../../Components/CustomToast';
 
 import { FaRegEnvelope } from 'react-icons/fa';

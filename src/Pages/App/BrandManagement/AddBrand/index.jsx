@@ -20,7 +20,6 @@ import CustomInput from '../../../../Components/CustomInput';
 import CustomButton from '../../../../Components/CustomButton';
 import CustomSelect from '../../../../Components/CustomSelect';
 import CustomImageUploader from '../../../../Components/CustomImageUploader';
-import CustomCheckbox from '../../../../Components/CustomCheckBox';
 
 // import {
 //   beverageTastes,

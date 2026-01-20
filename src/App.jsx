@@ -38,6 +38,11 @@ import SubCategoryDetails from './Pages/App/SubCategoryManagement/SubCategoryDet
 import AddSubCategory from './Pages/App/SubCategoryManagement/AddSubCategory';
 import EditSubCategory from './Pages/App/SubCategoryManagement/EditSubCategory';
 
+import TertiaryCategoryManagement from './Pages/App/TertiaryCategoryManagement';
+import AddTertiaryCategory from './Pages/App/TertiaryCategoryManagement/AddTertiaryCategory';
+import EditTertiaryCategory from './Pages/App/TertiaryCategoryManagement/EditTertiaryCategory';
+import TertiaryCategoryDetails from './Pages/App/TertiaryCategoryManagement/TertiaryCategoryDetails';
+
 import ProductManagement from './Pages/App/ProductManagement';
 import AddProduct from './Pages/App/ProductManagement/AddProduct';
 import ProductDetails from './Pages/App/ProductManagement/ProductDetails';
@@ -134,6 +139,11 @@ function App() {
                 <Route path="sub-category-management/sub-category-details/:id" element={<SubCategoryDetails />} />
                 <Route path="sub-category-management/add-sub-category" element={<AddSubCategory />} />
                 <Route path="sub-category-management/edit-sub-category/:id" element={<EditSubCategory />} />
+
+                <Route path="tertiary-category-management" element={<TertiaryCategoryManagement />} />
+                <Route path="tertiary-category-management/tertiary-category-details/:id" element={<TertiaryCategoryDetails />} />
+                <Route path="tertiary-category-management/add-tertiary-category" element={<AddTertiaryCategory />} />
+                <Route path="tertiary-category-management/edit-tertiary-category/:id" element={<EditTertiaryCategory />} />
 
                 <Route path="product-management" element={<ProductManagement />} />
                 <Route path="product-management/product-details/:id" element={<ProductDetails />} />

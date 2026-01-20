@@ -46,8 +46,6 @@ const Dashboard = () => {
     setSelectedTimePeriod(newPeriod);
   };
 
-  console.log('dashboardData', dashboardData);
-
   return (
     <div className="dashboardScreen">
       <div className="row mb-4">

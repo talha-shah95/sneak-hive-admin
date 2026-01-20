@@ -13,6 +13,7 @@ import { stockAvailabilityList, statusList } from '../../../../Constants';
 import AddProductService from './Services/AddProductService';
 import GetActiveCategories from '../Services/GetActiveCategories';
 import GetProductSubCategoryData from '../Services/GetProductSubCategoryData';
+import GetProductTertiaryCategoryData from '../Services/GetProductTertiaryCategoryData';
 import GetBrands from '../Services/GetBrands';
 
 import { addProductValidationSchema } from './Validations';
@@ -36,6 +37,9 @@ const AddProduct = () => {
 
   const [subCategoryOptions, setSubCategoryOptions] = useState([]);
   const [selectedSubCategories, setSelectedSubCategories] = useState([]);
+
+  const [tertiaryCategoryOptions, setTertiaryCategoryOptions] = useState([]);
+  const [selectedTertiaryCategories, setSelectedTertiaryCategories] = useState([]);
 
   const [brandList, setBrandList] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState('');
@@ -61,6 +65,18 @@ const AddProduct = () => {
     staleTime: 1000 * 60 * 5, // 5 minutes
     retry: 2,
     enabled: selectedCategories.length > 0,
+  });
+
+  const {
+    data: tertiaryCategoryList,
+    isLoading: isTertiaryCategoryListLoading,
+    isError: isTertiaryCategoryListError,
+  } = useQuery({
+    queryKey: ['tertiaryCategories', selectedSubCategories],
+    queryFn: () => GetProductTertiaryCategoryData(selectedSubCategories),
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    retry: 2,
+    enabled: selectedSubCategories.length > 0,
   });
 
   const {
@@ -119,6 +135,17 @@ const AddProduct = () => {
   }, [categoryList, subCategoryList]);
 
   useEffect(() => {
+    if (tertiaryCategoryList) {
+      setTertiaryCategoryOptions(
+        tertiaryCategoryList.data.map((tertiaryCategory) => ({
+          value: tertiaryCategory.id,
+          label: tertiaryCategory.name,
+        }))
+      );
+    }
+  }, [tertiaryCategoryList]);
+
+  useEffect(() => {
     if (brandData) {
       const tempBrandList = brandData.data.map((brand) => {
         return {
@@ -144,8 +171,9 @@ const AddProduct = () => {
     formDataToSend.append('name', dataToSend.name);
     formDataToSend.append('description', dataToSend.description);
     formDataToSend.append('price', dataToSend.price);
-    formDataToSend.append('category_ids[]', selectedCategories);
-    formDataToSend.append('sub_category_ids[]', selectedSubCategories);
+    // formDataToSend.append('category_ids[]', selectedCategories);
+    // formDataToSend.append('sub_category_ids[]', selectedSubCategories);
+    // formDataToSend.append('tertiary_category_ids[]', selectedTertiaryCategories);
     formDataToSend.append('brand_id', selectedBrand);
     formDataToSend.append('affiliate_link', dataToSend.affiliate_link);
     formDataToSend.append('availibility', dataToSend.availibility);
@@ -159,6 +187,11 @@ const AddProduct = () => {
     if (selectedSubCategories && selectedSubCategories.length > 0) {
       selectedSubCategories.forEach((id, index) => {
         formDataToSend.append(`sub_category_ids[${index}]`, id);
+      });
+    }
+    if (selectedTertiaryCategories && selectedTertiaryCategories.length > 0) {
+      selectedTertiaryCategories.forEach((id, index) => {
+        formDataToSend.append(`tertiary_category_ids[${index}]`, id);
       });
     }
     if (values.images && values.images.length > 0) {
@@ -186,6 +219,8 @@ const AddProduct = () => {
     });
   };
 
+  console.log("tertiaryCategoryOptions",tertiaryCategoryOptions)
+
   return (
     <>
       <div className="addProductScreen">
@@ -206,9 +241,11 @@ const AddProduct = () => {
                   initialValues={{
                     name: '',
                     description: '',
+                    suitable_for: '',
                     price: '',
                     category_ids: [],
                     sub_category_ids: [],
+                    tertiary_category_ids: [],
                     brand_id: '',
                     affiliate_link: '',
                     availibility: 'in_stock',
@@ -272,11 +309,30 @@ const AddProduct = () => {
                               <div className="col-12">
                                 <div className="mb-3">
                                   <CustomInput
-                                    label="Price"
+                                    label="Best Suitable For"
+                                    id="suitable_for"
+                                    name="suitable_for"
+                                    type="textarea"
+                                    placeholder="Enter Best Suitable For"
+                                    rows={4}
+                                    value={values.suitable_for}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    error={
+                                      touched.suitable_for && errors.suitable_for
+                                    }
+                                    required
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-12">
+                                <div className="mb-3">
+                                  <CustomInput
+                                    label="Retail Price"
                                     id="price"
                                     name="price"
                                     type="number"
-                                    placeholder="Enter Price"
+                                    placeholder="Enter Retail Price"
                                     value={values.price}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -364,7 +420,7 @@ const AddProduct = () => {
                                       onChange={(selectedOptions) => {
                                         const ids =
                                           selectedOptions?.map(
-                                            (option) => option.value
+                                            (option) => option?.value
                                           ) || [];
                                         setSelectedSubCategories(ids);
                                         setFieldValue('sub_category_ids', ids);
@@ -380,6 +436,62 @@ const AddProduct = () => {
                                       errors.sub_category_ids && (
                                         <div className="text-danger small mt-1">
                                           {errors.sub_category_ids}
+                                        </div>
+                                      )}
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="col-12">
+                                <div className="mb-3">
+                                  <div className="inputWraper">
+                                    <label>
+                                      Tertiary Categories
+                                      <span className="text-danger">*</span>
+                                    </label>
+                                    <Select
+                                      isMulti
+                                      name="tertiary_category_ids"
+                                      options={tertiaryCategoryOptions}
+                                      classNamePrefix="react-select mainInput"
+                                      value={tertiaryCategoryOptions.filter(
+                                        (option) => option?.value &&
+                                          (values.tertiary_category_ids || []).includes(
+                                            option?.value
+                                          )
+                                      )}
+                                      isLoading={isTertiaryCategoryListLoading}
+                                      isDisabled={
+                                        isTertiaryCategoryListLoading ||
+                                        isTertiaryCategoryListError || 
+                                        isSubCategoryListLoading ||
+                                        isSubCategoryListError ||
+                                        !selectedSubCategories ||
+                                        selectedSubCategories.length == 0
+                                      }
+                                      placeholder={
+                                        isTertiaryCategoryListLoading
+                                          ? 'Loading Tertiary Categories...'
+                                          : 'Select Tertiary Categories'
+                                      }
+                                      onChange={(selectedOptions) => {
+                                        const ids =
+                                          selectedOptions?.map(
+                                            (option) => option?.value
+                                          ) || [];
+                                        setSelectedTertiaryCategories(ids);
+                                        setFieldValue('tertiary_category_ids', ids);
+                                      }}
+                                      onBlur={() =>
+                                        setFieldTouched(
+                                          'tertiary_category_ids',
+                                          true
+                                        )
+                                      }
+                                    />
+                                    {touched.tertiary_category_ids &&
+                                      errors.tertiary_category_ids && (
+                                        <div className="text-danger small mt-1">
+                                          {errors.tertiary_category_ids}
                                         </div>
                                       )}
                                   </div>
