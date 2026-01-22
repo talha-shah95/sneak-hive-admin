@@ -29,11 +29,10 @@ const headers = [
   { id: 1, key: 'sNo', title: 'S.No' },
   { id: 2, key: 'productName', title: 'Product Name' },
   { id: 3, key: 'category', title: 'Category' },
-  { id: 4, key: 'price', title: 'Price' },
-  { id: 5, key: 'addedOn', title: 'Added On' },
-  { id: 6, key: 'productStatus', title: 'Product Status' },
-  { id: 7, key: 'status', title: 'Status' },
-  { id: 8, key: 'action', title: 'Action' },
+  { id: 4, key: 'addedOn', title: 'Added On' },
+  { id: 5, key: 'productStatus', title: 'Product Status' },
+  { id: 6, key: 'status', title: 'Status' },
+  { id: 7, key: 'action', title: 'Action' },
 ];
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -188,7 +187,6 @@ const ProductManagement = ({ filters, setFilters, pagination }) => {
                                     .join(', ')
                                 : '-'}
                             </td>
-                            <td>${products?.price || '-'}</td>
                             <td>{dateFormat(products?.created_at) || '-'}</td>
                             <td
                               className={`text-capitalize ${

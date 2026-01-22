@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import useModalStore from '../../../../Store/ModalStore';
@@ -107,19 +107,18 @@ const ProductDetails = () => {
                           <LineSkeleton width="120px" />
                         ) : (
                           <p
-                            className={`text-capitalize ${
-                              productDetailsData?.is_active == 1
-                                ? 'colorGreen'
-                                : productDetailsData?.is_active == 0
+                            className={`text-capitalize ${productDetailsData?.is_active == 1
+                              ? 'colorGreen'
+                              : productDetailsData?.is_active == 0
                                 ? 'colorRed'
                                 : 'colorYellowDark'
-                            }`}
+                              }`}
                           >
                             {productDetailsData?.is_active == 1
                               ? 'Active'
                               : productDetailsData?.is_active == 0
-                              ? 'Inactive'
-                              : 'Pending'}
+                                ? 'Inactive'
+                                : 'Pending'}
                           </p>
                         )}
                       </div>
@@ -156,122 +155,232 @@ const ProductDetails = () => {
                           )}
                         </div>
                       </div>
-                      <div className="col-lg-6 col-xl-4">
-                        <div className="mb-3">
-                          <p className="textLabel">Product Name:</p>
-                          {isProductDetailsLoading ? (
-                            <LineSkeleton width="120px" />
-                          ) : (
-                            <p className="textValue">
-                              {productDetailsData?.name || 'N/A'}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                      <div className="col-lg-6 col-xl-4">
-                        <div className="mb-3">
-                          <p className="textLabel">Price:</p>
-                          {isProductDetailsLoading ? (
-                            <LineSkeleton width="120px" />
-                          ) : (
-                            <p className="textValue">
-                              ${productDetailsData?.price || '0'}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                      <div className="col-lg-6 col-xl-4">
-                        <div className="mb-3">
-                          <p className="textLabel">Stock Availability:</p>
-                          {isProductDetailsLoading ? (
-                            <LineSkeleton width="120px" />
-                          ) : (
-                            <p
-                              className={`text-capitalize ${
-                                productDetailsData?.availibility == 'in_stock'
-                                  ? 'colorGreenDark'
-                                  : productDetailsData?.availibility ==
-                                    'out_of_stock'
-                                  ? 'colorRed'
-                                  : 'colorYellowDark'
-                              }`}
-                            >
-                              {availabilityTextFormatter(
-                                productDetailsData?.availibility
-                              ) || '-'}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                      <div className="col-lg-6 col-xl-4">
-                        <div className="mb-3">
-                          <p className="textLabel">Category:</p>
-                          {isProductDetailsLoading ? (
-                            <LineSkeleton width="120px" />
-                          ) : (
-                            <>
+                      <div className="col-12">
+                        <div className="row">
+                          <div className="col-lg-6 col-xl-4">
+                            <div className="mb-3">
+                              <p className="textLabel">Product Name:</p>
+                              {isProductDetailsLoading ? (
+                                <LineSkeleton width="120px" />
+                              ) : (
+                                <p className="textValue">
+                                  {productDetailsData?.name || 'N/A'}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                          {/* <div className="col-lg-6 col-xl-4">
+                            <div className="mb-3">
+                            <p className="textLabel">Price:</p>
+                            {isProductDetailsLoading ? (
+                              <LineSkeleton width="120px" />
+                            ) : (
                               <p className="textValue">
-                                {productDetailsData?.categories?.map(
-                                  (category, index) => (
-                                    <span key={index}>
-                                      {category?.name || 'N/A'}
-                                      {index <
-                                        productDetailsData?.categories?.length -
-                                          1 && ' / '}
-                                    </span>
-                                  )
-                                )}
+                                ${productDetailsData?.price || '0'}
                               </p>
-                            </>
-                          )}
+                            )}
+                            </div>
+                          </div> */}
+                          <div className="col-lg-6 col-xl-4">
+                            <div className="mb-3">
+                              <p className="textLabel">Stock Availability:</p>
+                              {isProductDetailsLoading ? (
+                                <LineSkeleton width="120px" />
+                              ) : (
+                                <p
+                                  className={`text-capitalize ${productDetailsData?.availibility == 'in_stock'
+                                    ? 'colorGreenDark'
+                                    : productDetailsData?.availibility ==
+                                      'out_of_stock'
+                                      ? 'colorRed'
+                                      : 'colorYellowDark'
+                                    }`}
+                                >
+                                  {availabilityTextFormatter(
+                                    productDetailsData?.availibility
+                                  ) || '-'}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-lg-6 col-xl-4">
+                            <div className="mb-3">
+                              <p className="textLabel">Category:</p>
+                              {isProductDetailsLoading ? (
+                                <LineSkeleton width="120px" />
+                              ) : (
+                                <>
+                                  <p className="textValue">
+                                    {productDetailsData?.categories?.map(
+                                      (category, index) => (
+                                        <span key={index}>
+                                          {category?.name || 'N/A'}
+                                          {index <
+                                            productDetailsData?.categories?.length -
+                                            1 && ' / '}
+                                        </span>
+                                      )
+                                    )}
+                                  </p>
+                                </>
+                              )}
+                            </div>
+                          </div>
+                          <div className="col-lg-6 col-xl-4">
+                            <div className="mb-3">
+                              <p className="textLabel">Sub Category:</p>
+                              {isProductDetailsLoading ? (
+                                <LineSkeleton width="120px" />
+                              ) : (
+                                <>
+                                  <p className="textValue">
+                                    {productDetailsData?.subcategories?.map(
+                                      (subCategory, index) => (
+                                        <span key={index}>
+                                          {subCategory?.name || 'N/A'}
+                                          {index <
+                                            productDetailsData?.subcategories
+                                              ?.length -
+                                            1 && ' / '}
+                                        </span>
+                                      )
+                                    )}
+                                  </p>
+                                </>
+                              )}
+                            </div>
+                          </div>
+                          <div className="col-lg-6 col-xl-4">
+                            <div className="mb-3">
+                              <p className="textLabel">Best Suitable For:</p>
+                              {
+                                isProductDetailsLoading ? (
+                                  <LineSkeleton width="120px" />
+                                ) : (
+                                  <p className="textValue">
+                                    {productDetailsData?.suitable_for || 'N/A'}
+                                  </p>
+                                )}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-12">
+                            <div className="mb-3">
+                              <p className="textLabel">Product Description:</p>
+                              {isProductDetailsLoading ? (
+                                <LineSkeleton width="120px" />
+                              ) : (
+                                <p className="textValue">
+                                  {productDetailsData?.description || 'N/A'}
+                                </p>
+                              )}
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      <div className="col-lg-6 col-xl-4">
-                        <div className="mb-3">
-                          <p className="textLabel">Sub Category:</p>
-                          {isProductDetailsLoading ? (
-                            <LineSkeleton width="120px" />
-                          ) : (
-                            <>
-                              <p className="textValue">
-                                {productDetailsData?.subcategories?.map(
-                                  (subCategory, index) => (
-                                    <span key={index}>
-                                      {subCategory?.name || 'N/A'}
-                                      {index <
-                                        productDetailsData?.subcategories
-                                          ?.length -
-                                          1 && ' / '}
-                                    </span>
-                                  )
-                                )}
-                              </p>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                      <div className="col-lg-6 col-xl-4">
-                        <div className="mb-3">
-                          <p className="textLabel">Affiliate Link:</p>
-                          {isProductDetailsLoading ? (
-                            <LineSkeleton width="120px" />
-                          ) : (
-                            <p className="textValue">
-                              {productDetailsData?.affiliate_link || 'N/A'}
-                            </p>
-                          )}
-                        </div>
+                    </div>
+                    <div className="row mb-4">
+                      <div className="col-12">
+                        <h5 className="mb-3">
+                          Brand
+                        </h5>
                       </div>
                       <div className="col-12">
-                        <div className="mb-3">
-                          <p className="textLabel">Product Description:</p>
-                          {isProductDetailsLoading ? (
-                            <LineSkeleton width="120px" />
-                          ) : (
-                            <p className="textValue">
-                              {productDetailsData?.description || 'N/A'}
-                            </p>
-                          )}
+                        <div className="row">
+                          <div className="col-12">
+                            {isProductDetailsLoading ? (<>
+                              <LineSkeleton width="120px" />
+                            </>) : (<>
+                              {productDetailsData?.brands.map((brand, index) => (
+                                <div key={index} className="row">
+                                  <div className="col-lg-6">
+                                    <div className="mb-3">
+                                      <p className="textLabel">Brand Name:</p>
+                                      {isProductDetailsLoading ? (
+                                        <LineSkeleton width="120px" />
+                                      ) : (
+                                        <p className="textValue">
+                                          {brand?.name || 'N/A'}
+                                        </p>
+                                      )}
+                                    </div>
+                                  </div>
+                                  <div className="col-lg-6">
+                                    <div className="mb-3">
+                                      <p className="textLabel">Affiliate Link:</p>
+                                      {isProductDetailsLoading ? (
+                                        <LineSkeleton width="120px" />
+                                      ) : (
+                                        <p className="textValue">
+                                          <Link to={brand?.pivot.affiliate_link} target="_blank" className="text-decoration-none">
+                                            {brand?.pivot.affiliate_link || 'N/A'}
+                                          </Link>
+                                        </p>
+                                      )}
+                                    </div>
+                                  </div>
+
+                                </div>
+
+                              ))}
+
+
+                            </>)}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row mb-4">
+                      <div className="col-12">
+                        <h5 className="mb-3">
+                          Weight and Sizing
+                        </h5>
+                      </div>
+                      <div className="col-12">
+                        <div className="row">
+                          <div className="col-12">
+                            {isProductDetailsLoading ? (<>
+                              <LineSkeleton width="120px" />
+                            </>) : (<>
+                              {productDetailsData?.brands.map((brand, index) => (
+                                <div key={index} className="row">
+                                  <div className="col-lg-6">
+                                    <div className="mb-3">
+                                      <p className="textLabel">Brand Name:</p>
+                                      {isProductDetailsLoading ? (
+                                        <LineSkeleton width="120px" />
+                                      ) : (
+                                        <p className="textValue">
+                                          {brand?.name || 'N/A'}
+                                        </p>
+                                      )}
+                                    </div>
+                                  </div>
+                                  <div className="col-lg-6">
+                                    <div className="mb-3">
+                                      <p className="textLabel">Affiliate Link:</p>
+                                      {isProductDetailsLoading ? (
+                                        <LineSkeleton width="120px" />
+                                      ) : (
+                                        <p className="textValue">
+                                          <Link to={brand?.pivot.affiliate_link} target="_blank" className="text-decoration-none">
+                                            {brand?.pivot.affiliate_link || 'N/A'}
+                                          </Link>
+                                        </p>
+                                      )}
+                                    </div>
+                                  </div>
+
+                                </div>
+
+                              ))}
+
+
+                            </>)}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -311,7 +420,7 @@ const ProductDetails = () => {
           </CustomCard>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

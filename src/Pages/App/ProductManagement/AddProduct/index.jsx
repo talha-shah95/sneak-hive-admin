@@ -10,7 +10,7 @@ import { useForm } from '../../../../Hooks/useForm';
 import useModalStore from '../../../../Store/ModalStore';
 
 import { statusList } from '../../../../Constants';
-import { weightRatingList, sizingRatingList, widthRatingList } from '../Constants';
+import { weightRatingList, sizingRatingList, widthRatingList, averageRatingList } from '../Constants';
 
 import AddProductService from './Services/AddProductService';
 import GetActiveCategories from '../Services/GetActiveCategories';
@@ -202,24 +202,24 @@ const AddProduct = () => {
     const newReviews = [
       ...values.reviews,
       {
-        rating: '',
-        rating_status: '',
+        rating: '10',
+        rating_status: 'Elite',
         review: '',
-        traction: '',
+        traction: '10',
         traction_detail: '',
-        cushion: '',
+        cushion: '10',
         cushion_detail: '',
-        material: '',
+        material: '10',
         material_detail: '',
-        support: '',
+        support: '10',
         support_detail: '',
-        fit: '',
+        fit: '10',
         fit_detail: '',
-        outdoor: '',
+        outdoor: '10',
         outdoor_detail: '',
-        width: '',
+        width: '10',
         width_detail: '',
-        size: '',
+        size: '10',
         size_detail: '',
       }
     ];
@@ -249,7 +249,89 @@ const AddProduct = () => {
     setFieldValue('cons', newCons);
   };
 
-  const handleSubmit = (values) => {
+  // Calculate average rating from review fields
+  const calculateAverageRating = (review) => {
+    const fields = [
+      review.traction,
+      review.cushion,
+      review.material,
+      review.support,
+      review.fit,
+      review.outdoor,
+      review.width,
+      review.size,
+    ];
+
+    const validFields = fields.filter(field => field && !isNaN(parseFloat(field)));
+
+    if (validFields.length === 0) {
+      return '10'; // Default to 10 if no valid fields
+    }
+
+    const sum = validFields.reduce((acc, field) => acc + parseFloat(field), 0);
+    const average = sum / validFields.length;
+
+    // Round to nearest 0.5
+    const rounded = Math.round(average * 2) / 2;
+
+    return rounded.toString();
+  };
+
+  // Calculate rating status based on rating
+  const calculateRatingStatus = (rating) => {
+    const numRating = parseFloat(rating);
+
+    if (numRating >= 1 && numRating <= 3) {
+      return 'Poor';
+    } else if (numRating > 3 && numRating <= 5) {
+      return 'Below Average';
+    } else if (numRating > 5 && numRating <= 7) {
+      return 'Good';
+    } else if (numRating > 7 && numRating <= 8.5) {
+      return 'Very Good';
+    } else if (numRating > 8.5 && numRating <= 10) {
+      return 'Elite';
+    }
+
+    return 'Elite'; // Default
+  };
+
+  const handleSubmit = (values, { setTouched }) => {
+    // Touch all fields to ensure validation errors are shown
+    setTouched({
+      name: true,
+      description: true,
+      suitable_for: true,
+      style: true,
+      category_ids: true,
+      sub_category_ids: true,
+      tertiary_category_ids: true,
+      availibility: true,
+      is_active: true,
+      brands: values.brands.map(() => ({ brand_id: true, price: true, affiliate_link: true })),
+      details: values.details.map(() => ({ weight: true, sizing: true, width: true })),
+      reviews: values.reviews.map(() => ({
+        rating: true,
+        review: true,
+        traction: true,
+        cushion: true,
+        material: true,
+        support: true,
+        fit: true,
+        outdoor: true,
+        width: true,
+        size: true,
+      })),
+      pros: values.pros.map(() => true),
+      cons: values.cons.map(() => true),
+    });
+
+    // Validate and proceed only if no errors
+    // Formik will prevent submission if validation fails
+    submitFormData(values);
+  };
+
+  const submitFormData = (values) => {
     console.log(values, 'values');
 
     const formDataToSend = new FormData();
@@ -313,60 +395,42 @@ const AddProduct = () => {
     // Reviews array
     if (values.reviews && values.reviews.length > 0) {
       values.reviews.forEach((review, index) => {
-        if (review.rating) {
-          formDataToSend.append(`reviews[${index}][rating]`, review.rating);
-        }
+        formDataToSend.append(`reviews[${index}][rating]`, review.rating || '10');
         if (review.rating_status) {
           formDataToSend.append(`reviews[${index}][rating_status]`, review.rating_status);
         }
         if (review.review) {
           formDataToSend.append(`reviews[${index}][review]`, review.review);
         }
-        if (review.traction) {
-          formDataToSend.append(`reviews[${index}][traction]`, review.traction);
-        }
+        formDataToSend.append(`reviews[${index}][traction]`, review.traction || '10');
         if (review.traction_detail) {
           formDataToSend.append(`reviews[${index}][traction_detail]`, review.traction_detail);
         }
-        if (review.cushion) {
-          formDataToSend.append(`reviews[${index}][cushion]`, review.cushion);
-        }
+        formDataToSend.append(`reviews[${index}][cushion]`, review.cushion || '10');
         if (review.cushion_detail) {
           formDataToSend.append(`reviews[${index}][cushion_detail]`, review.cushion_detail);
         }
-        if (review.material) {
-          formDataToSend.append(`reviews[${index}][material]`, review.material);
-        }
+        formDataToSend.append(`reviews[${index}][material]`, review.material || '10');
         if (review.material_detail) {
           formDataToSend.append(`reviews[${index}][material_detail]`, review.material_detail);
         }
-        if (review.support) {
-          formDataToSend.append(`reviews[${index}][support]`, review.support);
-        }
+        formDataToSend.append(`reviews[${index}][support]`, review.support || '10');
         if (review.support_detail) {
           formDataToSend.append(`reviews[${index}][support_detail]`, review.support_detail);
         }
-        if (review.fit) {
-          formDataToSend.append(`reviews[${index}][fit]`, review.fit);
-        }
+        formDataToSend.append(`reviews[${index}][fit]`, review.fit || '10');
         if (review.fit_detail) {
           formDataToSend.append(`reviews[${index}][fit_detail]`, review.fit_detail);
         }
-        if (review.outdoor) {
-          formDataToSend.append(`reviews[${index}][outdoor]`, review.outdoor);
-        }
+        formDataToSend.append(`reviews[${index}][outdoor]`, review.outdoor || '10');
         if (review.outdoor_detail) {
           formDataToSend.append(`reviews[${index}][outdoor_detail]`, review.outdoor_detail);
         }
-        if (review.width) {
-          formDataToSend.append(`reviews[${index}][width]`, review.width);
-        }
+        formDataToSend.append(`reviews[${index}][width]`, review.width || '10');
         if (review.width_detail) {
           formDataToSend.append(`reviews[${index}][width_detail]`, review.width_detail);
         }
-        if (review.size) {
-          formDataToSend.append(`reviews[${index}][size]`, review.size);
-        }
+        formDataToSend.append(`reviews[${index}][size]`, review.size || '10');
         if (review.size_detail) {
           formDataToSend.append(`reviews[${index}][size_detail]`, review.size_detail);
         }
@@ -463,24 +527,24 @@ const AddProduct = () => {
                     ],
                     reviews: [
                       {
-                        rating: '',
-                        rating_status: '',
+                        rating: '10',
+                        rating_status: 'Elite',
                         review: '',
-                        traction: '',
+                        traction: '10',
                         traction_detail: '',
-                        cushion: '',
+                        cushion: '10',
                         cushion_detail: '',
-                        material: '',
+                        material: '10',
                         material_detail: '',
-                        support: '',
+                        support: '10',
                         support_detail: '',
-                        fit: '',
+                        fit: '10',
                         fit_detail: '',
-                        outdoor: '',
+                        outdoor: '10',
                         outdoor_detail: '',
-                        width: '',
+                        width: '10',
                         width_detail: '',
-                        size: '',
+                        size: '10',
                         size_detail: '',
                       }
                     ],
@@ -489,6 +553,8 @@ const AddProduct = () => {
                   }}
                   validationSchema={addProductValidationSchema}
                   onSubmit={handleSubmit}
+                  validateOnChange={true}
+                  validateOnBlur={true}
                 // enableReinitialize={true}
                 >
                   {({
@@ -730,8 +796,13 @@ const AddProduct = () => {
                                   <div className="row attributeBoxWrapper mb-3">
                                     <div className="col-12">
                                       <h5 className="mb-3">
-                                        Brands <span className="text-danger">*</span>
+                                        Brands
                                       </h5>
+                                      {touched.brands && errors.brands && typeof errors.brands === 'string' && (
+                                        <div className="text-danger small mb-2">
+                                          {errors.brands}
+                                        </div>
+                                      )}
                                       {values.brands.map((brand, index) => (
                                         <div key={index} className="row attributeBox">
                                           <div className="col-12">
@@ -751,8 +822,11 @@ const AddProduct = () => {
                                                   const newBrands = [...values.brands];
                                                   newBrands[index].brand_id = e.target.value;
                                                   setFieldValue('brands', newBrands);
+                                                  setFieldTouched(`brands[${index}].brand_id`, true);
                                                 }}
-                                                onBlur={handleBlur}
+                                                onBlur={() => {
+                                                  setFieldTouched(`brands[${index}].brand_id`, true);
+                                                }}
                                                 error={touched.brands?.[index]?.brand_id && errors.brands?.[index]?.brand_id}
                                                 required
                                               />
@@ -771,8 +845,11 @@ const AddProduct = () => {
                                                   const newBrands = [...values.brands];
                                                   newBrands[index].price = e.target.value;
                                                   setFieldValue('brands', newBrands);
+                                                  setFieldTouched(`brands[${index}].price`, true);
                                                 }}
-                                                onBlur={handleBlur}
+                                                onBlur={() => {
+                                                  setFieldTouched(`brands[${index}].price`, true);
+                                                }}
                                                 error={touched.brands?.[index]?.price && errors.brands?.[index]?.price}
                                                 required
                                               />
@@ -791,8 +868,11 @@ const AddProduct = () => {
                                                   const newBrands = [...values.brands];
                                                   newBrands[index].affiliate_link = e.target.value;
                                                   setFieldValue('brands', newBrands);
+                                                  setFieldTouched(`brands[${index}].affiliate_link`, true);
                                                 }}
-                                                onBlur={handleBlur}
+                                                onBlur={() => {
+                                                  setFieldTouched(`brands[${index}].affiliate_link`, true);
+                                                }}
                                                 error={touched.brands?.[index]?.affiliate_link && errors.brands?.[index]?.affiliate_link}
                                                 required
                                               />
@@ -816,7 +896,7 @@ const AddProduct = () => {
                                       ))}
                                     </div>
                                   </div>
-                                  <div className="row attributeRepeaterWrapper">
+                                  <div className="row attributeRepeaterWrapper mb-3">
                                     <div className="col-12 text-end">
                                       <button
                                         type="button"
@@ -837,8 +917,13 @@ const AddProduct = () => {
                                 <div className="row attributeBoxWrapper mb-3">
                                   <div className="col-12">
                                     <h5 className="mb-3">
-                                      Weight and Sizing <span className="text-danger">*</span>
+                                      Weight and Sizing
                                     </h5>
+                                    {touched.details && errors.details && typeof errors.details === 'string' && (
+                                      <div className="text-danger small mb-2">
+                                        {errors.details}
+                                      </div>
+                                    )}
                                     {values.details.map((detail, index) => (
                                       <div key={index} className="row attributeBox">
                                         <div className="col-12">
@@ -858,8 +943,11 @@ const AddProduct = () => {
                                                 const newDetails = [...values.details];
                                                 newDetails[index].weight = e.target.value;
                                                 setFieldValue('details', newDetails);
+                                                setFieldTouched(`details[${index}].weight`, true);
                                               }}
-                                              onBlur={handleBlur}
+                                              onBlur={() => {
+                                                setFieldTouched(`details[${index}].weight`, true);
+                                              }}
                                               error={touched.details?.[index]?.weight && errors.details?.[index]?.weight}
                                               required
                                             />
@@ -882,8 +970,11 @@ const AddProduct = () => {
                                                 const newDetails = [...values.details];
                                                 newDetails[index].sizing = e.target.value;
                                                 setFieldValue('details', newDetails);
+                                                setFieldTouched(`details[${index}].sizing`, true);
                                               }}
-                                              onBlur={handleBlur}
+                                              onBlur={() => {
+                                                setFieldTouched(`details[${index}].sizing`, true);
+                                              }}
                                               error={touched.details?.[index]?.sizing && errors.details?.[index]?.sizing}
                                               required
                                             />
@@ -906,8 +997,11 @@ const AddProduct = () => {
                                                 const newDetails = [...values.details];
                                                 newDetails[index].width = e.target.value;
                                                 setFieldValue('details', newDetails);
+                                                setFieldTouched(`details[${index}].width`, true);
                                               }}
-                                              onBlur={handleBlur}
+                                              onBlur={() => {
+                                                setFieldTouched(`details[${index}].width`, true);
+                                              }}
                                               error={touched.details?.[index]?.width && errors.details?.[index]?.width}
                                               required
                                             />
@@ -931,7 +1025,7 @@ const AddProduct = () => {
                                     ))}
                                   </div>
                                 </div>
-                                <div className="row attributeRepeaterWrapper">
+                                <div className="row attributeRepeaterWrapper mb-3">
                                   <div className="col-12 text-end">
                                     <button
                                       type="button"
@@ -1010,30 +1104,29 @@ const AddProduct = () => {
                               </div>
                               {/* Expert Review */}
                               <div className="col-12">
-                                <div className="mb-3">
-                                  <label className="mb-2">
-                                    Expert Review <span className="text-danger">*</span>
-                                  </label>
-                                  {values.reviews.map((review, index) => (
-                                    <div key={index} className="attributeBoxWrapper mb-3">
-                                      <div className="row attributeBox">
+                                <div className="row attributeBoxWrapper mb-3">
+                                  <div className="col-12">
+                                    <h5 className="mb-3">
+                                      Average Rating
+                                    </h5>
+                                    {touched.reviews && errors.reviews && typeof errors.reviews === 'string' && (
+                                      <div className="text-danger small mb-2">
+                                        {errors.reviews}
+                                      </div>
+                                    )}
+                                    {values.reviews.map((review, index) => (
+                                      <div key={index} className="row attributeBox">
                                         <div className="col-12">
                                           <div className="mb-3">
                                             <CustomInput
-                                              label="Rating"
+                                              label="Overall Rating"
                                               id={`reviews[${index}][rating]`}
                                               name={`reviews[${index}][rating]`}
                                               type="text"
-                                              placeholder="Enter Rating"
-                                              value={review.rating}
-                                              onChange={(e) => {
-                                                const newReviews = [...values.reviews];
-                                                newReviews[index].rating = e.target.value;
-                                                setFieldValue('reviews', newReviews);
-                                              }}
-                                              onBlur={handleBlur}
+                                              placeholder="Overall Rating"
+                                              value={review.rating || '10'}
+                                              disabled={true}
                                               error={touched.reviews?.[index]?.rating && errors.reviews?.[index]?.rating}
-                                              required
                                             />
                                           </div>
                                         </div>
@@ -1044,14 +1137,9 @@ const AddProduct = () => {
                                               id={`reviews[${index}][rating_status]`}
                                               name={`reviews[${index}][rating_status]`}
                                               type="text"
-                                              placeholder="Enter Rating Status"
-                                              value={review.rating_status}
-                                              onChange={(e) => {
-                                                const newReviews = [...values.reviews];
-                                                newReviews[index].rating_status = e.target.value;
-                                                setFieldValue('reviews', newReviews);
-                                              }}
-                                              onBlur={handleBlur}
+                                              placeholder="Rating Status"
+                                              value={review.rating_status || 'Elite'}
+                                              disabled={true}
                                               error={touched.reviews?.[index]?.rating_status && errors.reviews?.[index]?.rating_status}
                                             />
                                           </div>
@@ -1070,8 +1158,11 @@ const AddProduct = () => {
                                                 const newReviews = [...values.reviews];
                                                 newReviews[index].review = e.target.value;
                                                 setFieldValue('reviews', newReviews);
+                                                setFieldTouched(`reviews[${index}].review`, true);
                                               }}
-                                              onBlur={handleBlur}
+                                              onBlur={() => {
+                                                setFieldTouched(`reviews[${index}].review`, true);
+                                              }}
                                               error={touched.reviews?.[index]?.review && errors.reviews?.[index]?.review}
                                               required
                                             />
@@ -1079,19 +1170,31 @@ const AddProduct = () => {
                                         </div>
                                         <div className="col-12">
                                           <div className="mb-3">
-                                            <CustomInput
+                                            <CustomSelect
                                               label="Traction"
                                               id={`reviews[${index}][traction]`}
                                               name={`reviews[${index}][traction]`}
-                                              type="text"
-                                              placeholder="Enter Traction"
-                                              value={review.traction}
+                                              placeholder="Select Traction"
+                                              className="w-100 fw-normal"
+                                              labelClassName="mb-0"
+                                              fullWidth
+                                              options={averageRatingList || []}
+                                              disabled={!averageRatingList || averageRatingList.length == 0}
+                                              value={review.traction || '10'}
                                               onChange={(e) => {
                                                 const newReviews = [...values.reviews];
                                                 newReviews[index].traction = e.target.value;
+                                                // Recalculate rating and rating_status
+                                                const updatedReview = { ...newReviews[index] };
+                                                updatedReview.rating = calculateAverageRating(updatedReview);
+                                                updatedReview.rating_status = calculateRatingStatus(updatedReview.rating);
+                                                newReviews[index] = updatedReview;
                                                 setFieldValue('reviews', newReviews);
+                                                setFieldTouched(`reviews[${index}].traction`, true);
                                               }}
-                                              onBlur={handleBlur}
+                                              onBlur={() => {
+                                                setFieldTouched(`reviews[${index}].traction`, true);
+                                              }}
                                               error={touched.reviews?.[index]?.traction && errors.reviews?.[index]?.traction}
                                             />
                                           </div>
@@ -1117,19 +1220,31 @@ const AddProduct = () => {
                                         </div>
                                         <div className="col-12">
                                           <div className="mb-3">
-                                            <CustomInput
+                                            <CustomSelect
                                               label="Cushion"
                                               id={`reviews[${index}][cushion]`}
                                               name={`reviews[${index}][cushion]`}
-                                              type="text"
-                                              placeholder="Enter Cushion"
-                                              value={review.cushion}
+                                              placeholder="Select Cushion"
+                                              className="w-100 fw-normal"
+                                              labelClassName="mb-0"
+                                              fullWidth
+                                              options={averageRatingList || []}
+                                              disabled={!averageRatingList || averageRatingList.length == 0}
+                                              value={review.cushion || '10'}
                                               onChange={(e) => {
                                                 const newReviews = [...values.reviews];
                                                 newReviews[index].cushion = e.target.value;
+                                                // Recalculate rating and rating_status
+                                                const updatedReview = { ...newReviews[index] };
+                                                updatedReview.rating = calculateAverageRating(updatedReview);
+                                                updatedReview.rating_status = calculateRatingStatus(updatedReview.rating);
+                                                newReviews[index] = updatedReview;
                                                 setFieldValue('reviews', newReviews);
+                                                setFieldTouched(`reviews[${index}].cushion`, true);
                                               }}
-                                              onBlur={handleBlur}
+                                              onBlur={() => {
+                                                setFieldTouched(`reviews[${index}].cushion`, true);
+                                              }}
                                               error={touched.reviews?.[index]?.cushion && errors.reviews?.[index]?.cushion}
                                             />
                                           </div>
@@ -1155,19 +1270,31 @@ const AddProduct = () => {
                                         </div>
                                         <div className="col-12">
                                           <div className="mb-3">
-                                            <CustomInput
+                                            <CustomSelect
                                               label="Material"
                                               id={`reviews[${index}][material]`}
                                               name={`reviews[${index}][material]`}
-                                              type="text"
-                                              placeholder="Enter Material"
-                                              value={review.material}
+                                              placeholder="Select Material"
+                                              className="w-100 fw-normal"
+                                              labelClassName="mb-0"
+                                              fullWidth
+                                              options={averageRatingList || []}
+                                              disabled={!averageRatingList || averageRatingList.length == 0}
+                                              value={review.material || '10'}
                                               onChange={(e) => {
                                                 const newReviews = [...values.reviews];
                                                 newReviews[index].material = e.target.value;
+                                                // Recalculate rating and rating_status
+                                                const updatedReview = { ...newReviews[index] };
+                                                updatedReview.rating = calculateAverageRating(updatedReview);
+                                                updatedReview.rating_status = calculateRatingStatus(updatedReview.rating);
+                                                newReviews[index] = updatedReview;
                                                 setFieldValue('reviews', newReviews);
+                                                setFieldTouched(`reviews[${index}].material`, true);
                                               }}
-                                              onBlur={handleBlur}
+                                              onBlur={() => {
+                                                setFieldTouched(`reviews[${index}].material`, true);
+                                              }}
                                               error={touched.reviews?.[index]?.material && errors.reviews?.[index]?.material}
                                             />
                                           </div>
@@ -1193,19 +1320,31 @@ const AddProduct = () => {
                                         </div>
                                         <div className="col-12">
                                           <div className="mb-3">
-                                            <CustomInput
+                                            <CustomSelect
                                               label="Support"
                                               id={`reviews[${index}][support]`}
                                               name={`reviews[${index}][support]`}
-                                              type="text"
-                                              placeholder="Enter Support"
-                                              value={review.support}
+                                              placeholder="Select Support"
+                                              className="w-100 fw-normal"
+                                              labelClassName="mb-0"
+                                              fullWidth
+                                              options={averageRatingList || []}
+                                              disabled={!averageRatingList || averageRatingList.length == 0}
+                                              value={review.support || '10'}
                                               onChange={(e) => {
                                                 const newReviews = [...values.reviews];
                                                 newReviews[index].support = e.target.value;
+                                                // Recalculate rating and rating_status
+                                                const updatedReview = { ...newReviews[index] };
+                                                updatedReview.rating = calculateAverageRating(updatedReview);
+                                                updatedReview.rating_status = calculateRatingStatus(updatedReview.rating);
+                                                newReviews[index] = updatedReview;
                                                 setFieldValue('reviews', newReviews);
+                                                setFieldTouched(`reviews[${index}].support`, true);
                                               }}
-                                              onBlur={handleBlur}
+                                              onBlur={() => {
+                                                setFieldTouched(`reviews[${index}].support`, true);
+                                              }}
                                               error={touched.reviews?.[index]?.support && errors.reviews?.[index]?.support}
                                             />
                                           </div>
@@ -1231,19 +1370,31 @@ const AddProduct = () => {
                                         </div>
                                         <div className="col-12">
                                           <div className="mb-3">
-                                            <CustomInput
+                                            <CustomSelect
                                               label="Fit"
                                               id={`reviews[${index}][fit]`}
                                               name={`reviews[${index}][fit]`}
-                                              type="text"
-                                              placeholder="Enter Fit"
-                                              value={review.fit}
+                                              placeholder="Select Fit"
+                                              className="w-100 fw-normal"
+                                              labelClassName="mb-0"
+                                              fullWidth
+                                              options={averageRatingList || []}
+                                              disabled={!averageRatingList || averageRatingList.length == 0}
+                                              value={review.fit || '10'}
                                               onChange={(e) => {
                                                 const newReviews = [...values.reviews];
                                                 newReviews[index].fit = e.target.value;
+                                                // Recalculate rating and rating_status
+                                                const updatedReview = { ...newReviews[index] };
+                                                updatedReview.rating = calculateAverageRating(updatedReview);
+                                                updatedReview.rating_status = calculateRatingStatus(updatedReview.rating);
+                                                newReviews[index] = updatedReview;
                                                 setFieldValue('reviews', newReviews);
+                                                setFieldTouched(`reviews[${index}].fit`, true);
                                               }}
-                                              onBlur={handleBlur}
+                                              onBlur={() => {
+                                                setFieldTouched(`reviews[${index}].fit`, true);
+                                              }}
                                               error={touched.reviews?.[index]?.fit && errors.reviews?.[index]?.fit}
                                             />
                                           </div>
@@ -1269,19 +1420,31 @@ const AddProduct = () => {
                                         </div>
                                         <div className="col-12">
                                           <div className="mb-3">
-                                            <CustomInput
+                                            <CustomSelect
                                               label="Outdoor"
                                               id={`reviews[${index}][outdoor]`}
                                               name={`reviews[${index}][outdoor]`}
-                                              type="text"
-                                              placeholder="Enter Outdoor"
-                                              value={review.outdoor}
+                                              placeholder="Select Outdoor"
+                                              className="w-100 fw-normal"
+                                              labelClassName="mb-0"
+                                              fullWidth
+                                              options={averageRatingList || []}
+                                              disabled={!averageRatingList || averageRatingList.length == 0}
+                                              value={review.outdoor || '10'}
                                               onChange={(e) => {
                                                 const newReviews = [...values.reviews];
                                                 newReviews[index].outdoor = e.target.value;
+                                                // Recalculate rating and rating_status
+                                                const updatedReview = { ...newReviews[index] };
+                                                updatedReview.rating = calculateAverageRating(updatedReview);
+                                                updatedReview.rating_status = calculateRatingStatus(updatedReview.rating);
+                                                newReviews[index] = updatedReview;
                                                 setFieldValue('reviews', newReviews);
+                                                setFieldTouched(`reviews[${index}].outdoor`, true);
                                               }}
-                                              onBlur={handleBlur}
+                                              onBlur={() => {
+                                                setFieldTouched(`reviews[${index}].outdoor`, true);
+                                              }}
                                               error={touched.reviews?.[index]?.outdoor && errors.reviews?.[index]?.outdoor}
                                             />
                                           </div>
@@ -1307,19 +1470,31 @@ const AddProduct = () => {
                                         </div>
                                         <div className="col-12">
                                           <div className="mb-3">
-                                            <CustomInput
+                                            <CustomSelect
                                               label="Width"
                                               id={`reviews[${index}][width]`}
                                               name={`reviews[${index}][width]`}
-                                              type="text"
-                                              placeholder="Enter Width"
-                                              value={review.width}
+                                              placeholder="Select Width"
+                                              className="w-100 fw-normal"
+                                              labelClassName="mb-0"
+                                              fullWidth
+                                              options={averageRatingList || []}
+                                              disabled={!averageRatingList || averageRatingList.length == 0}
+                                              value={review.width || '10'}
                                               onChange={(e) => {
                                                 const newReviews = [...values.reviews];
                                                 newReviews[index].width = e.target.value;
+                                                // Recalculate rating and rating_status
+                                                const updatedReview = { ...newReviews[index] };
+                                                updatedReview.rating = calculateAverageRating(updatedReview);
+                                                updatedReview.rating_status = calculateRatingStatus(updatedReview.rating);
+                                                newReviews[index] = updatedReview;
                                                 setFieldValue('reviews', newReviews);
+                                                setFieldTouched(`reviews[${index}].width`, true);
                                               }}
-                                              onBlur={handleBlur}
+                                              onBlur={() => {
+                                                setFieldTouched(`reviews[${index}].width`, true);
+                                              }}
                                               error={touched.reviews?.[index]?.width && errors.reviews?.[index]?.width}
                                             />
                                           </div>
@@ -1345,19 +1520,31 @@ const AddProduct = () => {
                                         </div>
                                         <div className="col-12">
                                           <div className="mb-3">
-                                            <CustomInput
+                                            <CustomSelect
                                               label="Size"
                                               id={`reviews[${index}][size]`}
                                               name={`reviews[${index}][size]`}
-                                              type="text"
-                                              placeholder="Enter Size"
-                                              value={review.size}
+                                              placeholder="Select Size"
+                                              className="w-100 fw-normal"
+                                              labelClassName="mb-0"
+                                              fullWidth
+                                              options={averageRatingList || []}
+                                              disabled={!averageRatingList || averageRatingList.length == 0}
+                                              value={review.size || '10'}
                                               onChange={(e) => {
                                                 const newReviews = [...values.reviews];
                                                 newReviews[index].size = e.target.value;
+                                                // Recalculate rating and rating_status
+                                                const updatedReview = { ...newReviews[index] };
+                                                updatedReview.rating = calculateAverageRating(updatedReview);
+                                                updatedReview.rating_status = calculateRatingStatus(updatedReview.rating);
+                                                newReviews[index] = updatedReview;
                                                 setFieldValue('reviews', newReviews);
+                                                setFieldTouched(`reviews[${index}].size`, true);
                                               }}
-                                              onBlur={handleBlur}
+                                              onBlur={() => {
+                                                setFieldTouched(`reviews[${index}].size`, true);
+                                              }}
                                               error={touched.reviews?.[index]?.size && errors.reviews?.[index]?.size}
                                             />
                                           </div>
@@ -1382,157 +1569,174 @@ const AddProduct = () => {
                                           </div>
                                         </div>
                                         {values.reviews.length > 1 && (
-                                          <div className="col-12">
+                                          <div className="col-12 text-end">
                                             <button
                                               type="button"
-                                              className="btn btn-danger btn-sm"
+                                              className="notButton colorRed"
                                               onClick={() => removeReviewEntry(setFieldValue, values, index)}
                                             >
-                                              <LuTrash2 size={16} className="me-1" />
-                                              Remove
+                                              <div className="d-flex align-items-center justify-content-center gap-1">
+                                                <span>Remove</span>
+                                                <LuTrash2 size={16} />
+                                              </div>
                                             </button>
                                           </div>
                                         )}
                                       </div>
-                                    </div>
-                                  ))}
-                                  <div className="row attributeRepeaterWrapper">
-                                    <div className="col-12">
-                                      <button
-                                        type="button"
-                                        className="notButton"
-                                        onClick={() => addReviewEntry(setFieldValue, values)}
-                                      >
-                                        <div className="d-flex align-items-center justify-content-center gap-1">
-                                          <span>Add More</span>
-                                          <LuPlusCircle size={18} />
-                                        </div>
-                                      </button>
-                                    </div>
+                                    ))}
+                                  </div>
+                                </div>
+                                <div className="row attributeRepeaterWrapper mb-3">
+                                  <div className="col-12 text-end">
+                                    <button
+                                      type="button"
+                                      className="notButton"
+                                      onClick={() => addReviewEntry(setFieldValue, values)}
+                                    >
+                                      <div className="d-flex align-items-center justify-content-center gap-1">
+                                        <span>Add More</span>
+                                        <LuPlusCircle size={18} />
+                                      </div>
+                                    </button>
                                   </div>
                                 </div>
                               </div>
-                              {/* <div className="col-12">
-                                <div className="mb-3">
+                              {/* Pros and Cons */}
+                              <div className="col-12">
+                                <div className="row attributeBoxWrapper mb-3">
                                   <div className="col-12">
-                                <div className="mb-3">
-                                  <CustomSelect
-                                        label="Product Availability"
-                                        id="availibility "
-                                        name="availibility"
-                                        placeholder="Select Product Availability"
-                                    className="w-100 fw-normal"
-                                    labelClassName="mb-0"
-                                    fullWidth
-                                        options={stockAvailabilityList}
-                                        disabled={!stockAvailabilityList}
-                                        value={values.availibility}
-                                    onChange={(e) => {
-                                      handleChange(e);
-                                    }}
-                                    onBlur={handleBlur}
-                                        error={
-                                          touched.availibility &&
-                                          errors.availibility
-                                        }
-                                    required
-                                  />
-                                </div>
+                                    <h5 className="mb-3">
+                                      Pros and Cons
+                                    </h5>
+                                    {/* Pros Section */}
+                                    <div className="mb-4">
+                                      <label className="mb-2">
+                                        Pros <span className="text-danger">*</span>
+                                      </label>
+                                      {touched.pros && errors.pros && typeof errors.pros === 'string' && (
+                                        <div className="text-danger small mb-2">
+                                          {errors.pros}
+                                        </div>
+                                      )}
+                                      {values.pros.map((pro, index) => (
+                                        <div key={index} className="row attributeBox">
+                                          <div className="col-12">
+                                            <div className="mb-3">
+                                              <div className="d-flex align-items-center gap-2">
+                                                <CustomInput
+                                                  wrapperClassName={'w-100 m-0'}
+                                                  id={`pros[${index}]`}
+                                                  name={`pros[${index}]`}
+                                                  type="text"
+                                                  placeholder="Enter Pro"
+                                                  value={pro}
+                                                  onChange={(e) => {
+                                                    const newPros = [...values.pros];
+                                                    newPros[index] = e.target.value;
+                                                    setFieldValue('pros', newPros);
+                                                    setFieldTouched(`pros[${index}]`, true);
+                                                  }}
+                                                  onBlur={() => {
+                                                    setFieldTouched(`pros[${index}]`, true);
+                                                  }}
+                                                  error={touched.pros?.[index] && errors.pros?.[index]}
+                                                />
+                                                {values.pros.length > 1 && (
+                                                  <button
+                                                    type="button"
+                                                    className="notButton colorRed"
+                                                    onClick={() => removeProsEntry(setFieldValue, values, index)}
+                                                  >
+                                                    <div className="d-flex align-items-center justify-content-center gap-1">
+                                                      <LuTrash2 size={16} />
+                                                    </div>
+                                                  </button>
+                                                )}
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      ))}
+                                      <div className="row attributeRepeaterWrapper mb-3">
+                                        <div className="col-12 text-end">
+                                          <button
+                                            type="button"
+                                            className="notButton"
+                                            onClick={() => addProsEntry(setFieldValue, values)}
+                                          >
+                                            <div className="d-flex align-items-center justify-content-center gap-1">
+                                              <span>Add More</span>
+                                              <LuPlusCircle size={18} />
+                                            </div>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    {/* Cons Section */}
+                                    <div>
+                                      <label className="mb-2">
+                                        Cons <span className="text-danger">*</span>
+                                      </label>
+                                      {touched.cons && errors.cons && typeof errors.cons === 'string' && (
+                                        <div className="text-danger small mb-2">
+                                          {errors.cons}
+                                        </div>
+                                      )}
+                                      {values.cons.map((con, index) => (
+                                        <div key={index} className="row attributeBox">
+                                          <div className="col-12">
+                                            <div className="mb-3">
+                                              <div className="d-flex align-items-center gap-2">
+                                                <CustomInput
+                                                  wrapperClassName={'w-100 m-0'}
+                                                  id={`cons[${index}]`}
+                                                  name={`cons[${index}]`}
+                                                  type="text"
+                                                  placeholder="Enter Con"
+                                                  value={con}
+                                                  onChange={(e) => {
+                                                    const newCons = [...values.cons];
+                                                    newCons[index] = e.target.value;
+                                                    setFieldValue('cons', newCons);
+                                                    setFieldTouched(`cons[${index}]`, true);
+                                                  }}
+                                                  onBlur={() => {
+                                                    setFieldTouched(`cons[${index}]`, true);
+                                                  }}
+                                                  error={touched.cons?.[index] && errors.cons?.[index]}
+                                                />
+                                                {values.cons.length > 1 && (
+                                                  <button
+                                                    type="button"
+                                                    className="notButton colorRed"
+                                                    onClick={() => removeConsEntry(setFieldValue, values, index)}
+                                                  >
+                                                    <div className="d-flex align-items-center justify-content-center gap-1">
+                                                      <LuTrash2 size={16} />
+                                                    </div>
+                                                  </button>
+                                                )}
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      ))}
+                                      <div className="row attributeRepeaterWrapper mb-3">
+                                        <div className="col-12 text-end">
+                                          <button
+                                            type="button"
+                                            className="notButton"
+                                            onClick={() => addConsEntry(setFieldValue, values)}
+                                          >
+                                            <div className="d-flex align-items-center justify-content-center gap-1">
+                                              <span>Add More</span>
+                                              <LuPlusCircle size={18} />
+                                            </div>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
-                                </div>
-                              </div> */}
-                              {/* Pros */}
-                              <div className="col-12">
-                                <div className="mb-3">
-                                  <label className="mb-2">
-                                    Pros <span className="text-danger">*</span>
-                                  </label>
-                                  {values.pros.map((pro, index) => (
-                                    <div key={index} className="d-flex gap-2 mb-2">
-                                      <div className="flex-grow-1">
-                                        <CustomInput
-                                          id={`pros[${index}]`}
-                                          name={`pros[${index}]`}
-                                          type="text"
-                                          placeholder="Enter Pro"
-                                          value={pro}
-                                          onChange={(e) => {
-                                            const newPros = [...values.pros];
-                                            newPros[index] = e.target.value;
-                                            setFieldValue('pros', newPros);
-                                          }}
-                                          onBlur={handleBlur}
-                                          error={touched.pros?.[index] && errors.pros?.[index]}
-                                        />
-                                      </div>
-                                      {values.pros.length > 1 && (
-                                        <button
-                                          type="button"
-                                          className="btn btn-danger btn-sm"
-                                          onClick={() => removeProsEntry(setFieldValue, values, index)}
-                                        >
-                                          <LuTrash2 size={16} />
-                                        </button>
-                                      )}
-                                    </div>
-                                  ))}
-                                  <button
-                                    type="button"
-                                    className="notButton"
-                                    onClick={() => addProsEntry(setFieldValue, values)}
-                                  >
-                                    <div className="d-flex align-items-center justify-content-center gap-1">
-                                      <span>Add More</span>
-                                      <LuPlusCircle size={18} />
-                                    </div>
-                                  </button>
-                                </div>
-                              </div>
-                              {/* Cons */}
-                              <div className="col-12">
-                                <div className="mb-3">
-                                  <label className="mb-2">
-                                    Cons <span className="text-danger">*</span>
-                                  </label>
-                                  {values.cons.map((con, index) => (
-                                    <div key={index} className="d-flex gap-2 mb-2">
-                                      <div className="flex-grow-1">
-                                        <CustomInput
-                                          id={`cons[${index}]`}
-                                          name={`cons[${index}]`}
-                                          type="text"
-                                          placeholder="Enter Con"
-                                          value={con}
-                                          onChange={(e) => {
-                                            const newCons = [...values.cons];
-                                            newCons[index] = e.target.value;
-                                            setFieldValue('cons', newCons);
-                                          }}
-                                          onBlur={handleBlur}
-                                          error={touched.cons?.[index] && errors.cons?.[index]}
-                                        />
-                                      </div>
-                                      {values.cons.length > 1 && (
-                                        <button
-                                          type="button"
-                                          className="btn btn-danger btn-sm"
-                                          onClick={() => removeConsEntry(setFieldValue, values, index)}
-                                        >
-                                          <LuTrash2 size={16} />
-                                        </button>
-                                      )}
-                                    </div>
-                                  ))}
-                                  <button
-                                    type="button"
-                                    className="notButton"
-                                    onClick={() => addConsEntry(setFieldValue, values)}
-                                  >
-                                    <div className="d-flex align-items-center justify-content-center gap-1">
-                                      <span>Add More</span>
-                                      <LuPlusCircle size={18} />
-                                    </div>
-                                  </button>
                                 </div>
                               </div>
                               {/* Status */}
