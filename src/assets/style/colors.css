@@ -12,6 +12,9 @@
   --redColor: #dc3544;
   --redColorLight: #f15046;
   --redColorDark: #c82333;
+  --orangeColor: #ffa500;
+  --orangeColorLight: #ffd7a3;
+  --orangeColorDark: #ff8c00;
   --yellowColor: #ffc107;
   --yellowColorLight: #fff3cd;
   --yellowColorDark: #d8a50c;
@@ -55,8 +58,20 @@
   color: var(--greenColor);
 }
 
+.colorOrange {
+  color: var(--orangeColor);
+}
+
 .colorRed {
   color: var(--redColor);
+}
+
+.colorOrangeLight {
+  color: var(--orangeColorLight);
+}
+
+.colorOrangeDark {
+  color: var(--orangeColorDark);
 }
 
 .colorGreenDark {
@@ -135,12 +150,24 @@
   background: var(--greenColor);
 }
 
+.bgOrange {
+  background: var(--orangeColor);
+}
+
 .bgRed {
   background: var(--redColor);
 }
 
 .bgRedDark {
   background: var(--redColorDark);
+}
+
+.bgOrangeLight {
+  background: var(--orangeColorLight);
+}
+
+.bgOrangeDark {
+  background: var(--orangeColorDark);
 }
 
 .bgGreenDark {

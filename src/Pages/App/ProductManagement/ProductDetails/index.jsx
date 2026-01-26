@@ -15,6 +15,7 @@ import LineSkeleton from '../../../../Components/SkeletonLoaders/LineSkeleton';
 import CustomButton from '../../../../Components/CustomButton';
 import { availabilityTextFormatter } from '../Helpers';
 import { showToast } from '../../../../Components/CustomToast';
+import RatingProgressBar from '../../../../Components/RatingProgressBar';
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -345,40 +346,109 @@ const ProductDetails = () => {
                             {isProductDetailsLoading ? (<>
                               <LineSkeleton width="120px" />
                             </>) : (<>
-                              {productDetailsData?.brands.map((brand, index) => (
-                                <div key={index} className="row">
-                                  <div className="col-lg-6">
-                                    <div className="mb-3">
-                                      <p className="textLabel">Brand Name:</p>
-                                      {isProductDetailsLoading ? (
-                                        <LineSkeleton width="120px" />
-                                      ) : (
-                                        <p className="textValue">
-                                          {brand?.name || 'N/A'}
-                                        </p>
-                                      )}
-                                    </div>
+                              <div className="row">
+                                <div className="col-lg-4">
+                                  <div className="mb-3">
+                                    <p className="textLabel">Weight:</p>
+                                    {isProductDetailsLoading ? (
+                                      <LineSkeleton width="120px" />
+                                    ) : (
+                                      <p className="textValue">
+                                        {productDetailsData?.details?.weight || 'N/A'}
+                                      </p>
+                                    )}
                                   </div>
-                                  <div className="col-lg-6">
-                                    <div className="mb-3">
-                                      <p className="textLabel">Affiliate Link:</p>
-                                      {isProductDetailsLoading ? (
-                                        <LineSkeleton width="120px" />
-                                      ) : (
-                                        <p className="textValue">
-                                          <Link to={brand?.pivot.affiliate_link} target="_blank" className="text-decoration-none">
-                                            {brand?.pivot.affiliate_link || 'N/A'}
-                                          </Link>
-                                        </p>
-                                      )}
-                                    </div>
+                                </div>
+                                <div className="col-lg-4">
+                                  <div className="mb-3">
+                                    <p className="textLabel">Sizing:</p>
+                                    {isProductDetailsLoading ? (
+                                      <LineSkeleton width="120px" />
+                                    ) : (
+                                      <p className="textValue">
+                                        {productDetailsData?.details?.sizing || 'N/A'}
+                                      </p>
+                                    )}
                                   </div>
-
+                                </div>
+                                <div className="col-lg-4">
+                                  <div className="mb-3">
+                                    <p className="textLabel">Width:</p>
+                                    {isProductDetailsLoading ? (
+                                      <LineSkeleton width="120px" />
+                                    ) : (
+                                      <p className="textValue">
+                                        {productDetailsData?.details?.width || 'N/A'}
+                                      </p>
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="col-lg-4">
+                                  <div className="mb-3">
+                                    <p className="textLabel">Signature Shoe:</p>
+                                    {isProductDetailsLoading ? (
+                                      <LineSkeleton width="120px" />
+                                    ) : (
+                                      <p className="textValue">
+                                        {productDetailsData?.details?.signature_shoe || 'N/A'}
+                                      </p>
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="col-lg-4">
+                                  <div className="mb-3">
+                                    <p className="textLabel">Style:</p>
+                                    {isProductDetailsLoading ? (
+                                      <LineSkeleton width="120px" />
+                                    ) : (
+                                      <p className="textValue">
+                                        {productDetailsData?.details?.style || 'N/A'}
+                                      </p>
+                                    )}
+                                  </div>
                                 </div>
 
-                              ))}
 
-
+                              </div>
+                            </>)}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row mb-4">
+                      <div className="col-12">
+                        <h5 className="mb-3">
+                          Expert Review
+                        </h5>
+                      </div>
+                      <div className="col-12">
+                        <div className="row">
+                          <div className="col-12">
+                            {isProductDetailsLoading ? (<>
+                              <LineSkeleton width="120px" />
+                            </>) : (<>
+                              <div className="row">
+                                {
+                                  productDetailsData?.reviews.map((review, index) => (
+                                    <div className="col-12" key={index}>
+                                      <div className="mb-3">
+                                        <p className="textLabel">Overall Review:</p>
+                                        <p className="textValue">
+                                          {review?.review || 'N/A'}
+                                        </p>
+                                      </div>
+                                      <div className="mb-3">
+                                        <RatingProgressBar rating={review?.traction} label="Traction" className="mb-2" />
+                                        <RatingProgressBar rating={review?.cushion} label="Cushion" className="mb-2" />
+                                        <RatingProgressBar rating={review?.material} label="Materials" className="mb-2" />
+                                        <RatingProgressBar rating={review?.support} label="Support" className="mb-2" />
+                                        <RatingProgressBar rating={review?.fit} label="Fit" className="mb-2" />
+                                        <RatingProgressBar rating={review?.outdoor} label="Outdoor" className="mb-2" />
+                                      </div>
+                                    </div>
+                                  ))
+                                }
+                              </div>
                             </>)}
                           </div>
                         </div>
