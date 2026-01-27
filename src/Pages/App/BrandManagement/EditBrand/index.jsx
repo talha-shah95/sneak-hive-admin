@@ -106,6 +106,7 @@ const EditBrand = () => {
     const dataToSend = {
       ...values,
     };
+    console.log(dataToSend);
     const formDataToSend = new FormData();
     formDataToSend.append('name', dataToSend.name);
     formDataToSend.append('is_active', dataToSend.is_active);

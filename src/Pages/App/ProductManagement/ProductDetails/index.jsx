@@ -5,6 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import useModalStore from '../../../../Store/ModalStore';
 
 import GetProduct from './Services/GetProduct';
+import GetProductReviews from './Services/GetProductReviews';
 import ChangeProductStatus from '../Services/ChangeProductStatus';
 
 import { images } from '../../../../assets/images';
@@ -58,6 +59,21 @@ const ProductDetails = () => {
     enabled: true,
     retry: 2,
   });
+
+  const {
+    data: productReviewsData,
+    isLoading: isProductReviewsLoading,
+    isError: isProductReviewsError,
+    error: productReviewsError,
+  } = useQuery({
+    queryKey: ['products', 'productReviews', id],
+    queryFn: () => GetProductReviews(id),
+    staleTime: 1000 * 60 * 5,
+    enabled: !!id,
+    retry: 2,
+  });
+
+  console.log(productReviewsData);
 
   const handleChangeStatus = (id, status) => {
     const title = status == 1 ? 'Inactivate Product?' : 'Activate Product?';
@@ -415,45 +431,68 @@ const ProductDetails = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="row mb-4">
-                      <div className="col-12">
-                        <h5 className="mb-3">
-                          Expert Review
-                        </h5>
-                      </div>
-                      <div className="col-12">
-                        <div className="row">
-                          <div className="col-12">
-                            {isProductDetailsLoading ? (<>
-                              <LineSkeleton width="120px" />
-                            </>) : (<>
-                              <div className="row">
-                                {
-                                  productDetailsData?.reviews.map((review, index) => (
-                                    <div className="col-12" key={index}>
-                                      <div className="mb-3">
-                                        <p className="textLabel">Overall Review:</p>
-                                        <p className="textValue">
-                                          {review?.review || 'N/A'}
-                                        </p>
-                                      </div>
-                                      <div className="mb-3">
-                                        <RatingProgressBar rating={review?.traction} label="Traction" className="mb-2" />
-                                        <RatingProgressBar rating={review?.cushion} label="Cushion" className="mb-2" />
-                                        <RatingProgressBar rating={review?.material} label="Materials" className="mb-2" />
-                                        <RatingProgressBar rating={review?.support} label="Support" className="mb-2" />
-                                        <RatingProgressBar rating={review?.fit} label="Fit" className="mb-2" />
-                                        <RatingProgressBar rating={review?.outdoor} label="Outdoor" className="mb-2" />
-                                      </div>
-                                    </div>
-                                  ))
-                                }
+                    {isProductReviewsLoading ? (
+                      <>
+                        <LineSkeleton lines={5} height="40px" width="100%" />
+                      </>
+                    ) : (
+                      <>
+                        {isProductReviewsError ? (
+                          <p className="text-center fs-4 my-4 text-danger">
+                            {productReviewsError || 'Something went wrong'}
+                          </p>
+                        ) : (
+                          <>
+                            {productReviewsData?.expert?.length > 0 && productReviewsData?.expert.map((review, index) => (
+                              <div className="row mb-4" key={index}>
+                                <div className="col-12">
+                                  <h5 className="mb-3">
+                                    Expert Review ({index + 1})
+                                  </h5>
+                                  <div className="mb-3">
+                                    <p className="textLabel">Overall Review:</p>
+                                    <p className="textValue">
+                                      {review?.review || 'N/A'}
+                                    </p>
+                                  </div>
+                                  <div className="mb-3">
+                                    <RatingProgressBar rating={review?.traction} label="Traction" className="mb-2" />
+                                    <RatingProgressBar rating={review?.cushion} label="Cushion" className="mb-2" />
+                                    <RatingProgressBar rating={review?.material} label="Materials" className="mb-2" />
+                                    <RatingProgressBar rating={review?.support} label="Support" className="mb-2" />
+                                    <RatingProgressBar rating={review?.fit} label="Fit" className="mb-2" />
+                                    <RatingProgressBar rating={review?.outdoor} label="Outdoor" className="mb-2" />
+                                  </div>
+                                </div>
                               </div>
-                            </>)}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                            ))}
+                            {productReviewsData?.user?.length > 0 && productReviewsData?.user.map((review, index) => (
+                              <div className="row mb-4" key={index}>
+                                <div className="col-12">
+                                  <h5 className="mb-3">
+                                    User Review ({index + 1}) <span className="text-muted small">({review?.user?.name || 'N/A'})</span>
+                                  </h5>
+                                  <div className="mb-3">
+                                    <p className="textLabel">Overall Review:</p>
+                                    <p className="textValue">
+                                      {review?.review || 'N/A'}
+                                    </p>
+                                  </div>
+                                  <div className="mb-3">
+                                    <RatingProgressBar rating={review?.traction} label="Traction" className="mb-2" />
+                                    <RatingProgressBar rating={review?.cushion} label="Cushion" className="mb-2" />
+                                    <RatingProgressBar rating={review?.material} label="Materials" className="mb-2" />
+                                    <RatingProgressBar rating={review?.support} label="Support" className="mb-2" />
+                                    <RatingProgressBar rating={review?.fit} label="Fit" className="mb-2" />
+                                    <RatingProgressBar rating={review?.outdoor} label="Outdoor" className="mb-2" />
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </>
+                        )}
+                      </>
+                    )}
                     <div className="row">
                       <div className="col-12">
                         <div className="d-flex align-items-center gap-3">
