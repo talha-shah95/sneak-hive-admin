@@ -10,7 +10,7 @@ import { useForm } from '../../../../Hooks/useForm';
 import useModalStore from '../../../../Store/ModalStore';
 
 import { statusList } from '../../../../Constants';
-import { weightRatingList, sizingRatingList, widthRatingList, averageRatingList } from '../Constants';
+import { weightRatingList, sizingRatingList, widthRatingList, averageRatingList, outdoorRatingList } from '../Constants';
 
 import EditProductService from './Services/EditProductService';
 import GetProduct from '../ProductDetails/Services/GetProduct';
@@ -343,9 +343,6 @@ const EditProduct = () => {
       review.material,
       review.support,
       review.fit,
-      review.outdoor,
-      review.width,
-      review.size,
     ];
 
     const validFields = fields.filter(field => field && !isNaN(parseFloat(field)));
@@ -513,15 +510,15 @@ const EditProduct = () => {
         if (review.fit_detail) {
           formDataToSend.append(`reviews[${index}][fit_detail]`, review.fit_detail);
         }
-        formDataToSend.append(`reviews[${index}][outdoor]`, review.outdoor || '10');
+        formDataToSend.append(`reviews[${index}][outdoor]`, review.outdoor || 'Good');
         if (review.outdoor_detail) {
           formDataToSend.append(`reviews[${index}][outdoor_detail]`, review.outdoor_detail);
         }
-        formDataToSend.append(`reviews[${index}][width]`, review.width || '10');
+        formDataToSend.append(`reviews[${index}][width]`, review.width || 'Regular');
         if (review.width_detail) {
           formDataToSend.append(`reviews[${index}][width_detail]`, review.width_detail);
         }
-        formDataToSend.append(`reviews[${index}][size]`, review.size || '10');
+        formDataToSend.append(`reviews[${index}][size]`, review.size || 'Regular');
         if (review.size_detail) {
           formDataToSend.append(`reviews[${index}][size_detail]`, review.size_detail);
         }
@@ -620,11 +617,11 @@ const EditProduct = () => {
           support_detail: '',
           fit: '10',
           fit_detail: '',
-          outdoor: '10',
+          outdoor: 'Good',
           outdoor_detail: '',
-          width: '10',
+          width: 'Regular',
           width_detail: '',
-          size: '10',
+          size: 'Regular',
           size_detail: '',
         }],
         pros: [''],
@@ -659,11 +656,11 @@ const EditProduct = () => {
       support_detail: review.support_detail || '',
       fit: review.fit?.toString() || '10',
       fit_detail: review.fit_detail || '',
-      outdoor: review.outdoor?.toString() || '10',
+      outdoor: review.outdoor?.toString() || 'Good',
       outdoor_detail: review.outdoor_detail || '',
-      width: review.width?.toString() || '10',
+      width: review.width?.toString() || 'Regular',
       width_detail: review.width_detail || '',
-      size: review.size?.toString() || '10',
+      size: review.size?.toString() || 'Regular',
       size_detail: review.size_detail || '',
     })) || [{
       rating: '10',
@@ -679,11 +676,11 @@ const EditProduct = () => {
       support_detail: '',
       fit: '10',
       fit_detail: '',
-      outdoor: '10',
+      outdoor: 'Good',
       outdoor_detail: '',
-      width: '10',
+      width: 'Regular',
       width_detail: '',
-      size: '10',
+      size: 'Regular',
       size_detail: '',
     }];
 
@@ -1632,17 +1629,12 @@ const EditProduct = () => {
                                                   className="w-100 fw-normal"
                                                   labelClassName="mb-0"
                                                   fullWidth
-                                                  options={averageRatingList || []}
-                                                  disabled={!averageRatingList || averageRatingList.length == 0}
-                                                  value={review.outdoor || '10'}
+                                                  options={outdoorRatingList || []}
+                                                  disabled={!outdoorRatingList || outdoorRatingList.length == 0}
+                                                  value={review.outdoor || 'Good'}
                                                   onChange={(e) => {
                                                     const newReviews = [...values.reviews];
                                                     newReviews[index].outdoor = e.target.value;
-                                                    // Recalculate rating and rating_status
-                                                    const updatedReview = { ...newReviews[index] };
-                                                    updatedReview.rating = calculateAverageRating(updatedReview);
-                                                    updatedReview.rating_status = calculateRatingStatus(updatedReview.rating);
-                                                    newReviews[index] = updatedReview;
                                                     setFieldValue('reviews', newReviews);
                                                     setFieldTouched(`reviews[${index}].outdoor`, true);
                                                   }}
@@ -1682,17 +1674,12 @@ const EditProduct = () => {
                                                   className="w-100 fw-normal"
                                                   labelClassName="mb-0"
                                                   fullWidth
-                                                  options={averageRatingList || []}
-                                                  disabled={!averageRatingList || averageRatingList.length == 0}
-                                                  value={review.width || '10'}
+                                                  options={widthRatingList || []}
+                                                  disabled={!widthRatingList || widthRatingList.length == 0}
+                                                  value={review.width || 'Regular'}
                                                   onChange={(e) => {
                                                     const newReviews = [...values.reviews];
                                                     newReviews[index].width = e.target.value;
-                                                    // Recalculate rating and rating_status
-                                                    const updatedReview = { ...newReviews[index] };
-                                                    updatedReview.rating = calculateAverageRating(updatedReview);
-                                                    updatedReview.rating_status = calculateRatingStatus(updatedReview.rating);
-                                                    newReviews[index] = updatedReview;
                                                     setFieldValue('reviews', newReviews);
                                                     setFieldTouched(`reviews[${index}].width`, true);
                                                   }}
@@ -1732,17 +1719,12 @@ const EditProduct = () => {
                                                   className="w-100 fw-normal"
                                                   labelClassName="mb-0"
                                                   fullWidth
-                                                  options={averageRatingList || []}
-                                                  disabled={!averageRatingList || averageRatingList.length == 0}
-                                                  value={review.size || '10'}
+                                                  options={sizingRatingList || []}
+                                                  disabled={!sizingRatingList || sizingRatingList.length == 0}
+                                                  value={review.size || 'Regular'}
                                                   onChange={(e) => {
                                                     const newReviews = [...values.reviews];
                                                     newReviews[index].size = e.target.value;
-                                                    // Recalculate rating and rating_status
-                                                    const updatedReview = { ...newReviews[index] };
-                                                    updatedReview.rating = calculateAverageRating(updatedReview);
-                                                    updatedReview.rating_status = calculateRatingStatus(updatedReview.rating);
-                                                    newReviews[index] = updatedReview;
                                                     setFieldValue('reviews', newReviews);
                                                     setFieldTouched(`reviews[${index}].size`, true);
                                                   }}

@@ -24,9 +24,9 @@ export const widthRatingList = [
 ];
 
 export const outdoorRatingList = [
-  { value: 'Good (100%)', label: 'Good (100%)' },
-  { value: 'Fair (50%)', label: 'Fair (50%)' },
-  { value: 'Bad (0%)', label: 'Bad (0%)' },
+  { value: 'Good', label: 'Good' },
+  { value: 'Fair', label: 'Fair' },
+  { value: 'Bad', label: 'Bad' },
 ];
 
 export const averageRatingList = [

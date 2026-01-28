@@ -370,7 +370,7 @@ const ProductDetails = () => {
                                       <LineSkeleton width="120px" />
                                     ) : (
                                       <p className="textValue">
-                                        {productDetailsData?.details?.weight || 'N/A'}
+                                        {productDetailsData?.details[0]?.weight || 'N/A'}
                                       </p>
                                     )}
                                   </div>
@@ -382,7 +382,7 @@ const ProductDetails = () => {
                                       <LineSkeleton width="120px" />
                                     ) : (
                                       <p className="textValue">
-                                        {productDetailsData?.details?.sizing || 'N/A'}
+                                        {productDetailsData?.details[0]?.sizing || 'N/A'}
                                       </p>
                                     )}
                                   </div>
@@ -394,7 +394,7 @@ const ProductDetails = () => {
                                       <LineSkeleton width="120px" />
                                     ) : (
                                       <p className="textValue">
-                                        {productDetailsData?.details?.width || 'N/A'}
+                                        {productDetailsData?.details[0]?.width || 'N/A'}
                                       </p>
                                     )}
                                   </div>
@@ -406,7 +406,7 @@ const ProductDetails = () => {
                                       <LineSkeleton width="120px" />
                                     ) : (
                                       <p className="textValue">
-                                        {productDetailsData?.details?.signature_shoe || 'N/A'}
+                                        {productDetailsData?.signature_shoe || 'N/A'}
                                       </p>
                                     )}
                                   </div>
@@ -418,7 +418,7 @@ const ProductDetails = () => {
                                       <LineSkeleton width="120px" />
                                     ) : (
                                       <p className="textValue">
-                                        {productDetailsData?.details?.style || 'N/A'}
+                                        {productDetailsData?.style || 'N/A'}
                                       </p>
                                     )}
                                   </div>
@@ -461,7 +461,7 @@ const ProductDetails = () => {
                                     <RatingProgressBar rating={review?.material} label="Materials" className="mb-2" />
                                     <RatingProgressBar rating={review?.support} label="Support" className="mb-2" />
                                     <RatingProgressBar rating={review?.fit} label="Fit" className="mb-2" />
-                                    <RatingProgressBar rating={review?.outdoor} label="Outdoor" className="mb-2" />
+                                    <RatingProgressBar rating={review?.outdoor == 'Good' ? 10 : review?.outdoor == 'Fair' ? 5 : 0} label="Outdoor" className="mb-2" />
                                   </div>
                                 </div>
                               </div>
@@ -484,7 +484,7 @@ const ProductDetails = () => {
                                     <RatingProgressBar rating={review?.material} label="Materials" className="mb-2" />
                                     <RatingProgressBar rating={review?.support} label="Support" className="mb-2" />
                                     <RatingProgressBar rating={review?.fit} label="Fit" className="mb-2" />
-                                    <RatingProgressBar rating={review?.outdoor} label="Outdoor" className="mb-2" />
+                                    <RatingProgressBar rating={review?.outdoor == 'Good' ? 10 : review?.outdoor == 'Fair' ? 5 : 0} label="Outdoor" className="mb-2" />
                                   </div>
                                 </div>
                               </div>
