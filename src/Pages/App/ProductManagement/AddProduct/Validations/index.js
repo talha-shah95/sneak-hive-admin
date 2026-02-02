@@ -4,6 +4,7 @@ export const addProductValidationSchema = Yup.object().shape({
   name: Yup.string().required('Product name is required'),
   description: Yup.string().required('Product description is required'),
   suitable_for: Yup.string().required('Best suitable for is required'),
+  release_date: Yup.date().required('Release date is required'),
   category_ids: Yup.array()
     .min(1, 'At least one category is required')
     .required('Product category is required'),

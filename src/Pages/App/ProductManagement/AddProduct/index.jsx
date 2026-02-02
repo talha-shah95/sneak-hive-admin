@@ -337,6 +337,7 @@ const AddProduct = () => {
     formDataToSend.append('name', values.name);
     formDataToSend.append('description', values.description);
     formDataToSend.append('suitable_for', values.suitable_for || '');
+    formDataToSend.append('release_date', values.release_date);
     formDataToSend.append('signature_shoe', values.signature_shoe || '');
     formDataToSend.append('style', values.style || '');
     formDataToSend.append('availibility', values.availibility);
@@ -500,6 +501,7 @@ const AddProduct = () => {
                     name: '',
                     description: '',
                     suitable_for: '',
+                    release_date: '',
                     signature_shoe: 'No',
                     style: '',
                     category_ids: [],
@@ -626,6 +628,26 @@ const AddProduct = () => {
                                   />
                                 </div>
                               </div>
+                              {/* Release Date */}
+                              <div className="col-12">
+                                <div className="mb-3">
+                                  <CustomInput
+                                    label="Release Date"
+                                    id="release_date"
+                                    name="release_date"
+                                    type="date"
+                                    placeholder="Enter Release Date"
+                                    value={values.release_date}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    error={
+                                      touched.release_date && errors.release_date
+                                    }
+                                    required
+                                  />
+                                </div>
+                              </div>
+                              
                               {/* Categories */}
                               <div className="col-12">
                                 <div className="mb-3">

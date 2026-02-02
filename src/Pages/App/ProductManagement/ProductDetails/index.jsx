@@ -17,6 +17,7 @@ import CustomButton from '../../../../Components/CustomButton';
 import { availabilityTextFormatter } from '../Helpers';
 import { showToast } from '../../../../Components/CustomToast';
 import RatingProgressBar from '../../../../Components/RatingProgressBar';
+import { dateFormat } from '../../../../Utils/Utils';
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -198,7 +199,7 @@ const ProductDetails = () => {
                             )}
                             </div>
                           </div> */}
-                          <div className="col-lg-6 col-xl-4">
+                          {/* <div className="col-lg-6 col-xl-4">
                             <div className="mb-3">
                               <p className="textLabel">Stock Availability:</p>
                               {isProductDetailsLoading ? (
@@ -216,6 +217,18 @@ const ProductDetails = () => {
                                   {availabilityTextFormatter(
                                     productDetailsData?.availibility
                                   ) || '-'}
+                                </p>
+                              )}
+                            </div>
+                          </div> */}
+                          <div className="col-lg-6 col-xl-4">
+                            <div className="mb-3">
+                              <p className="textLabel">Release Date:</p>
+                              {isProductDetailsLoading ? (
+                                <LineSkeleton width="120px" />
+                              ) : (
+                                <p className="textValue">
+                                  {dateFormat(productDetailsData?.release_date) || 'N/A'}
                                 </p>
                               )}
                             </div>

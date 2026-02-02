@@ -194,7 +194,7 @@ const EditProduct = () => {
       setSelectedCategories(tempCategoryIds);
       setSelectedTertiaryCategories(tempTertiaryCategoryIds);
       setProductImages(tempProductImages);
-      
+
       // Set signature shoe type
       if (productDetailsData.signature_shoe && productDetailsData.signature_shoe !== 'no') {
         setSignatureShoeType('other');
@@ -428,6 +428,7 @@ const EditProduct = () => {
     formDataToSend.append('name', values.name);
     formDataToSend.append('description', values.description);
     formDataToSend.append('suitable_for', values.suitable_for || '');
+    formDataToSend.append('release_date', values.release_date);
     formDataToSend.append('signature_shoe', values.signature_shoe || '');
     formDataToSend.append('style', values.style || '');
     formDataToSend.append('availibility', values.availibility);
@@ -593,6 +594,7 @@ const EditProduct = () => {
         name: '',
         description: '',
         suitable_for: '',
+        release_date: '',
         signature_shoe: 'no',
         style: '',
         category_ids: [],
@@ -685,31 +687,32 @@ const EditProduct = () => {
     }];
 
     // Map pros - keep all entries, even if empty (user can edit them)
-    const pros = productDetailsData.pros?.length > 0 
+    const pros = productDetailsData.pros?.length > 0
       ? productDetailsData.pros.map((pro) => pro.pros || '')
       : [''];
 
     // Map cons - keep all entries, even if empty (user can edit them)
-    const cons = productDetailsData.cons?.length > 0 
+    const cons = productDetailsData.cons?.length > 0
       ? productDetailsData.cons.map((con) => con.cons || '')
       : [''];
 
     // Get category IDs directly from API response if state not yet set
     // This ensures categories are available on initial render for validation
-    const categoryIds = selectedCategories.length > 0 
-      ? selectedCategories 
+    const categoryIds = selectedCategories.length > 0
+      ? selectedCategories
       : (productDetailsData.categories?.map(c => c.id) || []);
-    const subCategoryIds = selectedSubCategories.length > 0 
-      ? selectedSubCategories 
+    const subCategoryIds = selectedSubCategories.length > 0
+      ? selectedSubCategories
       : (productDetailsData.subcategories?.map(c => c.id) || []);
-    const tertiaryCategoryIds = selectedTertiaryCategories.length > 0 
-      ? selectedTertiaryCategories 
+    const tertiaryCategoryIds = selectedTertiaryCategories.length > 0
+      ? selectedTertiaryCategories
       : (productDetailsData.tertiarycategories?.map(c => c.id) || []);
 
     return {
       name: productDetailsData.name || '',
       description: productDetailsData.description || '',
       suitable_for: productDetailsData.suitable_for || '',
+      release_date: productDetailsData.release_date || '',
       signature_shoe: productDetailsData.signature_shoe || 'no',
       style: productDetailsData.style || '',
       category_ids: categoryIds,
@@ -830,6 +833,27 @@ const EditProduct = () => {
                                       />
                                     </div>
                                   </div>
+
+                                  {/* Release Date */}
+                                  <div className="col-12">
+                                    <div className="mb-3">
+                                      <CustomInput
+                                        label="Release Date"
+                                        id="release_date"
+                                        name="release_date"
+                                        type="date"
+                                        placeholder="Enter Release Date"
+                                        value={values.release_date}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        error={
+                                          touched.release_date && errors.release_date
+                                        }
+                                        required
+                                      />
+                                    </div>
+                                  </div>
+
                                   {/* Categories */}
                                   <div className="col-12">
                                     <div className="mb-3">
