@@ -103,7 +103,7 @@ const Login = () => {
                   error={touched.password && errors.password}
                   tabIndex={1}
                   autoFocus
-                  eyeColor={'#420080'}
+                  eyeColor={'#26292e'}
                   labelClass={'text-capitalize fw-semibold'}
                   IconToBeUsedLeft={FiLock}
                 />

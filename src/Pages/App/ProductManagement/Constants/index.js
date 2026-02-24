@@ -10,7 +10,7 @@ export const weightRatingList = [
 export const sizingRatingList = [
   { value: 'Very Small', label: 'Very Small' },
   { value: 'Slightly Small', label: 'Slightly Small' },
-  { value: 'Regular', label: 'Regular' },
+  { value: 'True to Size', label: 'True to Size' },
   { value: 'Slightly Long', label: 'Slightly Long' },
   { value: 'Very Long', label: 'Very Long' },
 ];

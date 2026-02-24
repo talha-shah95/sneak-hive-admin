@@ -14,7 +14,6 @@ import PageTitle from '../../../../Components/PageTitle';
 import CustomCard from '../../../../Components/CustomCard';
 import LineSkeleton from '../../../../Components/SkeletonLoaders/LineSkeleton';
 import CustomButton from '../../../../Components/CustomButton';
-import { availabilityTextFormatter } from '../Helpers';
 import { showToast } from '../../../../Components/CustomToast';
 import RatingProgressBar from '../../../../Components/RatingProgressBar';
 import { dateFormat } from '../../../../Utils/Utils';
