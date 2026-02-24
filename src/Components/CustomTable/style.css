@@ -1,6 +1,7 @@
 .customTable {
   overflow-x: auto;
   position: relative;
+  padding-bottom: 68px;
 }
 
 .customTable table {
