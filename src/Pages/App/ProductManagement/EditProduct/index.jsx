@@ -385,6 +385,7 @@ const EditProduct = () => {
       name: true,
       description: true,
       suitable_for: true,
+      color: true,
       style: true,
       category_ids: true,
       sub_category_ids: true,
@@ -428,6 +429,7 @@ const EditProduct = () => {
     formDataToSend.append('name', values.name);
     formDataToSend.append('description', values.description);
     formDataToSend.append('suitable_for', values.suitable_for || '');
+    formDataToSend.append('color', values.color || '');
     formDataToSend.append('release_date', values.release_date);
     formDataToSend.append('signature_shoe', values.signature_shoe || '');
     formDataToSend.append('style', values.style || '');
@@ -594,6 +596,7 @@ const EditProduct = () => {
         name: '',
         description: '',
         suitable_for: '',
+        color: '',
         release_date: '',
         signature_shoe: 'no',
         style: '',
@@ -712,6 +715,7 @@ const EditProduct = () => {
       name: productDetailsData.name || '',
       description: productDetailsData.description || '',
       suitable_for: productDetailsData.suitable_for || '',
+      color: productDetailsData.color || '',
       release_date: productDetailsData.release_date || '',
       signature_shoe: productDetailsData.signature_shoe || 'no',
       style: productDetailsData.style || '',
@@ -833,6 +837,25 @@ const EditProduct = () => {
                                       />
                                     </div>
                                   </div>
+
+                                  {/* Color */}
+                                  <div className="col-12">
+                                    <div className="mb-3">
+                                      <CustomInput
+                                        label="Color"
+                                        id="color"
+                                        name="color"
+                                        type="text"
+                                        placeholder="Enter Color"
+                                        value={values.color}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        error={touched.color && errors.color}
+                                        required
+                                      />
+                                    </div>
+                                  </div>
+
 
                                   {/* Release Date */}
                                   <div className="col-12">

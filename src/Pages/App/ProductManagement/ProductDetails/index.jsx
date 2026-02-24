@@ -232,6 +232,18 @@ const ProductDetails = () => {
                               )}
                             </div>
                           </div>
+                          <div className="col-lg-6 col-xl-4">
+                            <div className="mb-3">
+                              <p className="textLabel">Color:</p>
+                              {isProductDetailsLoading ? (
+                                <LineSkeleton width="120px" />
+                              ) : (
+                                <p className="textValue">
+                                  {productDetailsData?.color || 'N/A'}
+                                </p>
+                              )}
+                            </div>
+                          </div>
                         </div>
                         <div className="row">
                           <div className="col-lg-6 col-xl-4">
