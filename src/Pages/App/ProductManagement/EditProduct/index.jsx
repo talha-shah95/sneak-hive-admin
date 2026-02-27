@@ -1299,7 +1299,7 @@ const EditProduct = () => {
                                         className="w-100 fw-normal"
                                         labelClassName="mb-0"
                                         fullWidth
-                                        options={[{ value: 'no', label: 'No' }, { value: 'other', label: 'Other' }]}
+                                        options={[{ value: 'no', label: 'No' }, { value: 'yes', label: 'Yes' }, { value: 'other', label: 'Other' }]}
                                         value={signatureShoeType}
                                         onChange={(e) => {
                                           if (e.target.value == 'no') {
@@ -1411,8 +1411,8 @@ const EditProduct = () => {
                                                   onBlur={() => {
                                                     setFieldTouched(`reviews[${index}].review`, true);
                                                   }}
-                                                  error={touched.reviews?.[index]?.review && errors.reviews?.[index]?.review}
-                                                  required
+                                                // error={touched.reviews?.[index]?.review && errors.reviews?.[index]?.review}
+                                                // required
                                                 />
                                               </div>
                                             </div>
@@ -1443,7 +1443,7 @@ const EditProduct = () => {
                                                   onBlur={() => {
                                                     setFieldTouched(`reviews[${index}].traction`, true);
                                                   }}
-                                                  error={touched.reviews?.[index]?.traction && errors.reviews?.[index]?.traction}
+                                                // error={touched.reviews?.[index]?.traction && errors.reviews?.[index]?.traction}
                                                 />
                                               </div>
                                             </div>
@@ -1462,7 +1462,7 @@ const EditProduct = () => {
                                                     setFieldValue('reviews', newReviews);
                                                   }}
                                                   onBlur={handleBlur}
-                                                  error={touched.reviews?.[index]?.traction_detail && errors.reviews?.[index]?.traction_detail}
+                                                // error={touched.reviews?.[index]?.traction_detail && errors.reviews?.[index]?.traction_detail}
                                                 />
                                               </div>
                                             </div>
@@ -1493,7 +1493,7 @@ const EditProduct = () => {
                                                   onBlur={() => {
                                                     setFieldTouched(`reviews[${index}].cushion`, true);
                                                   }}
-                                                  error={touched.reviews?.[index]?.cushion && errors.reviews?.[index]?.cushion}
+                                                // error={touched.reviews?.[index]?.cushion && errors.reviews?.[index]?.cushion}
                                                 />
                                               </div>
                                             </div>
@@ -1512,7 +1512,7 @@ const EditProduct = () => {
                                                     setFieldValue('reviews', newReviews);
                                                   }}
                                                   onBlur={handleBlur}
-                                                  error={touched.reviews?.[index]?.cushion_detail && errors.reviews?.[index]?.cushion_detail}
+                                                // error={touched.reviews?.[index]?.cushion_detail && errors.reviews?.[index]?.cushion_detail}
                                                 />
                                               </div>
                                             </div>
@@ -1543,7 +1543,7 @@ const EditProduct = () => {
                                                   onBlur={() => {
                                                     setFieldTouched(`reviews[${index}].material`, true);
                                                   }}
-                                                  error={touched.reviews?.[index]?.material && errors.reviews?.[index]?.material}
+                                                // error={touched.reviews?.[index]?.material && errors.reviews?.[index]?.material}
                                                 />
                                               </div>
                                             </div>
@@ -1562,7 +1562,7 @@ const EditProduct = () => {
                                                     setFieldValue('reviews', newReviews);
                                                   }}
                                                   onBlur={handleBlur}
-                                                  error={touched.reviews?.[index]?.material_detail && errors.reviews?.[index]?.material_detail}
+                                                // error={touched.reviews?.[index]?.material_detail && errors.reviews?.[index]?.material_detail}
                                                 />
                                               </div>
                                             </div>
@@ -1593,7 +1593,7 @@ const EditProduct = () => {
                                                   onBlur={() => {
                                                     setFieldTouched(`reviews[${index}].support`, true);
                                                   }}
-                                                  error={touched.reviews?.[index]?.support && errors.reviews?.[index]?.support}
+                                                // error={touched.reviews?.[index]?.support && errors.reviews?.[index]?.support}
                                                 />
                                               </div>
                                             </div>
@@ -1612,7 +1612,7 @@ const EditProduct = () => {
                                                     setFieldValue('reviews', newReviews);
                                                   }}
                                                   onBlur={handleBlur}
-                                                  error={touched.reviews?.[index]?.support_detail && errors.reviews?.[index]?.support_detail}
+                                                // error={touched.reviews?.[index]?.support_detail && errors.reviews?.[index]?.support_detail}
                                                 />
                                               </div>
                                             </div>
@@ -1643,7 +1643,7 @@ const EditProduct = () => {
                                                   onBlur={() => {
                                                     setFieldTouched(`reviews[${index}].fit`, true);
                                                   }}
-                                                  error={touched.reviews?.[index]?.fit && errors.reviews?.[index]?.fit}
+                                                // error={touched.reviews?.[index]?.fit && errors.reviews?.[index]?.fit}
                                                 />
                                               </div>
                                             </div>
@@ -1662,7 +1662,7 @@ const EditProduct = () => {
                                                     setFieldValue('reviews', newReviews);
                                                   }}
                                                   onBlur={handleBlur}
-                                                  error={touched.reviews?.[index]?.fit_detail && errors.reviews?.[index]?.fit_detail}
+                                                // error={touched.reviews?.[index]?.fit_detail && errors.reviews?.[index]?.fit_detail}
                                                 />
                                               </div>
                                             </div>
@@ -1688,7 +1688,7 @@ const EditProduct = () => {
                                                   onBlur={() => {
                                                     setFieldTouched(`reviews[${index}].outdoor`, true);
                                                   }}
-                                                  error={touched.reviews?.[index]?.outdoor && errors.reviews?.[index]?.outdoor}
+                                                // error={touched.reviews?.[index]?.outdoor && errors.reviews?.[index]?.outdoor}
                                                 />
                                               </div>
                                             </div>
@@ -1707,7 +1707,7 @@ const EditProduct = () => {
                                                     setFieldValue('reviews', newReviews);
                                                   }}
                                                   onBlur={handleBlur}
-                                                  error={touched.reviews?.[index]?.outdoor_detail && errors.reviews?.[index]?.outdoor_detail}
+                                                // error={touched.reviews?.[index]?.outdoor_detail && errors.reviews?.[index]?.outdoor_detail}
                                                 />
                                               </div>
                                             </div>
@@ -1733,7 +1733,7 @@ const EditProduct = () => {
                                                   onBlur={() => {
                                                     setFieldTouched(`reviews[${index}].width`, true);
                                                   }}
-                                                  error={touched.reviews?.[index]?.width && errors.reviews?.[index]?.width}
+                                                // error={touched.reviews?.[index]?.width && errors.reviews?.[index]?.width}
                                                 />
                                               </div>
                                             </div>
@@ -1752,7 +1752,7 @@ const EditProduct = () => {
                                                     setFieldValue('reviews', newReviews);
                                                   }}
                                                   onBlur={handleBlur}
-                                                  error={touched.reviews?.[index]?.width_detail && errors.reviews?.[index]?.width_detail}
+                                                // error={touched.reviews?.[index]?.width_detail && errors.reviews?.[index]?.width_detail}
                                                 />
                                               </div>
                                             </div>
@@ -1778,7 +1778,7 @@ const EditProduct = () => {
                                                   onBlur={() => {
                                                     setFieldTouched(`reviews[${index}].size`, true);
                                                   }}
-                                                  error={touched.reviews?.[index]?.size && errors.reviews?.[index]?.size}
+                                                // error={touched.reviews?.[index]?.size && errors.reviews?.[index]?.size}
                                                 />
                                               </div>
                                             </div>
@@ -1797,7 +1797,7 @@ const EditProduct = () => {
                                                     setFieldValue('reviews', newReviews);
                                                   }}
                                                   onBlur={handleBlur}
-                                                  error={touched.reviews?.[index]?.size_detail && errors.reviews?.[index]?.size_detail}
+                                                //  error={touched.reviews?.[index]?.size_detail && errors.reviews?.[index]?.size_detail}
                                                 />
                                               </div>
                                             </div>

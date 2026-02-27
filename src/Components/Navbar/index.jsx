@@ -33,6 +33,8 @@ const Navbar = ({ sideBarToggle, sideBarClass }) => {
   const { user, setLogout } = useUserStore();
   const { showModal, closeModal } = useModalStore();
 
+  console.log('user', user);
+
   // const branch_name = user?.branch_name;
 
   // const { data: notificationsData } = useQuery({

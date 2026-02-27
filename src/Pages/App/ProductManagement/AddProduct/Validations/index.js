@@ -42,33 +42,33 @@ export const addProductValidationSchema = Yup.object().shape({
       })
     )
     .min(1, 'At least one weight and sizing entry is required'),
-  reviews: Yup.array()
-    .of(
-      Yup.object().shape({
-        rating: Yup.string().required('Rating is required'),
-        review: Yup.string()
-          .required('Overall review is required')
-          .min(10, 'Review must be at least 10 characters'),
-        rating_status: Yup.string(),
-        traction: Yup.string().required('Traction rating is required'),
-        traction_detail: Yup.string(),
-        cushion: Yup.string().required('Cushion rating is required'),
-        cushion_detail: Yup.string(),
-        material: Yup.string().required('Material rating is required'),
-        material_detail: Yup.string(),
-        support: Yup.string().required('Support rating is required'),
-        support_detail: Yup.string(),
-        fit: Yup.string().required('Fit rating is required'),
-        fit_detail: Yup.string(),
-        outdoor: Yup.string().required('Outdoor rating is required'),
-        outdoor_detail: Yup.string(),
-        width: Yup.string().required('Width rating is required'),
-        width_detail: Yup.string(),
-        size: Yup.string().required('Size rating is required'),
-        size_detail: Yup.string(),
-      })
-    )
-    .min(1, 'At least one review entry is required'),
+  // reviews: Yup.array()
+  //   .of(
+  //     Yup.object().shape({
+  //       rating: Yup.string().required('Rating is required'),
+  //       review: Yup.string()
+  //         .required('Overall review is required')
+  //         .min(10, 'Review must be at least 10 characters'),
+  //       rating_status: Yup.string(),
+  //       traction: Yup.string().required('Traction rating is required'),
+  //       traction_detail: Yup.string(),
+  //       cushion: Yup.string().required('Cushion rating is required'),
+  //       cushion_detail: Yup.string(),
+  //       material: Yup.string().required('Material rating is required'),
+  //       material_detail: Yup.string(),
+  //       support: Yup.string().required('Support rating is required'),
+  //       support_detail: Yup.string(),
+  //       fit: Yup.string().required('Fit rating is required'),
+  //       fit_detail: Yup.string(),
+  //       outdoor: Yup.string().required('Outdoor rating is required'),
+  //       outdoor_detail: Yup.string(),
+  //       width: Yup.string().required('Width rating is required'),
+  //       width_detail: Yup.string(),
+  //       size: Yup.string().required('Size rating is required'),
+  //       size_detail: Yup.string(),
+  //     })
+  //   )
+  //   .min(1, 'At least one review entry is required'),
   pros: Yup.array()
     .of(
       Yup.string()
