@@ -33,6 +33,16 @@ export const editProductValidationSchema = Yup.object().shape({
       })
     )
     .min(1, 'At least one brand entry is required'),
+  colors: Yup.array()
+    .of(
+      Yup.object().shape({
+        name: Yup.string().required('Color name is required'),
+        color_code: Yup.string()
+          .required('Color code is required')
+          .matches(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, 'Please enter a valid hex color code (e.g., #acacac)'),
+      })
+    )
+    .min(1, 'At least one color entry is required'),
   details: Yup.array()
     .of(
       Yup.object().shape({

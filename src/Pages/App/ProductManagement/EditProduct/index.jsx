@@ -335,6 +335,22 @@ const EditProduct = () => {
     setFieldValue('cons', newCons);
   };
 
+  const addColorEntry = (setFieldValue, values) => {
+    const newColors = [
+      ...values.colors,
+      {
+        name: '',
+        color_code: '#000000',
+      }
+    ];
+    setFieldValue('colors', newColors);
+  };
+
+  const removeColorEntry = (setFieldValue, values, index) => {
+    const newColors = values.colors.filter((_, i) => i !== index);
+    setFieldValue('colors', newColors);
+  };
+
   // Calculate average rating from review fields
   const calculateAverageRating = (review) => {
     const fields = [
@@ -393,6 +409,7 @@ const EditProduct = () => {
       availibility: true,
       is_active: true,
       brands: values.brands.map(() => ({ brand_id: true, price: true, affiliate_link: true })),
+      colors: values.colors.map(() => ({ name: true, color_code: true })),
       details: values.details.map(() => ({ weight: true, sizing: true, width: true })),
       reviews: values.reviews.map(() => ({
         rating: true,
@@ -464,6 +481,18 @@ const EditProduct = () => {
         }
         if (brand.affiliate_link) {
           formDataToSend.append(`brands[${index}][affiliate_link]`, brand.affiliate_link);
+        }
+      });
+    }
+
+    // Colors array
+    if (values.colors && values.colors.length > 0) {
+      values.colors.forEach((color, index) => {
+        if (color.name) {
+          formDataToSend.append(`colors[${index}][name]`, color.name);
+        }
+        if (color.color_code) {
+          formDataToSend.append(`colors[${index}][color_code]`, color.color_code);
         }
       });
     }
@@ -607,6 +636,7 @@ const EditProduct = () => {
         is_active: 1,
         images: [],
         brands: [{ brand_id: '', price: '', affiliate_link: '' }],
+        colors: [{ name: '', color_code: '#000000' }],
         details: [{ weight: '', sizing: '', width: '' }],
         reviews: [{
           rating: '10',
@@ -640,6 +670,11 @@ const EditProduct = () => {
       price: brand.pivot?.price?.toString() || '',
       affiliate_link: brand.pivot?.affiliate_link || '',
     })) || [{ brand_id: '', price: '', affiliate_link: '' }];
+
+    const colors = productDetailsData.colors?.map((color) => ({
+      name: color.name || '',
+      color_code: color.color_code || '#000000',
+    })) || [{ name: '', color_code: '#000000' }];
 
     const details = productDetailsData.details?.map((detail) => ({
       weight: detail.weight?.toString() || '',
@@ -726,6 +761,7 @@ const EditProduct = () => {
       is_active: productDetailsData.is_active == 1 ? 1 : 0,
       images: productImages || [],
       brands,
+      colors,
       details,
       reviews,
       pros,
@@ -838,23 +874,6 @@ const EditProduct = () => {
                                     </div>
                                   </div>
 
-                                  {/* Color */}
-                                  <div className="col-12">
-                                    <div className="mb-3">
-                                      <CustomInput
-                                        label="Color"
-                                        id="color"
-                                        name="color"
-                                        type="text"
-                                        placeholder="Enter Color"
-                                        value={values.color}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        error={touched.color && errors.color}
-                                        required
-                                      />
-                                    </div>
-                                  </div>
 
 
                                   {/* Release Date */}
@@ -1035,6 +1054,122 @@ const EditProduct = () => {
                                               {errors.tertiary_category_ids}
                                             </div>
                                           )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  {/* Colors */}
+                                  <div className="col-12">
+                                    <div className="mb-3">
+                                      <div className="row attributeBoxWrapper mb-3">
+                                        <div className="col-12">
+                                          <h5 className="mb-3">
+                                            Colors
+                                          </h5>
+                                          {touched.colors && errors.colors && typeof errors.colors === 'string' && (
+                                            <div className="text-danger small mb-2">
+                                              {errors.colors}
+                                            </div>
+                                          )}
+                                          {values.colors.map((color, index) => (
+                                            <div key={index} className="row attributeBox">
+                                              <div className="col-12">
+                                                <div className="mb-3">
+                                                  <CustomInput
+                                                    label="Color Name"
+                                                    id={`colors[${index}][name]`}
+                                                    name={`colors[${index}][name]`}
+                                                    type="text"
+                                                    placeholder="Enter Color Name"
+                                                    value={color.name}
+                                                    onChange={(e) => {
+                                                      const newColors = [...values.colors];
+                                                      newColors[index].name = e.target.value;
+                                                      setFieldValue('colors', newColors);
+                                                      setFieldTouched(`colors[${index}].name`, true);
+                                                    }}
+                                                    onBlur={() => {
+                                                      setFieldTouched(`colors[${index}].name`, true);
+                                                    }}
+                                                    error={touched.colors?.[index]?.name && errors.colors?.[index]?.name}
+                                                    required
+                                                  />
+                                                </div>
+                                              </div>
+                                              <div className="col-12">
+                                                <div className="mb-3">
+                                                  <div className="inputWraper">
+                                                    <label>
+                                                      Color Code
+                                                      <span className="text-danger">*</span>
+                                                    </label>
+                                                    <div className="d-flex align-items-center gap-2">
+                                                      <input
+                                                        type="color"
+                                                        id={`colors[${index}][color_code_picker]`}
+                                                        value={color.color_code || '#000000'}
+                                                        onChange={(e) => {
+                                                          const newColors = [...values.colors];
+                                                          newColors[index].color_code = e.target.value;
+                                                          setFieldValue('colors', newColors);
+                                                          setFieldTouched(`colors[${index}].color_code`, true);
+                                                        }}
+                                                        className="form-control"
+                                                        style={{ width: '60px', height: '40px', cursor: 'pointer' }}
+                                                      />
+                                                      <CustomInput
+                                                        wrapperClassName={'flex-grow-1 m-0'}
+                                                        id={`colors[${index}][color_code]`}
+                                                        name={`colors[${index}][color_code]`}
+                                                        type="text"
+                                                        placeholder="Enter Color Code (e.g., #acacac)"
+                                                        value={color.color_code}
+                                                        onChange={(e) => {
+                                                          const newColors = [...values.colors];
+                                                          newColors[index].color_code = e.target.value;
+                                                          setFieldValue('colors', newColors);
+                                                          setFieldTouched(`colors[${index}].color_code`, true);
+                                                        }}
+                                                        onBlur={() => {
+                                                          setFieldTouched(`colors[${index}].color_code`, true);
+                                                        }}
+                                                        error={touched.colors?.[index]?.color_code && errors.colors?.[index]?.color_code}
+                                                        required
+                                                      />
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              {values.colors.length > 1 && (
+                                                <div className="col-12 text-end">
+                                                  <button
+                                                    type="button"
+                                                    className="notButton colorRed"
+                                                    onClick={() => removeColorEntry(setFieldValue, values, index)}
+                                                  >
+                                                    <div className="d-flex align-items-center justify-content-center gap-1">
+                                                      <span>Remove</span>
+                                                      <LuTrash2 size={16} />
+                                                    </div>
+                                                  </button>
+                                                </div>
+                                              )}
+                                            </div>
+                                          ))}
+                                        </div>
+                                      </div>
+                                      <div className="row attributeRepeaterWrapper mb-3">
+                                        <div className="col-12 text-end">
+                                          <button
+                                            type="button"
+                                            className="notButton"
+                                            onClick={() => addColorEntry(setFieldValue, values)}
+                                          >
+                                            <div className="d-flex align-items-center justify-content-center gap-1">
+                                              <span>Add More</span>
+                                              <LuPlusCircle size={18} />
+                                            </div>
+                                          </button>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
