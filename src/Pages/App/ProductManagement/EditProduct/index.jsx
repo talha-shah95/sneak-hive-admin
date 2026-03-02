@@ -1471,16 +1471,24 @@ const EditProduct = () => {
                                   {/* Style */}
                                   <div className="col-12">
                                     <div className="mb-3">
-                                      <CustomInput
+                                      <CustomSelect
                                         label="Style"
                                         id="style"
                                         name="style"
-                                        type="text"
-                                        placeholder="Enter Style"
+                                        placeholder="Select Style"
+                                        className="w-100 fw-normal"
+                                        labelClassName="mb-0"
+                                        fullWidth
+                                        options={[{ value: 'Low Top', label: 'Low Top' }, { value: 'Mid Top', label: 'Mid Top' }, { value: 'High Top', label: 'High Top' }]}
                                         value={values.style}
-                                        onChange={handleChange}
+                                        onChange={(e) => {
+                                          setFieldValue('style', e.target.value);
+                                          setFieldTouched('style', true);
+                                        }}
                                         onBlur={handleBlur}
-                                        error={touched.style && errors.style}
+                                        error={
+                                          touched.style && errors.style
+                                        }
                                         required
                                       />
                                     </div>

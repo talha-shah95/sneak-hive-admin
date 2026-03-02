@@ -535,7 +535,7 @@ const AddProduct = () => {
                     color: '',
                     release_date: '',
                     signature_shoe: 'No',
-                    style: '',
+                    style: 'Low Top',
                     category_ids: [],
                     sub_category_ids: [],
                     tertiary_category_ids: [],
@@ -849,7 +849,7 @@ const AddProduct = () => {
                                 </div>
                               </div>
 
-                                
+
                               {/* Colors */}
                               <div className="col-12">
                                 <div className="mb-3">
@@ -1263,23 +1263,33 @@ const AddProduct = () => {
                                   </div>
                                 )}
                               </div>
+
                               {/* Style */}
                               <div className="col-12">
                                 <div className="mb-3">
-                                  <CustomInput
+                                  <CustomSelect
                                     label="Style"
                                     id="style"
                                     name="style"
-                                    type="text"
-                                    placeholder="Enter Style"
+                                    placeholder="Select Style"
+                                    className="w-100 fw-normal"
+                                    labelClassName="mb-0"
+                                    fullWidth
+                                    options={[{ value: 'Low Top', label: 'Low Top' }, { value: 'Mid Top', label: 'Mid Top' }, { value: 'High Top', label: 'High Top' }]}
                                     value={values.style}
-                                    onChange={handleChange}
+                                    onChange={(e) => {
+                                      setFieldValue('style', e.target.value);
+                                      setFieldTouched('style', true);
+                                    }}
                                     onBlur={handleBlur}
-                                    error={touched.style && errors.style}
+                                    error={
+                                      touched.style && errors.style
+                                    }
                                     required
                                   />
                                 </div>
                               </div>
+
                               {/* Expert Review */}
                               <div className="col-12">
                                 <div className="row attributeBoxWrapper mb-3">
